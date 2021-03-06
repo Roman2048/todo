@@ -9,14 +9,14 @@ import net.longday.planner.R
 
 class ViewPagerAdapter: RecyclerView.Adapter<ViewPagerAdapter.ViewPagerViewHolder>() {
 
-    var tabs = (0..5).toList()
+    var tabs = (0..1).toMutableList()
 
     class ViewPagerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById<TextView>(R.id.pager_tab)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewPagerViewHolder {
-        return ViewPagerViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.tab, parent,false))
+        return ViewPagerViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.pager_tab, parent,false))
     }
 
     override fun onBindViewHolder(holder: ViewPagerViewHolder, position: Int) {
