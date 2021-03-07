@@ -6,11 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import net.longday.planner.R
-import net.longday.planner.data.entity.Task
 
 class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
-    var dataset = listOf<Task>()
+    private val dataset = FakeDataset.tasks
 
     class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val task: TextView = view.findViewById<TextView>(R.id.task_text)

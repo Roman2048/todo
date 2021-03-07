@@ -9,10 +9,8 @@ import net.longday.planner.R
 
 class ViewPagerAdapter: RecyclerView.Adapter<ViewPagerAdapter.ViewPagerViewHolder>() {
 
-    var tabs = (0..1).toMutableList()
-
     class ViewPagerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById<TextView>(R.id.pager_tab)
+        val recyclerView: RecyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewPagerViewHolder {
@@ -20,11 +18,11 @@ class ViewPagerAdapter: RecyclerView.Adapter<ViewPagerAdapter.ViewPagerViewHolde
     }
 
     override fun onBindViewHolder(holder: ViewPagerViewHolder, position: Int) {
-        holder.textView.text = tabs[position].toString()
+        holder.recyclerView.adapter = TaskAdapter()
     }
 
     override fun getItemCount(): Int {
-        return tabs.size
+        return FakeDataset.categories.size
     }
 
 }
