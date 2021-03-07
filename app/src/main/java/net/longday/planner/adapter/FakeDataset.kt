@@ -8,13 +8,13 @@ class FakeDataset {
 
  companion object {
      val tasks = mutableListOf(
-         Task(UUID.randomUUID().toString(), "task title", "0"),
-         Task(UUID.randomUUID().toString(), "task title", "0"),
-         Task(UUID.randomUUID().toString(), "task title", "0"),
-         Task(UUID.randomUUID().toString(), "task title", "0"),
-         Task(UUID.randomUUID().toString(), "task title", "0"),
-         Task(UUID.randomUUID().toString(), "task title", "0"),
-         Task(UUID.randomUUID().toString(), "task title", "0")
+         Task(UUID.randomUUID().toString(), "do work", "0"),
+         Task(UUID.randomUUID().toString(), "go sleep", "0"),
+         Task(UUID.randomUUID().toString(), "make move", "0"),
+         Task(UUID.randomUUID().toString(), "fall deep", "0"),
+         Task(UUID.randomUUID().toString(), "rise high", "0"),
+         Task(UUID.randomUUID().toString(), "eat good", "0"),
+         Task(UUID.randomUUID().toString(), "shop", "0")
      )
 
      val categories = mutableListOf(

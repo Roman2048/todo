@@ -10,15 +10,15 @@ import net.longday.planner.R
 class ViewPagerAdapter: RecyclerView.Adapter<ViewPagerAdapter.ViewPagerViewHolder>() {
 
     class ViewPagerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val recyclerView: RecyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
+        val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewPagerViewHolder {
-        return ViewPagerViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.pager_tab, parent,false))
+        return ViewPagerViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.tab_content, parent,false))
     }
 
     override fun onBindViewHolder(holder: ViewPagerViewHolder, position: Int) {
-        holder.recyclerView.adapter = TaskAdapter()
+        holder.recyclerView.adapter = TaskAdapter().setTabIndex(position)
     }
 
     override fun getItemCount(): Int {
