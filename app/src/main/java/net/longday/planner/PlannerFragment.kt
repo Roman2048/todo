@@ -4,18 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
-import net.longday.planner.adapter.FakeDataset
+import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.adapter.ViewPagerAdapter
+import net.longday.planner.data.entity.Task
+import net.longday.planner.viewmodel.TaskViewModel
+import java.util.*
 
+@AndroidEntryPoint
 class PlannerFragment : Fragment() {
+// TODO: .orEmpty() для нулабал листа
+//    private lateinit var viewPager: ViewPager2
 
-    private lateinit var viewPager: ViewPager2
+    private val taskViewModel: TaskViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -24,32 +32,46 @@ class PlannerFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewPager = view.findViewById(R.id.view_pager)
-        val viewPagerAdapter = ViewPagerAdapter()
+
+        val tasks = taskViewModel.tasks.value
+
+        val viewPager: ViewPager2 = view.findViewById(R.id.view_pager)
+
+        val myTasks = listOf(
+            Task(UUID.randomUUID().toString(), "aaa", "0"),
+            Task(UUID.randomUUID().toString(), "bbb", "0"),
+            Task(UUID.randomUUID().toString(), "ccc", "0"),
+            Task(UUID.randomUUID().toString(), "ddd", "1"),
+            Task(UUID.randomUUID().toString(), "eee", "1"),
+            Task(UUID.randomUUID().toString(), "fff", "1"),
+        )
+        val viewPagerAdapter = ViewPagerAdapter(myTasks.orEmpty())
+
         viewPager.adapter = viewPagerAdapter
+
         val addTabButton = view.findViewById<MaterialButton>(R.id.add_tab_button)
         val tabLayout: TabLayout = view.findViewById(R.id.tab_layout)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = FakeDataset.categories[position].title
+//            tab.text = FakeDataset.categories[position].title
+            tab.text = "sup"
         }.attach()
-        tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                val position = tab.position
-                addTabButton.text = "super"
-            }
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-            override fun onTabReselected(tab: TabLayout.Tab) {}
-        })
-
-
+//        tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+//            override fun onTabSelected(tab: TabLayout.Tab) {
+//                val position = tab.position
+//                addTabButton.text = "super"
+//            }
+//            override fun onTabUnselected(tab: TabLayout.Tab) {}
+//            override fun onTabReselected(tab: TabLayout.Tab) {}
+//        })
 
         addTabButton.setOnClickListener {
-//            viewPagerAdapter.tabs.add(13)
-//            FakeDataset.tasks.add(Task(UUID.randomUUID().toString(),  view.findViewById<EditText>(R.id.new_task_text_input).text.toString(), "0"))
-//            FakeDataset.categories.add(Category(UUID.randomUUID().toString(), "cat X", 0))
-            viewPagerAdapter.notifyDataSetChanged()
+            taskViewModel.insert(
+                Task(UUID.randomUUID().toString(),
+                view.findViewById<EditText>(R.id.new_task_text_input).text.toString(),
+                "0"))
+            viewPagerAdapter?.notifyDataSetChanged()
         }
-
-
     }
+
 }
+
