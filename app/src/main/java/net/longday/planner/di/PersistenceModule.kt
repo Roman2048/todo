@@ -25,4 +25,9 @@ object PersistenceModule {
     @Provides
     @Singleton
     fun provideTaskDao(plannerDatabase: PlannerDatabase) = plannerDatabase.taskDao()
+
+    @Provides
+    @Singleton
+    fun provideCategoryDao(plannerDatabase: PlannerDatabase) = plannerDatabase.categoryDao()
+
 }

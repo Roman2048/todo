@@ -2,8 +2,6 @@ package net.longday.planner.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filterNotNull
@@ -12,8 +10,9 @@ import net.longday.planner.data.entity.Task
 import net.longday.planner.data.repository.TaskRepository
 import javax.inject.Inject
 
-@HiltViewModel
-class TaskViewModel @Inject constructor(private val taskRepository: TaskRepository) : ViewModel() {
+//@HiltViewModel
+//class TaskViewModel @Inject constructor(private val taskRepository: TaskRepository) : ViewModel() {
+class TaskViewModel (private val taskRepository: TaskRepository) : ViewModel() {
 
     val tasks = taskRepository.tasks.filterNotNull().asLiveData()
 

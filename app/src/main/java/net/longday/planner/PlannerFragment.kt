@@ -15,15 +15,14 @@ import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.adapter.ViewPagerAdapter
 import net.longday.planner.data.entity.Task
+import net.longday.planner.di.PersistenceModule
 import net.longday.planner.viewmodel.TaskViewModel
 import java.util.*
 
 @AndroidEntryPoint
 class PlannerFragment : Fragment() {
-// TODO: .orEmpty() для нулабал листа
-//    private lateinit var viewPager: ViewPager2
 
-    private val taskViewModel: TaskViewModel by viewModels()
+//    private val taskViewModel: TaskViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -33,6 +32,7 @@ class PlannerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+//        val taskViewModel = TaskViewModel(PersistenceModule.provideTaskDao(PersistenceModule.provideDatabase(PlannerApplication())))
         val tasks = taskViewModel.tasks.value
 
         val viewPager: ViewPager2 = view.findViewById(R.id.view_pager)
@@ -52,17 +52,9 @@ class PlannerFragment : Fragment() {
         val addTabButton = view.findViewById<MaterialButton>(R.id.add_tab_button)
         val tabLayout: TabLayout = view.findViewById(R.id.tab_layout)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-//            tab.text = FakeDataset.categories[position].title
             tab.text = "sup"
         }.attach()
-//        tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
-//            override fun onTabSelected(tab: TabLayout.Tab) {
-//                val position = tab.position
-//                addTabButton.text = "super"
-//            }
-//            override fun onTabUnselected(tab: TabLayout.Tab) {}
-//            override fun onTabReselected(tab: TabLayout.Tab) {}
-//        })
+
 
         addTabButton.setOnClickListener {
             taskViewModel.insert(

@@ -11,11 +11,11 @@ interface TaskDao {
     fun getAll(): Flow<List<Task>>
 
     @Insert
-    fun insert(task: Task)
+    suspend fun insert(task: Task)
 
     @Delete
-    fun delete(task: Task)
+    suspend fun delete(task: Task)
 
     @Update
-    fun update(task: Task)
+    suspend fun update(task: Task)
 }
