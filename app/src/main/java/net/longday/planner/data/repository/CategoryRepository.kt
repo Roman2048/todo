@@ -2,8 +2,9 @@ package net.longday.planner.data.repository
 
 import net.longday.planner.data.dao.CategoryDao
 import net.longday.planner.data.entity.Category
+import javax.inject.Inject
 
-class CategoryRepository(private val categoryDao: CategoryDao) {
+class CategoryRepository @Inject constructor(private val categoryDao: CategoryDao) {
 
     val categories = categoryDao.getAll()
 

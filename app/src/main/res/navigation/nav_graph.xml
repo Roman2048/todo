@@ -9,5 +9,14 @@
         android:id="@+id/homeFragment"
         android:name="net.longday.planner.PlannerFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_planner" />
+        tools:layout="@layout/fragment_planner" >
+        <action
+            android:id="@+id/action_homeFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="net.longday.planner.CategoryFragment"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category" />
 </navigation>
