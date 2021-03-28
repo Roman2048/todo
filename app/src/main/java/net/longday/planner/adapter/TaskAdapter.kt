@@ -3,6 +3,8 @@ package net.longday.planner.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textview.MaterialTextView
 import net.longday.planner.R
@@ -24,6 +26,12 @@ class TaskAdapter(
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         holder.textView.text = tasks[position].title
+//        holder.textView.setOnClickListener {
+//            it.findNavController().navigate(
+//                R.id.action_homeFragment_to_addTaskFragment,
+//                bundleOf("task" to tasks[position])
+//            )
+//        }
     }
 
     override fun getItemCount(): Int {

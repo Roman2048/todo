@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -16,6 +17,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
 import net.longday.planner.adapter.ViewPagerAdapter
+import net.longday.planner.data.entity.Category
 import net.longday.planner.viewmodel.CategoryViewModel
 
 /**
@@ -40,18 +42,24 @@ class HomeFragment : Fragment() {
         val pagerAdapter = ViewPagerAdapter(this, listOf())
         viewPager.adapter = pagerAdapter
         val tabLayout: TabLayout = view.findViewById(R.id.tab_layout)
+        var categories: List<Category> = listOf()
+        categoryViewModel.categories.observe(viewLifecycleOwner) {
+            categories = it
+        }
         categoryViewModel.categories.observe(viewLifecycleOwner) {
             pagerAdapter.categories = it
             pagerAdapter.notifyDataSetChanged()
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.text = it[position].title
+//                Snackbar.make(view, currentCategory?.title ?: "", Snackbar.LENGTH_LONG)
+//                    .setAction("Action", null)
+//                    .show()
             }.attach()
         }
+
         val fab: FloatingActionButton = view.findViewById(R.id.fab)
-        fab.setOnClickListener { myView ->
-            Snackbar.make(myView, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .show()
+        fab.setOnClickListener {
+            view.findNavController().navigate(R.id.action_homeFragment_to_addTaskFragment, bundleOf("category_id" to categories[viewPager.currentItem].id))
         }
         val categoryEditorButton: Button = view.findViewById(R.id.categories_button)
         categoryEditorButton.setOnClickListener {

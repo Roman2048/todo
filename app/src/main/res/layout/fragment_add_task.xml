@@ -3,25 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.AddCategoryFragment"
+    tools:context=".ui.AddTaskFragment"
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/add_category_text_edit"
+        android:id="@+id/add_task_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="" />
 
     <Button
-        android:id="@+id/add_category_button"
+        android:id="@+id/add_task_save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ADD" />
+        android:text="Save" />
 
     <Button
-        android:id="@+id/add_category_back_button"
+        android:id="@+id/add_task_back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="BACK" />
+        android:text="Back" />
 
 </LinearLayout>
