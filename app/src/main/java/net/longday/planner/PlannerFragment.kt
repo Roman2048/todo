@@ -36,35 +36,41 @@ class PlannerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val categoriesButton = view.findViewById<Button>(R.id.categories_button)
+        // Instantiate a ViewPager2 and a PagerAdapter.
+        val viewPager: ViewPager2 = view.findViewById(R.id.category_view_pager)
 
+        // The pager adapter, which provides the pages to the view pager widget.
+        val pagerAdapter = ViewPagerAdapter(this, listOf())
+        viewPager.adapter = pagerAdapter
 
-        categoriesButton.setOnClickListener {
-            view.findNavController().navigate(R.id.action_homeFragment_to_categoryFragment)
-        }
+//        val categoriesButton = view.findViewById<Button>(R.id.categories_button)
+//
+//        categoriesButton.setOnClickListener {
+//            view.findNavController().navigate(R.id.action_homeFragment_to_categoryFragment)
+//        }
+//
+//        var viewPagerAdapter = ViewPagerAdapter(CategoryFragment(), listOf())
+//
+//        val viewPager: ViewPager2 = view.findViewById(R.id.view_pager)
+//
+//        val tabLayout: TabLayout = view.findViewById(R.id.tab_layout)
+//
+//        categoryViewModel.categories.observe(viewLifecycleOwner) { categories ->
+//            viewPagerAdapter = ViewPagerAdapter(CategoryFragment(), categories)
+//            viewPagerAdapter.notifyDataSetChanged()
+//            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+//                tab.text = categories[position].title
+//            }.attach()
+//
+//        }
 
-        var viewPagerAdapter = ViewPagerAdapter(listOf())
-
-        val viewPager: ViewPager2 = view.findViewById(R.id.view_pager)
-
-        val tabLayout: TabLayout = view.findViewById(R.id.tab_layout)
-
-        categoryViewModel.categories.observe(viewLifecycleOwner) { categories ->
-            viewPagerAdapter.categories = categories
-            viewPagerAdapter.notifyDataSetChanged()
-            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                tab.text = categories[position].title
-            }.attach()
-
-        }
-
-        taskViewModel.tasks.observe(viewLifecycleOwner) {
-            viewPagerAdapter = ViewPagerAdapter(it)
-            viewPager.adapter = viewPagerAdapter
-            viewPagerAdapter.notifyDataSetChanged()
-        }
-
-        viewPager.adapter = viewPagerAdapter
+//        taskViewModel.tasks.observe(viewLifecycleOwner) {
+//            viewPagerAdapter = ViewPagerAdapter(it)
+//            viewPager.adapter = viewPagerAdapter
+//            viewPagerAdapter.notifyDataSetChanged()
+//        }
+//
+//        viewPager.adapter = viewPagerAdapter
     }
 }
 

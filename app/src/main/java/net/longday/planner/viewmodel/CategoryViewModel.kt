@@ -22,4 +22,8 @@ class CategoryViewModel @Inject constructor(
     fun insert(category: Category) = CoroutineScope(Dispatchers.IO).launch {
         categoryRepository.insert(category)
     }
+
+    fun update(category: Category) = CoroutineScope(Dispatchers.IO).launch {
+        categoryRepository.update(category)
+    }
 }
