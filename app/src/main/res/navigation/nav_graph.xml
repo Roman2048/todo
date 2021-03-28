@@ -7,16 +7,24 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="net.longday.planner.PlannerFragment"
+        android:name="net.longday.planner.ui.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_planner" >
+        tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_categoryFragment"
             app:destination="@id/categoryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_categoryEditorFragment"
+            app:destination="@id/categoryEditorFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
-        android:name="net.longday.planner.CategoryFragment"
+        android:name="net.longday.planner.ui.CategoryContentFragment"
         android:label="fragment_category"
         tools:layout="@layout/fragment_category" />
+    <fragment
+        android:id="@+id/categoryEditorFragment"
+        android:name="net.longday.planner.ui.CategoryEditorFragment"
+        android:label="fragment_category_editor"
+        tools:layout="@layout/fragment_category_editor" />
 </navigation>

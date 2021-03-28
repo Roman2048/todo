@@ -12,14 +12,17 @@ import net.longday.planner.R
 import net.longday.planner.data.entity.Task
 
 class TaskAdapter(
-    var tasks: List<Task>) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
+    var tasks: List<Task>,
+) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
     class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val listedTaskTextInput: MaterialTextView = view.findViewById(R.id.task_text)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
-        return TaskViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.task_item, parent, false))
+        return TaskViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.task_item, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
