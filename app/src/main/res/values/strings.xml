@@ -2,4 +2,7 @@
     <string name="app_name">Planner</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_task">Add task</string>
+    <string name="add_category">Add category</string>
+    <string name="back">Back</string>
 </resources>

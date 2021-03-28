@@ -4,9 +4,19 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/category_text_input"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/task_item_card_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+
+        <TextView
+            android:id="@+id/category_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:textSize="24sp" />
+
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

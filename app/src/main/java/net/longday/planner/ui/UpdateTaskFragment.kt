@@ -13,7 +13,7 @@ import net.longday.planner.data.entity.Task
 import net.longday.planner.viewmodel.TaskViewModel
 
 @AndroidEntryPoint
-class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
+class UpdateTaskFragment : Fragment(R.layout.fragment_update_task) {
 
     private val taskViewModel: TaskViewModel by viewModels()
 

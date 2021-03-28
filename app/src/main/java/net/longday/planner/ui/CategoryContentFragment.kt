@@ -15,7 +15,7 @@ import net.longday.planner.viewmodel.TaskViewModel
  * Фрагмент, содержащий список задач, входящих в данную категорию
  */
 @AndroidEntryPoint
-class CategoryContentFragment : Fragment(R.layout.fragment_category) {
+class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
 
     private val taskViewModel: TaskViewModel by viewModels()
 
@@ -28,8 +28,11 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category) {
         recyclerView.adapter = adapter
         val category: Category = arguments?.get("category") as Category
         taskViewModel.tasks.observe(viewLifecycleOwner) { tasks ->
-            val filteredTasks = tasks.filter { it.categoryId == category.id }
-            recyclerView.adapter = TaskAdapter(filteredTasks)
+            if (false) {
+                recyclerView.adapter = TaskAdapter(tasks)
+            } else {
+                recyclerView.adapter = TaskAdapter(tasks.filter { it.categoryId == category.id })
+            }
             adapter.notifyDataSetChanged()
         }
     }

@@ -15,7 +15,7 @@ class TaskAdapter(
 ) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
     class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: MaterialTextView = view.findViewById(R.id.task_text)
+        val textView: MaterialTextView = view.findViewById(R.id.task_item_text)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {

@@ -1,10 +1,9 @@
 package net.longday.planner.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -20,21 +19,15 @@ import net.longday.planner.data.entity.Category
 import net.longday.planner.viewmodel.CategoryViewModel
 
 /**
- * Основной экран приложения.
+ * Основной рабочий экран приложения.
  * Сверху отображается список категорий в виде вкладок, и кнопка для перехода на страницу
  * для их редактирования.
  * Основное содержимое - список задач для выбранной влкадки.
  */
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val categoryViewModel: CategoryViewModel by viewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val viewPager: ViewPager2 = view.findViewById(R.id.category_view_pager)
@@ -58,7 +51,7 @@ class HomeFragment : Fragment() {
                 bundleOf("category_id" to categories[viewPager.currentItem].id)
             )
         }
-        val categoryEditorButton: Button = view.findViewById(R.id.categories_button)
+        val categoryEditorButton: AppCompatImageButton = view.findViewById(R.id.categories_button)
         categoryEditorButton.setOnClickListener {
             view.findNavController().navigate(R.id.action_homeFragment_to_categoryEditorFragment)
         }

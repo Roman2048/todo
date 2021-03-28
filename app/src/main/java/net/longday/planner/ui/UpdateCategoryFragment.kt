@@ -13,7 +13,7 @@ import net.longday.planner.data.entity.Category
 import net.longday.planner.viewmodel.CategoryViewModel
 
 @AndroidEntryPoint
-class EditCategoryItemFragment : Fragment(R.layout.fragment_edit_category_item) {
+class UpdateCategoryFragment : Fragment(R.layout.fragment_update_category) {
 
     private val categoryViewModel: CategoryViewModel by viewModels()
 
@@ -29,7 +29,6 @@ class EditCategoryItemFragment : Fragment(R.layout.fragment_edit_category_item) 
                 Category(
                     category.id,
                     editText.text.toString(),
-                    category.tabIndex
                 )
             )
             view.findNavController().navigate(R.id.categoryEditorFragment)

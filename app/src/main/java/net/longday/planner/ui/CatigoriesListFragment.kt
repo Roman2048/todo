@@ -3,6 +3,7 @@ package net.longday.planner.ui
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -17,7 +18,7 @@ import net.longday.planner.viewmodel.CategoryViewModel
  * Экран со списком категорий, для их редактирования.
  */
 @AndroidEntryPoint
-class CategoryEditorFragment : Fragment(R.layout.fragment_category_editor) {
+class CatigoriesListFragment : Fragment(R.layout.fragment_categories_list) {
 
     private val categoryViewModel: CategoryViewModel by viewModels()
 
@@ -29,7 +30,7 @@ class CategoryEditorFragment : Fragment(R.layout.fragment_category_editor) {
             adapter.categories = it
             adapter.notifyDataSetChanged()
         }
-        val backButton: Button = view.findViewById(R.id.category_editor_edit_button)
+        val backButton: AppCompatImageButton = view.findViewById(R.id.category_editor_edit_button)
         backButton.setOnClickListener {
             view.findNavController()
                 .navigate(R.id.action_categoryEditorFragment_to_homeFragment)

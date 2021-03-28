@@ -26,7 +26,6 @@ class AddCategoryFragment : Fragment(R.layout.fragment_add_category) {
                 Category(
                     UUID.randomUUID().toString(),
                     textEdit.text.toString(),
-                    categoryViewModel.categories.value?.size ?: 1
                 )
             )
             view.findNavController()

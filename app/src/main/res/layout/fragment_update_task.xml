@@ -3,29 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.EditCategoryItemFragment"
+    tools:context=".ui.UpdateTaskFragment"
     android:orientation="vertical">
 
+
     <EditText
-        android:id="@+id/edit_category_text_edit"
+        android:id="@+id/edit_task_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="" />
 
     <Button
-        android:id="@+id/edit_category_item_save_button"
+        android:id="@+id/edit_task_save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save" />
 
     <Button
-        android:id="@+id/edit_category_item_delete_button"
+        android:id="@+id/edit_task_delete_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delete" />
 
     <Button
-        android:id="@+id/edit_category_item_back_button"
+        android:id="@+id/edit_task_back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Back" />
