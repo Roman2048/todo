@@ -26,12 +26,13 @@ class TaskAdapter(
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         holder.textView.text = tasks[position].title
-//        holder.textView.setOnClickListener {
-//            it.findNavController().navigate(
-//                R.id.action_homeFragment_to_addTaskFragment,
-//                bundleOf("task" to tasks[position])
-//            )
-//        }
+        val task = tasks[position]
+        holder.textView.setOnClickListener {
+            it.findNavController().navigate(
+                R.id.action_homeFragment_to_editTaskFragment,
+                bundleOf("task" to task)
+            )
+        }
     }
 
     override fun getItemCount(): Int {

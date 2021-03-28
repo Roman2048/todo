@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_addTaskFragment"
             app:destination="@id/addTaskFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_editTaskFragment"
+            app:destination="@id/editTaskFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryEditorFragment"
@@ -57,6 +60,15 @@
         tools:layout="@layout/fragment_add_task" >
         <action
             android:id="@+id/action_addTaskFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editTaskFragment"
+        android:name="net.longday.planner.ui.EditTaskFragment"
+        android:label="fragment_edit_task"
+        tools:layout="@layout/fragment_edit_task" >
+        <action
+            android:id="@+id/action_editTaskFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

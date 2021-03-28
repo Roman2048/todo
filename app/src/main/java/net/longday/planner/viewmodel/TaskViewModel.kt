@@ -7,6 +7,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
+import net.longday.planner.data.entity.Category
 import net.longday.planner.data.entity.Task
 import net.longday.planner.data.repository.TaskRepository
 import javax.inject.Inject
@@ -20,5 +21,13 @@ class TaskViewModel @Inject constructor(
 
     fun insert(task: Task) = CoroutineScope(Dispatchers.IO).launch {
         taskRepository.insert(task)
+    }
+
+    fun update(task: Task) = CoroutineScope(Dispatchers.IO).launch {
+        taskRepository.update(task)
+    }
+
+    fun delete(task: Task) = CoroutineScope(Dispatchers.IO).launch {
+        taskRepository.delete(task)
     }
 }

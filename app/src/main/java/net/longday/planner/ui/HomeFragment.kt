@@ -11,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,21 +44,19 @@ class HomeFragment : Fragment() {
         var categories: List<Category> = listOf()
         categoryViewModel.categories.observe(viewLifecycleOwner) {
             categories = it
-        }
-        categoryViewModel.categories.observe(viewLifecycleOwner) {
             pagerAdapter.categories = it
             pagerAdapter.notifyDataSetChanged()
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.text = it[position].title
-//                Snackbar.make(view, currentCategory?.title ?: "", Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null)
-//                    .show()
             }.attach()
         }
 
         val fab: FloatingActionButton = view.findViewById(R.id.fab)
         fab.setOnClickListener {
-            view.findNavController().navigate(R.id.action_homeFragment_to_addTaskFragment, bundleOf("category_id" to categories[viewPager.currentItem].id))
+            view.findNavController().navigate(
+                R.id.action_homeFragment_to_addTaskFragment,
+                bundleOf("category_id" to categories[viewPager.currentItem].id)
+            )
         }
         val categoryEditorButton: Button = view.findViewById(R.id.categories_button)
         categoryEditorButton.setOnClickListener {
