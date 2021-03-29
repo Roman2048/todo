@@ -1,8 +1,12 @@
 package net.longday.planner.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
+import android.view.Window
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -50,11 +54,30 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 R.id.action_homeFragment_to_addTaskFragment,
                 bundleOf("category_id" to categories[viewPager.currentItem].id)
             )
+            it.showKeyboard()
         }
+
         val categoryEditorButton: AppCompatImageButton = view.findViewById(R.id.categories_button)
         categoryEditorButton.setOnClickListener {
             view.findNavController().navigate(R.id.action_homeFragment_to_categoryEditorFragment)
         }
     }
+
+    private fun View.showKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
+    }
 }
 
+//        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+//            override fun onPageSelected(position: Int) {
+//                super.onPageSelected(position)
+//                // Теперь только необходимое
+//            }
+//        })
+
+//        val dialog: AlertDialog? = this.context?.let { AlertDialog.Builder(it).create() }
+//        dialog?.show()
+//        val window: Window? = dialog?.window
+//        window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
+//        window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)

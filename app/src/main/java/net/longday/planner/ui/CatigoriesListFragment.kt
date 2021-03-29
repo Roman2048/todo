@@ -1,7 +1,9 @@
 package net.longday.planner.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.Fragment
@@ -39,6 +41,12 @@ class CatigoriesListFragment : Fragment(R.layout.fragment_categories_list) {
         fab.setOnClickListener {
             view.findNavController()
                 .navigate(R.id.action_categoryEditorFragment_to_addCategoryFragment)
+            it.showKeyboard()
         }
+    }
+
+    private fun View.showKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
     }
 }

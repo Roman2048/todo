@@ -1,8 +1,10 @@
 package net.longday.planner.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -32,10 +34,16 @@ class TaskAdapter(
                 R.id.action_homeFragment_to_editTaskFragment,
                 bundleOf("task" to task)
             )
+            it.showKeyboard()
         }
     }
 
     override fun getItemCount(): Int {
         return tasks.size
+    }
+
+    private fun View.showKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
     }
 }

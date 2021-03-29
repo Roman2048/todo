@@ -5,4 +5,7 @@
     <string name="add_task">Add task</string>
     <string name="add_category">Add category</string>
     <string name="back">Back</string>
+    <string name="categories_image_button">Manage categories</string>
+    <string name="categories_list_toolbar_title">Manage categories</string>
+    <string name="categories_hint">Categories from the homepage</string>
 </resources>

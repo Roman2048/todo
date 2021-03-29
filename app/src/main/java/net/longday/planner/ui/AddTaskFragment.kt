@@ -1,17 +1,16 @@
 package net.longday.planner.ui
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
-import net.longday.planner.data.entity.Category
 import net.longday.planner.data.entity.Task
 import net.longday.planner.viewmodel.TaskViewModel
 import java.util.*
@@ -38,10 +37,17 @@ class AddTaskFragment : Fragment(R.layout.fragment_add_task) {
             }
             view.findNavController()
                 .navigate(R.id.action_addTaskFragment_to_homeFragment)
+            it.hideKeyboard()
         }
         backButton.setOnClickListener {
             view.findNavController()
                 .navigate(R.id.action_addTaskFragment_to_homeFragment)
+            it.hideKeyboard()
         }
+    }
+
+    private fun View.hideKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
     }
 }
