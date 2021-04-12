@@ -6,4 +6,5 @@
     <string name="categories_image_button">Manage categories</string>
     <string name="categories_list_toolbar_title">Manage categories</string>
     <string name="categories_hint">Categories from the homepage</string>
+    <string name="username"></string>
 </resources>

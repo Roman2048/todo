@@ -9,7 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="net.longday.planner.ui.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_categoryEditorFragment"
             app:destination="@id/categoryEditorFragment" />
@@ -24,7 +24,7 @@
         android:id="@+id/categoryEditorFragment"
         android:name="net.longday.planner.ui.CatigoriesListFragment"
         android:label="fragment_category_editor"
-        tools:layout="@layout/fragment_categories_list" >
+        tools:layout="@layout/fragment_categories_list">
         <action
             android:id="@+id/action_categoryEditorFragment_to_addCategoryFragment"
             app:destination="@id/addCategoryFragment" />
@@ -39,7 +39,7 @@
         android:id="@+id/addCategoryFragment"
         android:name="net.longday.planner.ui.AddCategoryFragment"
         android:label="fragment_add_category"
-        tools:layout="@layout/fragment_add_category" >
+        tools:layout="@layout/fragment_add_category">
         <action
             android:id="@+id/action_addCategoryFragment_to_categoryEditorFragment"
             app:destination="@id/categoryEditorFragment" />
@@ -48,7 +48,7 @@
         android:id="@+id/editCategoryItemFragment"
         android:name="net.longday.planner.ui.UpdateCategoryFragment"
         android:label="fragment_edit_category_item"
-        tools:layout="@layout/fragment_update_category" >
+        tools:layout="@layout/fragment_update_category">
         <action
             android:id="@+id/action_editCategoryItemFragment_to_categoryEditorFragment"
             app:destination="@id/categoryEditorFragment" />
@@ -57,7 +57,7 @@
         android:id="@+id/addTaskFragment"
         android:name="net.longday.planner.ui.AddTaskFragment"
         android:label="fragment_add_task"
-        tools:layout="@layout/fragment_add_task" >
+        tools:layout="@layout/fragment_add_task">
         <action
             android:id="@+id/action_addTaskFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
@@ -66,7 +66,7 @@
         android:id="@+id/editTaskFragment"
         android:name="net.longday.planner.ui.UpdateTaskFragment"
         android:label="fragment_edit_task"
-        tools:layout="@layout/fragment_update_task" >
+        tools:layout="@layout/fragment_update_task">
         <action
             android:id="@+id/action_editTaskFragment_to_homeFragment"
             app:destination="@id/homeFragment" />

@@ -44,6 +44,9 @@ android {
 }
 
 dependencies {
+    def version_nav = "2.2.1"
+    implementation "androidx.navigation:navigation-fragment-ktx:$version_nav"
+    implementation "androidx.navigation:navigation-ui-ktx:$version_nav"
 //    def nav_version = "2.3.4"
 //    classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
