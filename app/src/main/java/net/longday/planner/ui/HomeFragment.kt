@@ -43,7 +43,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val taskViewModel: TaskViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val categoryId: String = arguments?.get("category_id").toString()
+        var categoryId = ""
         val viewPager: ViewPager2 = view.findViewById(R.id.category_view_pager)
         val pagerAdapter = ViewPagerAdapter(this, listOf())
         viewPager.adapter = pagerAdapter
@@ -55,8 +55,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             pagerAdapter.notifyDataSetChanged()
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.text = it[position].title
+
             }.attach()
         }
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                categoryId = categories[tab!!.position].id
+                // cast fragment to your fragment class and do what you want
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+        })
 
         val fab: FloatingActionButton = view.findViewById(R.id.fab)
         fab.setOnClickListener {
@@ -70,15 +83,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                             Task(
                                 UUID.randomUUID().toString(),
                                 this.findViewById<EditText>(R.id.bottom_sheet_edit_text)?.text.toString(),
-                                "0a8ffcdb-e233-4f57-b0f0-66b36e4163f5"
-//                                categoryId
+                                categoryId
                             )
                         )
                     }
-                    val text = "Hello toast!"
-                    val duration = Toast.LENGTH_SHORT
-                    val toast = Toast.makeText(requireContext(), text, duration)
-                    toast.show()
+                    this.findViewById<EditText>(R.id.bottom_sheet_edit_text)?.setText("")
+                    it.hideKeyboard()
+                    this.hide()
+//                    val text = "Hello toast!"
+//                    val duration = Toast.LENGTH_SHORT
+//                    val toast = Toast.makeText(requireContext(), text, duration)
+//                    toast.show()
                 }
             }
         }
@@ -98,5 +113,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun View.showKeyboard() {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
+    }
+
+    private fun View.hideKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
     }
 }

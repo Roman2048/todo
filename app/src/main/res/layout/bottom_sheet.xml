@@ -15,10 +15,11 @@
             android:layout_height="wrap_content"
             android:text="" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/new_task_save_button"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
+
             android:text="save" />
 
     </LinearLayout>
