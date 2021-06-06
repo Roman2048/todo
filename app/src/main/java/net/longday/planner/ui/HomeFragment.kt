@@ -95,6 +95,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //                    val toast = Toast.makeText(requireContext(), text, duration)
 //                    toast.show()
                 }
+
+                // Прячем диалог если нажата кнопка "Назад"
+                this.findViewById<Button>(R.id.add_task_back_button)?.setOnClickListener {
+                    this.findViewById<EditText>(R.id.bottom_sheet_edit_text)?.setText("")
+                    it.hideKeyboard()
+                    this.hide()
+                }
             }
         }
 
