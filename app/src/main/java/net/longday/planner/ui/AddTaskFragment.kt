@@ -21,10 +21,12 @@ class AddTaskFragment : Fragment(R.layout.fragment_add_task) {
     private val taskViewModel: TaskViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         val textEdit: EditText = view.findViewById(R.id.add_task_edit_text)
         val saveButton: Button = view.findViewById(R.id.add_task_save_button)
         val backButton: Button = view.findViewById(R.id.add_task_back_button)
         val categoryId: String = arguments?.get("category_id").toString()
+
         saveButton.setOnClickListener {
             if (categoryId != "") {
                 taskViewModel.insert(
@@ -39,6 +41,7 @@ class AddTaskFragment : Fragment(R.layout.fragment_add_task) {
                 .navigate(R.id.action_addTaskFragment_to_homeFragment)
             it.hideKeyboard()
         }
+
         backButton.setOnClickListener {
             view.findNavController()
                 .navigate(R.id.action_addTaskFragment_to_homeFragment)
@@ -49,5 +52,10 @@ class AddTaskFragment : Fragment(R.layout.fragment_add_task) {
     private fun View.hideKeyboard() {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+    }
+
+    private fun View.showKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
     }
 }

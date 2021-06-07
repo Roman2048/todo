@@ -76,7 +76,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             BottomSheetDialog(requireContext(), R.style.BottomSheetStyle).apply {
                 setContentView(layoutInflater.inflate(R.layout.bottom_sheet, null))
                 window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+                this.findViewById<EditText>(R.id.bottom_sheet_edit_text)?.requestFocus()
                 show()
+                it.showKeyboard()
                 this.findViewById<Button>(R.id.new_task_save_button)?.setOnClickListener {
                     if (categoryId != "") {
                         taskViewModel.insert(
