@@ -1,12 +1,15 @@
 package net.longday.planner.ui
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.view.GravityCompat
@@ -22,6 +25,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
+import net.longday.planner.ReminderActivity
 import net.longday.planner.adapter.ViewPagerAdapter
 import net.longday.planner.data.entity.Category
 import net.longday.planner.data.entity.Task
@@ -116,6 +120,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val appBarButton: BottomAppBar = view.findViewById(R.id.bottom_app_bar)
         appBarButton.setNavigationOnClickListener {
             mDrawerLayout.openDrawer(GravityCompat.START);
+        }
+
+        val reminderButton: ImageButton = view.findViewById(R.id.home_fragment_reminder_button)
+        reminderButton.setOnClickListener {
+            val message = "Делай красиво!"
+            val intent = Intent(context, ReminderActivity::class.java).apply {
+                putExtra(EXTRA_MESSAGE, message)
+            }
+            startActivity(intent)
         }
     }
 
