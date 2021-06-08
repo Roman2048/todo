@@ -31,7 +31,8 @@ class UpdateTaskFragment : Fragment(R.layout.fragment_update_task) {
                 Task(
                     task.id,
                     editText.text.toString(),
-                    task.categoryId
+                    task.categoryId,
+                    task.dateTime,
                 )
             )
             view.findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)

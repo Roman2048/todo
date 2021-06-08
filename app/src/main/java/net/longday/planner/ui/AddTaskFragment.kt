@@ -13,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
 import net.longday.planner.data.entity.Task
 import net.longday.planner.viewmodel.TaskViewModel
+import java.time.LocalDateTime
 import java.util.*
 
 @AndroidEntryPoint
@@ -31,9 +32,10 @@ class AddTaskFragment : Fragment(R.layout.fragment_add_task) {
             if (categoryId != "") {
                 taskViewModel.insert(
                     Task(
-                        UUID.randomUUID().toString(),
-                        textEdit.text.toString(),
-                        categoryId
+                        id = UUID.randomUUID().toString(),
+                        title = textEdit.text.toString(),
+                        categoryId = categoryId,
+                        dateTime = System.currentTimeMillis().toString(),
                     )
                 )
             }

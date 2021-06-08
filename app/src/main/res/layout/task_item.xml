@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/task_item_text"
@@ -11,8 +11,18 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_weight="2"
         android:textSize="18sp"
-        tools:text="Task stub" />
+        tools:text="Поздравить сына" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/task_item_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_weight="8"
+        android:textSize="12sp"
+        android:gravity="right"
+        tools:text="12 июля" />
 
 </LinearLayout>

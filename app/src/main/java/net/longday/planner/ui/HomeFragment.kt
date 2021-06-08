@@ -3,6 +3,7 @@ package net.longday.planner.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.SystemClock.elapsedRealtime
 import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.view.View
 import android.view.WindowManager
@@ -23,6 +24,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
 import net.longday.planner.ReminderActivity
@@ -83,17 +86,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 this.findViewById<EditText>(R.id.bottom_sheet_edit_text)?.requestFocus()
                 show()
                 it.showKeyboard()
+                var time = "";
                 this.findViewById<Button>(R.id.new_task_save_button)?.setOnClickListener {
                     if (categoryId != "") {
                         taskViewModel.insert(
                             Task(
-                                UUID.randomUUID().toString(),
-                                this.findViewById<EditText>(R.id.bottom_sheet_edit_text)?.text.toString(),
-                                categoryId
+                                id = UUID.randomUUID().toString(),
+                                title = this.findViewById<EditText>(R.id.bottom_sheet_edit_text)?.text.toString(),
+                                categoryId = categoryId,
+//                                dateTime = System.currentTimeMillis().toString(),
+                                dateTime = time,
                             )
                         )
                     }
                     this.findViewById<EditText>(R.id.bottom_sheet_edit_text)?.setText("")
+                    this.findViewById<Button>(R.id.new_task_set_time)?.text = ""
                     it.hideKeyboard()
                     this.hide()
 //                    val text = "Hello toast!"
@@ -107,6 +114,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     this.findViewById<EditText>(R.id.bottom_sheet_edit_text)?.setText("")
                     it.hideKeyboard()
                     this.hide()
+                }
+                this.findViewById<Button>(R.id.new_task_set_time)?.setOnClickListener {
+                    val materialTimePicker = MaterialTimePicker.Builder()
+                        .setTimeFormat(TimeFormat.CLOCK_24H)
+                        .build()
+                    materialTimePicker.addOnPositiveButtonClickListener {
+                        val newHour: Int = materialTimePicker.hour
+                        val newMinute: Int = materialTimePicker.minute
+                        time = "$newHour:$newMinute"
+                        this.findViewById<Button>(R.id.new_task_set_time)?.text = time
+                    }
+                    materialTimePicker.show(childFragmentManager, "fragment_picker_tag")
                 }
             }
         }
@@ -124,7 +143,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         val reminderButton: ImageButton = view.findViewById(R.id.home_fragment_reminder_button)
         reminderButton.setOnClickListener {
-            val message = "Делай красиво!"
+            val message = "Делай красиво! " + elapsedRealtime()
             val intent = Intent(context, ReminderActivity::class.java).apply {
                 putExtra(EXTRA_MESSAGE, message)
             }
