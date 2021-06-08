@@ -21,6 +21,7 @@ import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -86,7 +87,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 this.findViewById<EditText>(R.id.bottom_sheet_edit_text)?.requestFocus()
                 show()
                 it.showKeyboard()
-                var time = "";
+                var dayTime = ""
+                var time = ""
+                var date = ""
                 this.findViewById<Button>(R.id.new_task_save_button)?.setOnClickListener {
                     if (categoryId != "") {
                         taskViewModel.insert(
@@ -95,7 +98,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                                 title = this.findViewById<EditText>(R.id.bottom_sheet_edit_text)?.text.toString(),
                                 categoryId = categoryId,
 //                                dateTime = System.currentTimeMillis().toString(),
-                                dateTime = time,
+                                dateTime = dayTime,
                             )
                         )
                     }
@@ -116,16 +119,22 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     this.hide()
                 }
                 this.findViewById<Button>(R.id.new_task_set_time)?.setOnClickListener {
-                    val materialTimePicker = MaterialTimePicker.Builder()
-                        .setTimeFormat(TimeFormat.CLOCK_24H)
+                    val materialDatePicker = MaterialDatePicker.Builder.datePicker()
+                        .setTitleText("Select date")
                         .build()
-                    materialTimePicker.addOnPositiveButtonClickListener {
-                        val newHour: Int = materialTimePicker.hour
-                        val newMinute: Int = materialTimePicker.minute
-                        time = "$newHour:$newMinute"
-                        this.findViewById<Button>(R.id.new_task_set_time)?.text = time
+                    materialDatePicker.addOnPositiveButtonClickListener {
+                        dayTime = materialDatePicker.selection.toString()
+                        val materialTimePicker = MaterialTimePicker.Builder()
+                            .setTimeFormat(TimeFormat.CLOCK_24H)
+                            .build()
+                        materialTimePicker.addOnPositiveButtonClickListener {
+                            val newHour: Int = materialTimePicker.hour
+                            val newMinute: Int = materialTimePicker.minute
+                            dayTime += " $newHour:$newMinute"
+                        }
+                        materialTimePicker.show(childFragmentManager, "fragment_time_picker_tag")
                     }
-                    materialTimePicker.show(childFragmentManager, "fragment_picker_tag")
+                    materialDatePicker.show(childFragmentManager, "fragment_date_picker_tag")
                 }
             }
         }
