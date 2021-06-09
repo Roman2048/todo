@@ -3,26 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:layout_marginBottom="1dp">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/task_item_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_weight="2"
+        android:gravity="start|center"
         android:textSize="18sp"
         tools:text="Поздравить сына" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/task_item_time"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="8dp"
-        android:layout_weight="8"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="13"
+        android:gravity="end|center"
+        android:textColor="@color/black"
         android:textSize="12sp"
-        android:gravity="right"
-        tools:text="12 июля" />
+        tools:text="Jul 12" />
 
 </LinearLayout>

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textview.MaterialTextView
 import net.longday.planner.R
 import net.longday.planner.data.entity.Task
+import java.text.SimpleDateFormat
 import java.time.Instant
 
 class TaskAdapter(
@@ -30,7 +31,6 @@ class TaskAdapter(
         )
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         holder.textView.text = tasks[position].title
         holder.textTime.text = getTime(tasks[position])
@@ -53,12 +53,18 @@ class TaskAdapter(
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun getTime(task: Task): String {
-        return try {
-            Instant.ofEpochMilli(task.dateTime.toLong()).toString().substring(5, 16).replace("-", ".").replace("T", " ")
-        } catch (e: Exception) {
-            task.dateTime
+        // Если null ничего не показываем
+        return if (task.dateTime == null) {
+            ""
+        } else {
+            // Определяем дата это или дата + время
+            if (task.dateTime.toString().endsWith("00000")) {
+                // Если дата то показываем как есть
+                SimpleDateFormat("MMM d").format(task.dateTime)
+            } else {
+                SimpleDateFormat("HH:mm").format(task.dateTime)
+            }
         }
     }
 }

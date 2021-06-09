@@ -1,6 +1,5 @@
 package net.longday.planner.ui
 
-import android.hardware.SensorManager.getOrientation
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -28,11 +27,18 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val recyclerView: RecyclerView = view.findViewById(R.id.task_recycler)
-//        recyclerView.addItemDecoration(
-//            DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL)
-//        )
+        // Да как так то почему он вертикальный ****
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
+        )
         val adapter = TaskAdapter(listOf())
         recyclerView.adapter = adapter
+//        recyclerView.addItemDecoration(
+//            DividerItemDecoration(
+//                recyclerView.context,
+//                DividerItemDecoration.HORIZONTAL
+//            )
+//        )
         val category: Category = arguments?.get("category") as Category
         taskViewModel.tasks.observe(viewLifecycleOwner) { tasks ->
             if (false) {

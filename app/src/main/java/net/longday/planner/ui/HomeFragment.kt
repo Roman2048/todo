@@ -87,9 +87,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 this.findViewById<EditText>(R.id.bottom_sheet_edit_text)?.requestFocus()
                 show()
                 it.showKeyboard()
-                var dayTime = ""
-                var time = ""
-                var date = ""
+                var dayTime: Long? = null
                 this.findViewById<Button>(R.id.new_task_save_button)?.setOnClickListener {
                     if (categoryId != "") {
                         taskViewModel.insert(
@@ -103,18 +101,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         )
                     }
                     this.findViewById<EditText>(R.id.bottom_sheet_edit_text)?.setText("")
-                    this.findViewById<Button>(R.id.new_task_set_time)?.text = ""
+                    dayTime = null
                     it.hideKeyboard()
                     this.hide()
-//                    val text = "Hello toast!"
-//                    val duration = Toast.LENGTH_SHORT
-//                    val toast = Toast.makeText(requireContext(), text, duration)
-//                    toast.show()
+//                    Toast.makeText(requireContext(), "Hello toast!", Toast.LENGTH_SHORT).show()
                 }
 
                 // Прячем диалог если нажата кнопка "Назад"
                 this.findViewById<Button>(R.id.add_task_back_button)?.setOnClickListener {
                     this.findViewById<EditText>(R.id.bottom_sheet_edit_text)?.setText("")
+                    dayTime = null
                     it.hideKeyboard()
                     this.hide()
                 }
@@ -123,14 +119,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         .setTitleText("Select date")
                         .build()
                     materialDatePicker.addOnPositiveButtonClickListener {
-                        dayTime = materialDatePicker.selection.toString()
+                        dayTime = materialDatePicker.selection
                         val materialTimePicker = MaterialTimePicker.Builder()
                             .setTimeFormat(TimeFormat.CLOCK_24H)
                             .build()
                         materialTimePicker.addOnPositiveButtonClickListener {
                             val newHour: Int = materialTimePicker.hour
                             val newMinute: Int = materialTimePicker.minute
-                            dayTime += " $newHour:$newMinute"
+                            val plus = (newHour * 3600000) + (newMinute * 60000)
+                            dayTime = dayTime?.plus(plus)
+//                            Toast.makeText(requireContext(), "newHour = $newHour, newMinute = $newMinute", Toast.LENGTH_LONG).show()
                         }
                         materialTimePicker.show(childFragmentManager, "fragment_time_picker_tag")
                     }

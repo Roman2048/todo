@@ -35,7 +35,7 @@ class AddTaskFragment : Fragment(R.layout.fragment_add_task) {
                         id = UUID.randomUUID().toString(),
                         title = textEdit.text.toString(),
                         categoryId = categoryId,
-                        dateTime = System.currentTimeMillis().toString(),
+                        dateTime = System.currentTimeMillis(),
                     )
                 )
             }
