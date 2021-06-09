@@ -23,9 +23,8 @@
         android:layout_height="match_parent"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_weight="13"
+        android:layout_weight="10"
         android:gravity="end|center"
-        android:textColor="@color/black"
         android:textSize="12sp"
         tools:text="Jul 12" />
 
