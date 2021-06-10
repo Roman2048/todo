@@ -11,4 +11,6 @@ data class Task(
     var title: String,
     val categoryId: String,
     var dateTime: Long?,
+    var isDone: Boolean = false,
+    var isScheduled: Boolean = false,
 ) : Serializable

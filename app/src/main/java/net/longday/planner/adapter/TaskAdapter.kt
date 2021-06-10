@@ -1,6 +1,8 @@
 package net.longday.planner.adapter
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -32,9 +34,14 @@ class TaskAdapter(
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        holder.textView.text = tasks[position].title
-        holder.textTime.text = getTime(tasks[position])
         val task = tasks[position]
+        holder.textView.text = task.title
+        holder.textTime.text = getTime(task)
+        if (task.isDone) {
+            holder.textView.setTextColor(Color.LTGRAY)
+        } else {
+            holder.textView.setTextColor(Color.DKGRAY)
+        }
         holder.textView.setOnClickListener {
             it.findNavController().navigate(
                 R.id.action_homeFragment_to_editTaskFragment,

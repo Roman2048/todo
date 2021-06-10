@@ -24,7 +24,11 @@ class UpdateTaskFragment : Fragment(R.layout.fragment_update_task) {
         val saveButton: Button = view.findViewById(R.id.edit_task_save_button)
         val deleteButton: Button = view.findViewById(R.id.edit_task_delete_button)
         val backButton: Button = view.findViewById(R.id.edit_task_back_button)
+        val undoneButton: Button = view.findViewById(R.id.edit_task_undone_button)
         val task: Task = arguments?.get("task") as Task
+        if (!task.isDone) {
+            undoneButton.text = "Done"
+        }
         editText.setText(task.title)
         saveButton.setOnClickListener {
             taskViewModel.update(
@@ -44,6 +48,19 @@ class UpdateTaskFragment : Fragment(R.layout.fragment_update_task) {
             it.hideKeyboard()
         }
         backButton.setOnClickListener {
+            view.findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
+            it.hideKeyboard()
+        }
+        undoneButton.setOnClickListener {
+            taskViewModel.update(
+                Task(
+                    task.id,
+                    editText.text.toString(),
+                    task.categoryId,
+                    task.dateTime,
+                    isDone = !task.isDone,
+                )
+            )
             view.findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
             it.hideKeyboard()
         }
