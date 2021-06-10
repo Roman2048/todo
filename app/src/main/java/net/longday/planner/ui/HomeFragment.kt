@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock.elapsedRealtime
 import android.provider.AlarmClock.EXTRA_MESSAGE
+import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
@@ -148,6 +149,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             mDrawerLayout.openDrawer(GravityCompat.START);
         }
 
+
         val reminderButton: ImageButton = view.findViewById(R.id.home_fragment_reminder_button)
         reminderButton.setOnClickListener {
             val message = "Делай красиво! " + elapsedRealtime()
@@ -167,4 +169,5 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
     }
+
 }
