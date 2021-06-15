@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
+import net.longday.planner.adapter.DoneTaskAdapter
 import net.longday.planner.adapter.TaskAdapter
 import net.longday.planner.data.entity.Category
 import net.longday.planner.viewmodel.TaskViewModel
@@ -27,12 +28,15 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val recyclerView: RecyclerView = view.findViewById(R.id.task_recycler)
+        val doneRecyclerView: RecyclerView = view.findViewById(R.id.done_task_recycler)
         // Да как так то почему он вертикальный ****
         recyclerView.addItemDecoration(
             DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
         )
         val adapter = TaskAdapter(listOf())
+        val doneAdapter = DoneTaskAdapter(listOf())
         recyclerView.adapter = adapter
+        doneRecyclerView.adapter = doneAdapter
 //        recyclerView.addItemDecoration(
 //            DividerItemDecoration(
 //                recyclerView.context,

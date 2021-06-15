@@ -7,7 +7,6 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/homeFragment"
-            android:onClick="performActions"
             android:icon="@drawable/ic_outline_find_in_page_24"
             android:title="@string/search" />
     </group>
