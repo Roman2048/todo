@@ -2,6 +2,8 @@ package net.longday.planner.ui
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.SystemClock.elapsedRealtime
 import android.provider.AlarmClock.EXTRA_MESSAGE
@@ -26,6 +28,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
@@ -83,9 +86,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val fab: FloatingActionButton = view.findViewById(R.id.fab)
         fab.setOnClickListener {
             BottomSheetDialog(requireContext(), R.style.BottomSheetStyle).apply {
+//                this.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
                 setContentView(layoutInflater.inflate(R.layout.bottom_sheet, null))
                 window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-                this.findViewById<EditText>(R.id.bottom_sheet_edit_text)?.requestFocus()
+                this.findViewById<TextInputLayout>(R.id.bottom_sheet_edit_text)?.requestFocus()
                 show()
                 it.showKeyboard()
                 var dayTime: Long? = null
@@ -94,14 +98,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         taskViewModel.insert(
                             Task(
                                 id = UUID.randomUUID().toString(),
-                                title = this.findViewById<EditText>(R.id.bottom_sheet_edit_text)?.text.toString(),
+                                title = this.findViewById<TextInputLayout>(R.id.bottom_sheet_edit_text)?.editText?.text.toString(),
                                 categoryId = categoryId,
 //                                dateTime = System.currentTimeMillis().toString(),
                                 dateTime = dayTime,
                             )
                         )
                     }
-                    this.findViewById<EditText>(R.id.bottom_sheet_edit_text)?.setText("")
+                    this.findViewById<TextInputLayout>(R.id.bottom_sheet_edit_text)?.editText?.setText("")
                     dayTime = null
                     it.hideKeyboard()
                     this.hide()
@@ -114,8 +118,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     dayTime = null
                     it.hideKeyboard()
                     this.hide()
+                    hide()
                 }
-                this.findViewById<Button>(R.id.new_task_set_time)?.setOnClickListener {
+                this.findViewById<ImageButton>(R.id.new_task_set_time)?.setOnClickListener {
                     val materialDatePicker = MaterialDatePicker.Builder.datePicker()
                         .setTitleText("Select date")
                         .build()
