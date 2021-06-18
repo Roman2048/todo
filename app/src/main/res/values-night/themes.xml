@@ -14,7 +14,7 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="BottomSheetStyle" parent="Theme.Design.BottomSheetDialog">
+    <style name="BottomSheetStyle" parent="Theme.MaterialComponents.BottomSheetDialog">
         <item name="android:windowIsFloating">false</item>
         <item name="android:color">@color/black</item>
 
@@ -24,7 +24,7 @@
 
     <style name="CustomBottomSheet" parent="Widget.MaterialComponents.BottomSheet">
         <item name="shapeAppearanceOverlay">@style/CustomShapeAppearanceBottomSheetDialog</item>
-        <item name="behavior_peekHeight">420dp</item>
+
     </style>
 
     <style name="CustomShapeAppearanceBottomSheetDialog" parent="">

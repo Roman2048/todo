@@ -45,6 +45,7 @@ android {
 
 dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.preference:preference:1.1.1'
     def version_nav = "2.2.1"
     implementation "androidx.navigation:navigation-fragment-ktx:$version_nav"
     implementation "androidx.navigation:navigation-ui-ktx:$version_nav"

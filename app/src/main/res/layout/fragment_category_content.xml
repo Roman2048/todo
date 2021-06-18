@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:divider="@color/black"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:context=".ui.CategoryContentFragment" />
+        tools:context=".ui.CategoryContentFragment"
+        tools:itemCount="20" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/done_task_recycler"

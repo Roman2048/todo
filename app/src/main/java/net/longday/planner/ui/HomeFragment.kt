@@ -86,12 +86,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val fab: FloatingActionButton = view.findViewById(R.id.fab)
         fab.setOnClickListener {
             BottomSheetDialog(requireContext(), R.style.BottomSheetStyle).apply {
+                it.showKeyboard()
 //                this.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
                 setContentView(layoutInflater.inflate(R.layout.bottom_sheet, null))
                 window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
                 this.findViewById<TextInputLayout>(R.id.bottom_sheet_edit_text)?.requestFocus()
                 show()
-                it.showKeyboard()
+//                it.showKeyboard()
                 var dayTime: Long? = null
                 this.findViewById<Button>(R.id.new_task_save_button)?.setOnClickListener {
                     if (categoryId != "") {
@@ -151,7 +152,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val mDrawerLayout = requireActivity().findViewById<View>(R.id.drawer_layout) as DrawerLayout
         val appBarButton: BottomAppBar = view.findViewById(R.id.bottom_app_bar)
         appBarButton.setNavigationOnClickListener {
-            mDrawerLayout.openDrawer(GravityCompat.START);
+            view.findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
+//            mDrawerLayout.openDrawer(GravityCompat.START);
         }
 
 
