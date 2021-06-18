@@ -22,6 +22,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -39,7 +43,9 @@ import net.longday.planner.data.entity.Category
 import net.longday.planner.data.entity.Task
 import net.longday.planner.viewmodel.CategoryViewModel
 import net.longday.planner.viewmodel.TaskViewModel
+import net.longday.planner.work.NotificationWorker
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 /**
  * Основной рабочий экран приложения.
@@ -151,8 +157,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         val mDrawerLayout = requireActivity().findViewById<View>(R.id.drawer_layout) as DrawerLayout
         val appBarButton: BottomAppBar = view.findViewById(R.id.bottom_app_bar)
+        val notificationWorker: WorkRequest = PeriodicWorkRequestBuilder<NotificationWorker>(4, TimeUnit.SECONDS).build()
         appBarButton.setNavigationOnClickListener {
-            view.findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
+            WorkManager
+                .getInstance(requireContext())
+                .enqueue(notificationWorker)
+//            view.findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
 //            mDrawerLayout.openDrawer(GravityCompat.START);
         }
 

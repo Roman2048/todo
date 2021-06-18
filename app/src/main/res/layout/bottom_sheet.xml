@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:theme="@style/Theme.Planner"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,6 +37,7 @@
             app:layout_constraintBottom_toBottomOf="@id/new_task_save_button"
             android:layout_marginStart="8dp"
             android:background="@null"
+
             app:layout_constraintStart_toStartOf="parent"
             android:contentDescription="Set time"
             android:src="@drawable/ic_outline_access_time_24"
