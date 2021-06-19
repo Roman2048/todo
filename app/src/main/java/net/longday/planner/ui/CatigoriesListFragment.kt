@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -53,25 +54,12 @@ class CatigoriesListFragment : Fragment(R.layout.fragment_categories_list) {
         }
 
         addCategoryItem.setOnClickListener {
-            BottomSheetDialog(requireContext(), R.style.BottomSheetStyle).apply {
-                it.showKeyboard()
-                setContentView(layoutInflater.inflate(R.layout.bottom_sheet_category, null))
-                val categoryEditText: TextInputLayout? =
-                    this.findViewById(R.id.bottom_sheet_category_edit_text)
-                val categorySaveButton: Button? =
-                    this.findViewById(R.id.bottom_sheet_category_save_button)
-                categoryEditText?.requestFocus()
-                show()
-                categorySaveButton?.setOnClickListener {
-                    categoryViewModel.insert(
-                        Category(
-                            id = UUID.randomUUID().toString(),
-                            title = categoryEditText?.editText?.text.toString(),
-                        )
-                    )
-                    hide()
-                }
-            }
+            view.findNavController()
+                .navigate(
+                    R.id.action_categoryEditorFragment_to_bottomSheetCategoryFragment,
+                    bundleOf("type" to "create")
+                )
+            it.showKeyboard()
         }
     }
 

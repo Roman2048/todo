@@ -1,68 +1,79 @@
 package net.longday.planner.ui
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.Button
+import androidx.annotation.IdRes
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
+import net.longday.planner.data.entity.Category
+import net.longday.planner.viewmodel.CategoryViewModel
+import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [BottomSheetCategoryFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 @AndroidEntryPoint
 class BottomSheetCategoryFragment : BottomSheetDialogFragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val categoryViewModel: CategoryViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        setStyle(STYLE_NORMAL, R.style.BottomSheetStyle)
         return inflater.inflate(R.layout.fragment_bottom_sheet_category, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment BottomSheetCategoryFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            BottomSheetCategoryFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val category: Category? = arguments?.get("category") as Category?
+        val type: String? = arguments?.get("type") as String?
+        val editText: TextInputLayout =
+            view.findViewById(R.id.fragment_bottom_sheet_category_edit_text)
+        val saveButton: Button = view.findViewById(R.id.fragment_bottom_sheet_category_save_button)
+        editText.editText?.setText(category?.title)
+        val navController =
+            activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment)
+                ?.findNavController()
+        saveButton.setOnClickListener {
+            when (type) {
+                "create" -> {
+                    categoryViewModel.insert(
+                        Category(
+                            UUID.randomUUID().toString(),
+                            editText.editText?.text.toString(),
+                        )
+                    )
+                }
+                "update" -> {
+                    categoryViewModel.update(
+                        Category(
+                            category?.id ?: "",
+                            editText.editText?.text.toString(),
+                        )
+                    )
                 }
             }
+            navController?.navigate(R.id.action_bottomSheetCategoryFragment_to_categoryEditorFragment)
+            it.hideKeyboard()
+        }
     }
 
     override fun getTheme(): Int {
         return R.style.BottomSheetStyle
+    }
+
+    private fun View.hideKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
     }
 }
