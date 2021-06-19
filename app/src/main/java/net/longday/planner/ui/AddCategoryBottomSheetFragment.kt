@@ -9,6 +9,7 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
 import net.longday.planner.data.entity.Category
@@ -16,7 +17,7 @@ import net.longday.planner.viewmodel.CategoryViewModel
 import java.util.*
 
 @AndroidEntryPoint
-class AddCategoryFragment : Fragment(R.layout.fragment_add_category) {
+class AddCategoryBottomSheetFragment : BottomSheetDialogFragment() {
 
     private val categoryViewModel: CategoryViewModel by viewModels()
 

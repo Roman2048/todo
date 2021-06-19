@@ -37,10 +37,13 @@
         <action
             android:id="@+id/action_categoryEditorFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_categoryEditorFragment_to_bottomSheetCategoryFragment"
+            app:destination="@id/bottomSheetCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/addCategoryFragment"
-        android:name="net.longday.planner.ui.AddCategoryFragment"
+        android:name="net.longday.planner.ui.AddCategoryBottomSheetFragment"
         android:label="fragment_add_category"
         tools:layout="@layout/fragment_add_category">
         <action
@@ -82,4 +85,13 @@
             android:id="@+id/action_settingsFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/bottomSheetCategoryFragment"
+        android:name="net.longday.planner.ui.BottomSheetCategoryFragment"
+        android:label="fragment_bottom_sheet_category"
+        tools:layout="@layout/fragment_bottom_sheet_category" >
+        <action
+            android:id="@+id/action_bottomSheetCategoryFragment_to_categoryEditorFragment"
+            app:destination="@id/categoryEditorFragment" />
+    </dialog>
 </navigation>
