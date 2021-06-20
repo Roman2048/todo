@@ -48,7 +48,6 @@ class AddCategoryFragment : BottomSheetDialogFragment() {
             navController?.navigate(R.id.action_addCategoryFragment_to_categoryEditorFragment)
             it.hideKeyboard()
         }
-
     }
 
     override fun getTheme(): Int {

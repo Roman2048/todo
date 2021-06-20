@@ -1,4 +1,4 @@
-package net.longday.planner.ui
+package net.longday.planner.ui.bottomsheet
 
 import android.content.Context
 import android.os.Bundle
@@ -18,7 +18,7 @@ import net.longday.planner.data.entity.Task
 import net.longday.planner.viewmodel.TaskViewModel
 
 @AndroidEntryPoint
-class UpdateTaskFragment : Fragment(R.layout.fragment_update_task) {
+class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
 
     private val taskViewModel: TaskViewModel by viewModels()
 

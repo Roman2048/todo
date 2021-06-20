@@ -16,6 +16,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -58,10 +59,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val categoryViewModel: CategoryViewModel by viewModels()
 
-    private val taskViewModel: TaskViewModel by viewModels()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        var categoryId = ""
+        var category: Category = Category("", "")
         val viewPager: ViewPager2 = view.findViewById(R.id.category_view_pager)
         val pagerAdapter = ViewPagerAdapter(this, listOf())
         viewPager.adapter = pagerAdapter
@@ -77,77 +76,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }.attach()
         }
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                categoryId = categories[tab!!.position].id
-                // cast fragment to your fragment class and do what you want
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-            }
+            override fun onTabSelected(tab: TabLayout.Tab?) { category = categories[tab!!.position] }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
 
         val fab: FloatingActionButton = view.findViewById(R.id.fab)
         fab.setOnClickListener {
-            BottomSheetDialog(requireContext(), R.style.BottomSheetStyle).apply {
-                it.showKeyboard()
-//                this.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
-                setContentView(layoutInflater.inflate(R.layout.bottom_sheet, null))
-                window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-                this.findViewById<TextInputLayout>(R.id.bottom_sheet_edit_text)?.requestFocus()
-                show()
-//                it.showKeyboard()
-                var dayTime: Long? = null
-                this.findViewById<Button>(R.id.new_task_save_button)?.setOnClickListener {
-                    if (categoryId != "") {
-                        taskViewModel.insert(
-                            Task(
-                                id = UUID.randomUUID().toString(),
-                                title = this.findViewById<TextInputLayout>(R.id.bottom_sheet_edit_text)?.editText?.text.toString(),
-                                categoryId = categoryId,
-//                                dateTime = System.currentTimeMillis().toString(),
-                                dateTime = dayTime,
-                            )
-                        )
-                    }
-                    this.findViewById<TextInputLayout>(R.id.bottom_sheet_edit_text)?.editText?.setText("")
-                    dayTime = null
-                    it.hideKeyboard()
-                    this.hide()
-//                    Toast.makeText(requireContext(), "Hello toast!", Toast.LENGTH_SHORT).show()
-                }
-
-                // Прячем диалог если нажата кнопка "Назад"
-                this.findViewById<Button>(R.id.add_task_back_button)?.setOnClickListener {
-                    this.findViewById<EditText>(R.id.bottom_sheet_edit_text)?.setText("")
-                    dayTime = null
-                    it.hideKeyboard()
-                    this.hide()
-                    hide()
-                }
-                this.findViewById<ImageButton>(R.id.new_task_set_time)?.setOnClickListener {
-                    val materialDatePicker = MaterialDatePicker.Builder.datePicker()
-                        .setTitleText("Select date")
-                        .build()
-                    materialDatePicker.addOnPositiveButtonClickListener {
-                        dayTime = materialDatePicker.selection
-                        val materialTimePicker = MaterialTimePicker.Builder()
-                            .setTimeFormat(TimeFormat.CLOCK_24H)
-                            .build()
-                        materialTimePicker.addOnPositiveButtonClickListener {
-                            val newHour: Int = materialTimePicker.hour
-                            val newMinute: Int = materialTimePicker.minute
-                            val plus = (newHour * 3600000) + (newMinute * 60000)
-                            dayTime = dayTime?.plus(plus)
-//                            Toast.makeText(requireContext(), "newHour = $newHour, newMinute = $newMinute", Toast.LENGTH_LONG).show()
-                        }
-                        materialTimePicker.show(childFragmentManager, "fragment_time_picker_tag")
-                    }
-                    materialDatePicker.show(childFragmentManager, "fragment_date_picker_tag")
-                }
-            }
+            view.findNavController().navigate(R.id.action_homeFragment_to_addTaskFragment, bundleOf("category" to category))
         }
 
         val categoryEditorButton: AppCompatImageButton = view.findViewById(R.id.categories_button)

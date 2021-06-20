@@ -38,20 +38,20 @@
             android:id="@+id/action_categoryEditorFragment_to_editCategoryFragment"
             app:destination="@id/editCategoryFragment" />
     </fragment>
-    <fragment
+    <dialog
         android:id="@+id/addTaskFragment"
-        android:name="net.longday.planner.ui.AddTaskFragment"
+        android:name="net.longday.planner.ui.bottomsheet.AddTaskFragment"
         android:label="fragment_add_task"
         tools:layout="@layout/fragment_add_task">
         <action
             android:id="@+id/action_addTaskFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
-    </fragment>
+    </dialog>
     <fragment
         android:id="@+id/editTaskFragment"
-        android:name="net.longday.planner.ui.UpdateTaskFragment"
+        android:name="net.longday.planner.ui.bottomsheet.EditTaskFragment"
         android:label="fragment_edit_task"
-        tools:layout="@layout/fragment_update_task">
+        tools:layout="@layout/fragment_edit_task">
         <action
             android:id="@+id/action_editTaskFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
