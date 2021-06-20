@@ -32,8 +32,11 @@
             android:id="@+id/action_categoryEditorFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
         <action
-            android:id="@+id/action_categoryEditorFragment_to_bottomSheetCategoryFragment"
-            app:destination="@id/bottomSheetCategoryFragment" />
+            android:id="@+id/action_categoryEditorFragment_to_addCategoryFragment"
+            app:destination="@id/addCategoryFragment" />
+        <action
+            android:id="@+id/action_categoryEditorFragment_to_editCategoryFragment"
+            app:destination="@id/editCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/addTaskFragment"
@@ -62,12 +65,21 @@
             app:destination="@id/homeFragment" />
     </fragment>
     <dialog
-        android:id="@+id/bottomSheetCategoryFragment"
-        android:name="net.longday.planner.ui.BottomSheetCategoryFragment"
-        android:label="fragment_bottom_sheet_category"
-        tools:layout="@layout/fragment_bottom_sheet_category" >
+        android:id="@+id/addCategoryFragment"
+        android:name="net.longday.planner.ui.bottomsheet.AddCategoryFragment"
+        android:label="fragment_add_category"
+        tools:layout="@layout/fragment_add_category" >
         <action
-            android:id="@+id/action_bottomSheetCategoryFragment_to_categoryEditorFragment"
+            android:id="@+id/action_addCategoryFragment_to_categoryEditorFragment"
+            app:destination="@id/categoryEditorFragment" />
+    </dialog>
+    <dialog
+        android:id="@+id/editCategoryFragment"
+        android:name="net.longday.planner.ui.bottomsheet.EditCategoryFragment"
+        android:label="fragment_edit_category"
+        tools:layout="@layout/fragment_edit_category" >
+        <action
+            android:id="@+id/action_editCategoryFragment_to_categoryEditorFragment"
             app:destination="@id/categoryEditorFragment" />
     </dialog>
 </navigation>

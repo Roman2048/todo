@@ -34,8 +34,8 @@ class CategoryAdapter(
         holder.textView.text = categories[position].title
         holder.textView.setOnClickListener {
             it.findNavController().navigate(
-                R.id.action_categoryEditorFragment_to_bottomSheetCategoryFragment,
-                bundleOf("category" to category, "type" to "update")
+                R.id.action_categoryEditorFragment_to_editCategoryFragment,
+                bundleOf("category" to category)
             )
             it.showKeyboard()
         }

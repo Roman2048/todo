@@ -55,10 +55,7 @@ class CatigoriesListFragment : Fragment(R.layout.fragment_categories_list) {
 
         addCategoryItem.setOnClickListener {
             view.findNavController()
-                .navigate(
-                    R.id.action_categoryEditorFragment_to_bottomSheetCategoryFragment,
-                    bundleOf("type" to "create")
-                )
+                .navigate(R.id.action_categoryEditorFragment_to_addCategoryFragment)
             it.showKeyboard()
         }
     }
