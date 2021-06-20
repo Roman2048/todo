@@ -91,14 +91,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             view.findNavController().navigate(R.id.action_homeFragment_to_categoryEditorFragment)
         }
 
-        val mDrawerLayout = requireActivity().findViewById<View>(R.id.drawer_layout) as DrawerLayout
+//        val mDrawerLayout = requireActivity().findViewById<View>(R.id.drawer_layout) as DrawerLayout
         val appBarButton: BottomAppBar = view.findViewById(R.id.bottom_app_bar)
         val notificationWorker: WorkRequest = PeriodicWorkRequestBuilder<NotificationWorker>(4, TimeUnit.SECONDS).build()
         appBarButton.setNavigationOnClickListener {
-            WorkManager
-                .getInstance(requireContext())
-                .enqueue(notificationWorker)
-//            view.findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
+//            WorkManager
+//                .getInstance(requireContext())
+//                .enqueue(notificationWorker)
+            view.findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
 //            mDrawerLayout.openDrawer(GravityCompat.START);
         }
 
