@@ -49,7 +49,7 @@
     </dialog>
     <fragment
         android:id="@+id/editTaskFragment"
-        android:name="net.longday.planner.ui.bottomsheet.EditTaskFragment"
+        android:name="net.longday.planner.ui.EditTaskFragment"
         android:label="fragment_edit_task"
         tools:layout="@layout/fragment_edit_task">
         <action

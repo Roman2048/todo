@@ -1,14 +1,16 @@
-package net.longday.planner.ui.bottomsheet
+package net.longday.planner.ui
 
 import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
+import android.widget.*
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -24,24 +26,24 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val editText: EditText = view.findViewById(R.id.edit_task_edit_text)
-        val saveButton: Button = view.findViewById(R.id.edit_task_save_button)
-        val deleteButton: Button = view.findViewById(R.id.edit_task_delete_button)
-        val backButton: Button = view.findViewById(R.id.edit_task_back_button)
-        val undoneButton: Button = view.findViewById(R.id.edit_task_undone_button)
-        val setTimeButton: Button = view.findViewById(R.id.edit_task_set_time_button)
+        val deleteButton: MaterialButton = view.findViewById(R.id.edit_task_delete_button)
+        val backButton: AppCompatImageButton = view.findViewById(R.id.fragment_edit_task_back_button)
+        val doneCheckBox: MaterialCheckBox = view.findViewById(R.id.fragment_edit_task_done_checkbox)
+        val setTimeButton: AppCompatImageButton =
+            view.findViewById(R.id.fragment_edit_task_set_time_image_button)
         val task: Task = arguments?.get("task") as Task
-        if (!task.isDone) {
-            undoneButton.text = "Done"
-        }
+        doneCheckBox.isChecked = task.isDone
         editText.setText(task.title)
+        editText.requestFocus()
         var dayTime: Long? = null
-        saveButton.setOnClickListener {
+        backButton.setOnClickListener {
             taskViewModel.update(
                 Task(
-                    task.id,
-                    editText.text.toString(),
-                    task.categoryId,
-                    if (dayTime == null) task.dateTime else dayTime,
+                    id = task.id,
+                    title = editText.text.toString(),
+                    categoryId = task.categoryId,
+                    dateTime = if (dayTime == null) task.dateTime else dayTime,
+                    isDone = doneCheckBox.isChecked,
                 )
             )
             view.findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
@@ -49,24 +51,6 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         }
         deleteButton.setOnClickListener {
             taskViewModel.delete(task)
-            view.findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
-            it.hideKeyboard()
-        }
-        backButton.setOnClickListener {
-            view.findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
-            it.hideKeyboard()
-        }
-
-        undoneButton.setOnClickListener {
-            taskViewModel.update(
-                Task(
-                    task.id,
-                    editText.text.toString(),
-                    task.categoryId,
-                    task.dateTime,
-                    isDone = !task.isDone,
-                )
-            )
             view.findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
             it.hideKeyboard()
         }
@@ -85,7 +69,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                     val newMinute: Int = materialTimePicker.minute
                     val plus = (newHour * 3600000) + (newMinute * 60000)
                     dayTime = dayTime?.plus(plus)
-//                            Toast.makeText(requireContext(), "newHour = $newHour, newMinute = $newMinute", Toast.LENGTH_LONG).show()
+//                    Toast.makeText(requireContext(),"Super toast!",Toast.LENGTH_LONG).show()
                 }
                 materialTimePicker.show(childFragmentManager, "fragment_time_picker_tag")
             }
