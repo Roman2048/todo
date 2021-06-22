@@ -1,0 +1,3 @@
+CREATE TABLE IF NOT EXISTS `tasks` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `categoryId` TEXT NOT NULL, `dateTime` INTEGER, `isDone` INTEGER NOT NULL, `isScheduled` INTEGER NOT NULL, PRIMARY KEY(`id`));
+CREATE TABLE IF NOT EXISTS `categories` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, PRIMARY KEY(`id`));
+INSERT OR ABORT INTO `categories` (`id`,`title`) VALUES (?,?) SQL Args: [402ca0fd-7a92-4a55-aa34-bf3077cfe805, Home];

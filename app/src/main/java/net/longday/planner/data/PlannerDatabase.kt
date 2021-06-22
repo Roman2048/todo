@@ -7,7 +7,7 @@ import net.longday.planner.data.dao.TaskDao
 import net.longday.planner.data.entity.Category
 import net.longday.planner.data.entity.Task
 
-@Database(entities = [Task::class, Category::class], version = 1, exportSchema = false)
+@Database(entities = [Task::class, Category::class], version = 1, exportSchema = true)
 abstract class PlannerDatabase : RoomDatabase() {
     abstract fun taskDao(): TaskDao
     abstract fun categoryDao(): CategoryDao
