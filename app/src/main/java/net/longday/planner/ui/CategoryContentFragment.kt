@@ -2,6 +2,7 @@ package net.longday.planner.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -28,6 +29,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val recyclerView: RecyclerView = view.findViewById(R.id.task_recycler)
+        val emptyImageView: AppCompatImageView = view.findViewById(R.id.fragment_category_content_empty_image_view)
 //        val doneRecyclerView: RecyclerView = view.findViewById(R.id.done_task_recycler)
         // Да как так то почему он вертикальный ****
 //        recyclerView.addItemDecoration(
@@ -45,6 +47,12 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
 //        )
         val category: Category = arguments?.get("category") as Category
         taskViewModel.tasks.observe(viewLifecycleOwner) { tasks ->
+            if (tasks.none { it.categoryId == category.id }) {
+                emptyImageView.visibility = View.VISIBLE
+            } else {
+                emptyImageView.visibility = View.GONE
+            }
+            // TODO: если категория "All" то не фильтруем список
             if (false) {
                 recyclerView.adapter = TaskAdapter(tasks)
             } else {

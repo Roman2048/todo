@@ -25,5 +25,14 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/fragment_category_content_empty_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_cactus"
+        android:visibility="gone"
+        tools:srcCompat="@drawable/ic_cactus" />
+
 </androidx.appcompat.widget.LinearLayoutCompat>
 
