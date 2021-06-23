@@ -3,6 +3,7 @@ package net.longday.planner.di
 import android.app.Application
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,6 +16,7 @@ import javax.inject.Singleton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.io.File
 import java.util.concurrent.Executors
 
 @Module
@@ -28,12 +30,15 @@ object PersistenceModule {
             application,
             PlannerDatabase::class.java,
             "planner"
-        )
-            .createFromAsset("databases/prepopulate.db")
-            .setQueryCallback(RoomDatabase.QueryCallback { sqlQuery, bindArgs ->
-                println("SQL Query: $sqlQuery SQL Args: $bindArgs")
-            }, Executors.newSingleThreadExecutor())
-            .build()
+        ).addCallback(object : RoomDatabase.Callback() {
+            override fun onCreate(db: SupportSQLiteDatabase) {
+                super.onCreate(db)
+                Thread {
+                    db.execSQL("INSERT INTO categories VALUES ('402ca0fd-7a92-4a55-aa34-bf3077cfe805','Personal');")
+                    db.execSQL("INSERT INTO categories VALUES ('4705dfd2-ce2e-4a5e-8c59-8ebe17c6c5f8','Wishlist');")
+                }.start()
+            }
+        }).build()
 
     @Provides
     @Singleton
@@ -42,15 +47,4 @@ object PersistenceModule {
     @Provides
     @Singleton
     fun provideCategoryDao(plannerDatabase: PlannerDatabase) = plannerDatabase.categoryDao()
-
-    private fun prepopulateDb(provideDatabase: Any?) {
-        GlobalScope.launch(Dispatchers.Main) {
-            provideCategoryDao(provideDatabase(PlannerApplication())).insert(
-                Category(
-                    id = UUID.randomUUID().toString(),
-                    title = "Home",
-                )
-            )
-        }
-    }
 }
