@@ -8,16 +8,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import net.longday.planner.PlannerApplication
 import net.longday.planner.data.PlannerDatabase
-import net.longday.planner.data.entity.Category
-import java.util.*
 import javax.inject.Singleton
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import java.io.File
-import java.util.concurrent.Executors
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -30,15 +22,20 @@ object PersistenceModule {
             application,
             PlannerDatabase::class.java,
             "planner"
-        ).addCallback(object : RoomDatabase.Callback() {
-            override fun onCreate(db: SupportSQLiteDatabase) {
-                super.onCreate(db)
-                Thread {
-                    db.execSQL("INSERT INTO categories VALUES ('402ca0fd-7a92-4a55-aa34-bf3077cfe805','Personal');")
-                    db.execSQL("INSERT INTO categories VALUES ('4705dfd2-ce2e-4a5e-8c59-8ebe17c6c5f8','Wishlist');")
-                }.start()
-            }
-        }).build()
+        )
+            .addCallback(object : RoomDatabase.Callback() {
+                override fun onCreate(db: SupportSQLiteDatabase) {
+                    super.onCreate(db)
+                    Thread {
+                        db.execSQL("INSERT INTO categories VALUES ('402ca0fd-7a92-4a55-aa34-bf3077cfe805','Personal');")
+                        db.execSQL("INSERT INTO categories VALUES ('4705dfd2-ce2e-4a5e-8c59-8ebe17c6c5f8','Wishlist');")
+                    }.start()
+                }
+            })
+//            .setQueryCallback({ sqlQuery, bindArgs ->
+//                println("SQL Query: $sqlQuery SQL Args: $bindArgs")
+//            }, Executors.newSingleThreadExecutor())
+            .build()
 
     @Provides
     @Singleton
