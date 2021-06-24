@@ -12,12 +12,15 @@ import androidx.navigation.findNavController
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.textview.MaterialTextView
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
 import net.longday.planner.data.entity.Task
 import net.longday.planner.viewmodel.TaskViewModel
+import java.text.SimpleDateFormat
 
 @AndroidEntryPoint
 class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
@@ -25,22 +28,27 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
     private val taskViewModel: TaskViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val editText: EditText = view.findViewById(R.id.edit_task_edit_text)
+        val editText: TextInputLayout = view.findViewById(R.id.edit_task_edit_text)
         val deleteButton: MaterialButton = view.findViewById(R.id.edit_task_delete_button)
         val backButton: AppCompatImageButton = view.findViewById(R.id.fragment_edit_task_back_button)
         val doneCheckBox: MaterialCheckBox = view.findViewById(R.id.fragment_edit_task_done_checkbox)
+        val dateTimeTextView: MaterialTextView = view.findViewById(R.id.fragment_edit_date_time_text_view)
         val setTimeButton: AppCompatImageButton =
-            view.findViewById(R.id.fragment_edit_task_set_time_image_button)
+            view.findViewById(R.id.fragment_edit_task_date_time_button)
         val task: Task = arguments?.get("task") as Task
-        doneCheckBox.isChecked = task.isDone
-        editText.setText(task.title)
-        editText.requestFocus()
         var dayTime: Long? = null
+        if (task.dateTime != null) {
+            dateTimeTextView.text = SimpleDateFormat("MMM d HH:mm").format(task.dateTime)
+        }
+        doneCheckBox.isChecked = task.isDone
+        editText.editText?.setText(task.title)
+        editText.requestFocus()
+
         backButton.setOnClickListener {
             taskViewModel.update(
                 Task(
                     id = task.id,
-                    title = editText.text.toString(),
+                    title = editText.editText?.text.toString(),
                     categoryId = task.categoryId,
                     dateTime = if (dayTime == null) task.dateTime else dayTime,
                     isDone = doneCheckBox.isChecked,
@@ -69,6 +77,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                     val newMinute: Int = materialTimePicker.minute
                     val plus = (newHour * 3600000) + (newMinute * 60000)
                     dayTime = dayTime?.plus(plus)
+                    dateTimeTextView.text = SimpleDateFormat("MMM d HH:mm").format(dayTime)
 //                    Toast.makeText(requireContext(),"Super toast!",Toast.LENGTH_LONG).show()
                 }
                 materialTimePicker.show(childFragmentManager, "fragment_time_picker_tag")

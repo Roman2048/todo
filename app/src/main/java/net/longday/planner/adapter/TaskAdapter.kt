@@ -60,6 +60,8 @@ class TaskAdapter(
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
     }
 
+    // TODO: Надо так: если дата = сегодня, то пишем время вместо даты. Если дата не сегодня,
+    // TODO: то пишем дату. Если завтра то пишем TOMORROW.
     private fun getTime(task: Task): String {
         // Если null ничего не показываем
         return if (task.dateTime == null) {
