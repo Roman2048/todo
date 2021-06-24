@@ -38,7 +38,13 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         val task: Task = arguments?.get("task") as Task
         var dayTime: Long? = null
         if (task.dateTime != null) {
-            dateTimeTextView.text = SimpleDateFormat("MMM d HH:mm").format(task.dateTime)
+            dateTimeTextView.text =
+            if (task.dateTime.toString().endsWith("0000")) {
+                // Если дата то показываем как есть
+                SimpleDateFormat("MMM d").format(task.dateTime)
+            } else {
+                SimpleDateFormat("MMM d HH:mm").format(task.dateTime)
+            }
         }
         doneCheckBox.isChecked = task.isDone
         editText.editText?.setText(task.title)
