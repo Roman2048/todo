@@ -52,6 +52,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
             } else {
                 emptyImageView.visibility = View.GONE
             }
+            // TODO: зарандомить изображения кактуса
             // TODO: если категория "All" то не фильтруем список
             if (false) {
                 recyclerView.adapter = TaskAdapter(tasks)
