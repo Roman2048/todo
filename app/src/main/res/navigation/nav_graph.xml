@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/categoryEditorFragment"
-        android:name="net.longday.planner.ui.CatigoriesListFragment"
+        android:name="net.longday.planner.ui.CategoriesListFragment"
         android:label="fragment_category_editor"
         tools:layout="@layout/fragment_categories_list">
         <action

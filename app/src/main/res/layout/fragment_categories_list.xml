@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:context=".ui.CatigoriesListFragment" />
+            tools:context=".ui.CategoriesListFragment" />
 
     </com.google.android.material.card.MaterialCardView>
 

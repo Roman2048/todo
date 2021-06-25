@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import net.longday.planner.R
 import net.longday.planner.data.entity.Category
+import net.longday.planner.viewmodel.CategoryViewModel
 
 class CategoryAdapter(
     var categories: List<Category>,
@@ -47,4 +48,22 @@ class CategoryAdapter(
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
     }
+
+    // TODO: как менять местами придумать
+//    fun moveItem(from: Int, to: Int, categoryViewModel: CategoryViewModel) {
+//        val category = categories[from]
+//        categories.removeAt(from)
+//        categories.add(to, category)
+//        categories.forEach {
+//            if (it.position >= to) {
+//                categoryViewModel.update(
+//                    Category(
+//                        it.id,
+//                        it.title,
+//                        it.position + 1,
+//                    )
+//                )
+//            }
+//        }
+//    }
 }
