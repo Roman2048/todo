@@ -8,5 +8,5 @@ import java.io.Serializable
 data class Category(
     @PrimaryKey val id: String,
     val title: String,
-    val position: Int = -1,
+    var position: Int = -1,
 ) : Serializable

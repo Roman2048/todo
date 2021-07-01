@@ -42,11 +42,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val tabLayout: TabLayout = view.findViewById(R.id.tab_layout)
         var categories: List<Category> = listOf()
         categoryViewModel.categories.observe(viewLifecycleOwner) {
-            categories = it
-            pagerAdapter.categories = it
+            val sortedCategories = it.sortedBy { cat -> cat.position }
+            categories = sortedCategories
+            pagerAdapter.categories = sortedCategories
             pagerAdapter.notifyDataSetChanged()
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                tab.text = it[position].title
+                tab.text = sortedCategories[position].title
 
             }.attach()
         }

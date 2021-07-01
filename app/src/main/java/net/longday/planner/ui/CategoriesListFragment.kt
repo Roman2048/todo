@@ -2,6 +2,7 @@ package net.longday.planner.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -30,7 +31,7 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
     private val itemTouchHelper by lazy {
         val simpleItemTouchCallback =
             object : ItemTouchHelper.SimpleCallback(UP or DOWN or START or END, 0) {
-
+                var dropped = false
                 override fun onMove(
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder,
@@ -39,12 +40,20 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
                     val adapter = recyclerView.adapter as CategoryAdapter
                     val from = viewHolder.adapterPosition
                     val to = target.adapterPosition
-                    moveItem(from, to, categoryViewModel)
+//                    if (dropped) {
+                        moveItem(from, to, categoryViewModel)
+//                    }
                     adapter.notifyItemMoved(from, to)
                     return true
                 }
-
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
+                override fun onSelectedChanged(
+                    viewHolder: RecyclerView.ViewHolder?,
+                    actionState: Int
+                ) {
+                    super.onSelectedChanged(viewHolder, actionState)
+                    dropped = actionState == ACTION_STATE_IDLE
+                }
             }
         ItemTouchHelper(simpleItemTouchCallback)
     }
@@ -54,7 +63,7 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
         itemTouchHelper.attachToRecyclerView(recycler)
         val addCategoryItem: MaterialTextView =
             view.findViewById(R.id.categories_add_new_category_item)
-        val adapter = CategoryAdapter(mutableListOf(), requireContext())
+        val adapter = CategoryAdapter(mutableListOf())
         recycler.adapter = adapter
         categoryViewModel.categories.observe(viewLifecycleOwner) {
             adapter.categories = it.sortedBy { category -> category.position }
@@ -79,26 +88,31 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
     }
 
     private fun moveItem(from: Int, to: Int, categoryViewModel: CategoryViewModel) {
-        Toast.makeText(requireContext(), "try to move: from = $from, to = $to", Toast.LENGTH_SHORT).show()
-        val categories =
-            categoryViewModel.categories.value ?: listOf<Category>().sortedBy { it.position }
-        val reorderedCategories = categories.toMutableList()
-        val itemToMove = categories[from]
-        reorderedCategories.removeAt(from)
-        reorderedCategories.add(to, itemToMove)
-        reorderedCategories.forEachIndexed { index, currentCategory ->
-//            if (currentCategory.position != categories.first { filteredCategory: Category ->
-//                    currentCategory.id == filteredCategory.id
-//                }.position) {
-                categoryViewModel.update(
-                    Category(
-                        currentCategory.id,
-                        currentCategory.title,
-                        index
+//        object : CountDownTimer(2000, 1000) {
+//            override fun onTick(millisUntilFinished: Long) {}
+//            override fun onFinish() {
+                val categories = categoryViewModel.categories.value ?: listOf<Category>()
+                val sortedCategories = categories.sortedBy { it.position }
+                val mutableSortedCategories = sortedCategories.toMutableList()
+                val itemToMove = sortedCategories[from]
+                mutableSortedCategories.removeAt(from)
+                mutableSortedCategories.add(to, itemToMove)
+                /* После выполнения кода выше должен получится лист с правильным порядоком, но неправильными position */
+                mutableSortedCategories.forEachIndexed { index, category ->
+                    category.position = index
+                }
+                /* Получен лист с исправлеными position */
+                mutableSortedCategories.forEach {
+                    categoryViewModel.update(
+                        Category(
+                            it.id,
+                            it.title,
+                            it.position,
+                        )
                     )
-                )
-//                Toast.makeText(requireContext(), "updated", Toast.LENGTH_SHORT).show()
+                }
 //            }
-        }
+//        }.start()
+//        Toast.makeText(requireContext(), "try to move: from = $from, to = $to", Toast.LENGTH_SHORT).show()
     }
 }
