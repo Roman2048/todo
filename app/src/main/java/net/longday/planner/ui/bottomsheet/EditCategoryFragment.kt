@@ -47,6 +47,7 @@ class EditCategoryFragment : BottomSheetDialogFragment() {
                 Category(
                     category?.id ?: "",
                     editText.editText?.text.toString(),
+                    category?.position ?: -1,
                 )
             )
             navController?.navigate(R.id.action_editCategoryFragment_to_categoryEditorFragment)
@@ -57,6 +58,7 @@ class EditCategoryFragment : BottomSheetDialogFragment() {
                 Category(
                     category?.id ?: "",
                     editText.editText?.text.toString(),
+                    category?.position ?: -1,
                 )
             )
             navController?.navigate(R.id.action_editCategoryFragment_to_categoryEditorFragment)

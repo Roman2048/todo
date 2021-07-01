@@ -28,22 +28,23 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
 
     private val categoryViewModel: CategoryViewModel by viewModels()
 
+    var to: Int = -1
+    var from: Int = -1
+
     private val itemTouchHelper by lazy {
         val simpleItemTouchCallback =
             object : ItemTouchHelper.SimpleCallback(UP or DOWN or START or END, 0) {
-                var dropped = false
                 override fun onMove(
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder,
                     target: RecyclerView.ViewHolder
                 ): Boolean {
                     val adapter = recyclerView.adapter as CategoryAdapter
-                    val from = viewHolder.adapterPosition
-                    val to = target.adapterPosition
-//                    if (dropped) {
-                        moveItem(from, to, categoryViewModel)
-//                    }
-                    adapter.notifyItemMoved(from, to)
+                    val innerFrom = viewHolder.adapterPosition
+                    val innerTo = target.adapterPosition
+                    if (from == -1) from = viewHolder.adapterPosition
+                    to = target.adapterPosition
+                    adapter.notifyItemMoved(innerFrom, innerTo)
                     return true
                 }
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
@@ -52,7 +53,7 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
                     actionState: Int
                 ) {
                     super.onSelectedChanged(viewHolder, actionState)
-                    dropped = actionState == ACTION_STATE_IDLE
+                    if (actionState == ACTION_STATE_IDLE) moveItem(from, to, categoryViewModel)
                 }
             }
         ItemTouchHelper(simpleItemTouchCallback)
@@ -91,26 +92,26 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
 //        object : CountDownTimer(2000, 1000) {
 //            override fun onTick(millisUntilFinished: Long) {}
 //            override fun onFinish() {
-                val categories = categoryViewModel.categories.value ?: listOf<Category>()
-                val sortedCategories = categories.sortedBy { it.position }
-                val mutableSortedCategories = sortedCategories.toMutableList()
-                val itemToMove = sortedCategories[from]
-                mutableSortedCategories.removeAt(from)
-                mutableSortedCategories.add(to, itemToMove)
-                /* После выполнения кода выше должен получится лист с правильным порядоком, но неправильными position */
-                mutableSortedCategories.forEachIndexed { index, category ->
-                    category.position = index
-                }
-                /* Получен лист с исправлеными position */
-                mutableSortedCategories.forEach {
-                    categoryViewModel.update(
-                        Category(
-                            it.id,
-                            it.title,
-                            it.position,
-                        )
-                    )
-                }
+        val categories = categoryViewModel.categories.value ?: listOf<Category>()
+        val sortedCategories = categories.sortedBy { it.position }
+        val mutableSortedCategories = sortedCategories.toMutableList()
+        val itemToMove = sortedCategories[from]
+        mutableSortedCategories.removeAt(from)
+        mutableSortedCategories.add(to, itemToMove)
+        /* После выполнения кода выше должен получится лист с правильным порядоком, но неправильными position */
+        mutableSortedCategories.forEachIndexed { index, category ->
+            category.position = index
+        }
+        /* Получен лист с исправлеными position */
+        mutableSortedCategories.forEach {
+            categoryViewModel.update(
+                Category(
+                    it.id,
+                    it.title,
+                    it.position,
+                )
+            )
+        }
 //            }
 //        }.start()
 //        Toast.makeText(requireContext(), "try to move: from = $from, to = $to", Toast.LENGTH_SHORT).show()
