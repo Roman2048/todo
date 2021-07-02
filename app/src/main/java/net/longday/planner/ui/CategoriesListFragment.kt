@@ -28,8 +28,8 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
 
     private val categoryViewModel: CategoryViewModel by viewModels()
 
-    var to: Int = -1
-    var from: Int = -1
+//    var to: Int = -1
+//    var from: Int = -1
 
     private val itemTouchHelper by lazy {
         val simpleItemTouchCallback =
@@ -42,19 +42,20 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
                     val adapter = recyclerView.adapter as CategoryAdapter
                     val innerFrom = viewHolder.adapterPosition
                     val innerTo = target.adapterPosition
-                    if (from == -1) from = viewHolder.adapterPosition
-                    to = target.adapterPosition
+                    moveItem(innerFrom, innerTo, categoryViewModel)
+//                    if (from == -1) from = viewHolder.adapterPosition
+//                    to = target.adapterPosition
                     adapter.notifyItemMoved(innerFrom, innerTo)
                     return true
                 }
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
-                override fun onSelectedChanged(
-                    viewHolder: RecyclerView.ViewHolder?,
-                    actionState: Int
-                ) {
-                    super.onSelectedChanged(viewHolder, actionState)
-                    if (actionState == ACTION_STATE_IDLE) moveItem(from, to, categoryViewModel)
-                }
+//                override fun onSelectedChanged(
+//                    viewHolder: RecyclerView.ViewHolder?,
+//                    actionState: Int
+//                ) {
+//                    super.onSelectedChanged(viewHolder, actionState)
+//                    if (actionState == ACTION_STATE_IDLE) moveItem(from, to, categoryViewModel)
+//                }
             }
         ItemTouchHelper(simpleItemTouchCallback)
     }

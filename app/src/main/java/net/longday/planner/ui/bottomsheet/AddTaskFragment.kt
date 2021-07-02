@@ -18,6 +18,8 @@ import net.longday.planner.R
 import net.longday.planner.data.entity.Category
 import net.longday.planner.data.entity.Task
 import net.longday.planner.viewmodel.TaskViewModel
+import java.time.Instant
+import java.time.LocalDateTime
 import java.util.*
 
 @AndroidEntryPoint
@@ -52,6 +54,9 @@ class AddTaskFragment : BottomSheetDialogFragment() {
                         title = editText.editText?.text.toString(),
                         categoryId = category?.id ?: "",
                         dateTime = dayTime,
+                        createdTime = System.currentTimeMillis(),
+                        content = "",
+                        timeZone = "Europe/Moscow",
                     )
                 )
             }
