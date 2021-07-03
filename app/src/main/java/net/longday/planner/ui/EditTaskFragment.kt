@@ -54,6 +54,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             taskViewModel.update(
                 Task(
                     id = task.id,
+                    timeZone = "Europe/Moscow",
                     title = editText.editText?.text.toString(),
                     categoryId = task.categoryId,
                     dateTime = if (dayTime == null) task.dateTime else dayTime,
