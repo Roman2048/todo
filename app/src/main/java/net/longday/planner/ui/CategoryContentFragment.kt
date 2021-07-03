@@ -27,6 +27,8 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
 
     private val taskViewModel: TaskViewModel by viewModels()
 
+    private lateinit var currentCategory: Category
+
     private val itemTouchHelper by lazy {
         val simpleItemTouchCallback =
             object : ItemTouchHelper.SimpleCallback(UP or DOWN or START or END, 0) {
@@ -72,6 +74,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
 //            )
 //        )
         val category: Category = arguments?.get("category") as Category
+        currentCategory = category
         taskViewModel.tasks.observe(viewLifecycleOwner) { tasks ->
             if (tasks.none { it.categoryId == category.id }) {
                 emptyImageView.visibility = View.VISIBLE
@@ -96,7 +99,8 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
 
     private fun moveItem(from: Int, to: Int, taskViewModel: TaskViewModel) {
         val tasks = taskViewModel.tasks.value ?: listOf<Task>()
-        val sortedTasks = tasks.sortedBy { it.orderInCategory }
+        val tasksByCategory = tasks.filter { it.categoryId == currentCategory.id }
+        val sortedTasks = tasksByCategory.sortedBy { it.orderInCategory }
         val mutableSortedTasks = sortedTasks.toMutableList()
         val itemToMove = sortedTasks[from]
         mutableSortedTasks.removeAt(from)
