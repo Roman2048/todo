@@ -29,9 +29,6 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
 
     private val categoryViewModel: CategoryViewModel by viewModels()
 
-//    var to: Int = -1
-//    var from: Int = -1
-
     private val itemTouchHelper by lazy {
         val simpleItemTouchCallback =
             object : ItemTouchHelper.SimpleCallback(UP or DOWN or START or END, 0) {
@@ -49,9 +46,6 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
                         dragFromPosition = viewHolder.adapterPosition
                     }
                     dragToPosition = target.adapterPosition
-//                    moveItem(innerFrom, innerTo, categoryViewModel)
-//                    if (from == -1) from = viewHolder.adapterPosition
-//                    to = target.adapterPosition
                     adapter.notifyItemMoved(innerFrom, innerTo)
                     return true
                 }

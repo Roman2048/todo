@@ -1,6 +1,7 @@
 package net.longday.planner.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
@@ -32,6 +33,8 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
     private val itemTouchHelper by lazy {
         val simpleItemTouchCallback =
             object : ItemTouchHelper.SimpleCallback(UP or DOWN or START or END, 0) {
+                private var dragFromPosition = -1
+                private var dragToPosition = -1
                 override fun onMove(
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder,
@@ -40,12 +43,40 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
                     val adapter = recyclerView.adapter as TaskAdapter
                     val innerFrom = viewHolder.adapterPosition
                     val innerTo = target.adapterPosition
-                    moveItem(innerFrom, innerTo, taskViewModel)
+                    if (dragFromPosition == -1) {
+                        dragFromPosition = viewHolder.adapterPosition
+                    }
+                    dragToPosition = target.adapterPosition
                     adapter.notifyItemMoved(innerFrom, innerTo)
                     return true
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
+
+                override fun onSelectedChanged(
+                    viewHolder: RecyclerView.ViewHolder?,
+                    actionState: Int
+                ) {
+                    super.onSelectedChanged(viewHolder, actionState)
+                    Log.d(
+                        "DRAG",
+                        "onSelectedChanged\nСостояние actionState = $actionState.\ndragFromPosition = $dragFromPosition\ndragToPosition = $dragToPosition"
+                    )
+                    when (actionState) {
+                        ACTION_STATE_DRAG -> {
+                            viewHolder?.also { dragToPosition = it.adapterPosition }
+                        }
+                        ACTION_STATE_IDLE -> {
+                            if (dragFromPosition != -1 && dragToPosition != -1 && dragFromPosition != dragToPosition) {
+                                // Item successfully dragged
+                                moveItem(dragFromPosition, dragToPosition, taskViewModel)
+                                // Reset drag positions
+                                dragFromPosition = -1
+                                dragToPosition = -1
+                            }
+                        }
+                    }
+                }
             }
         ItemTouchHelper(simpleItemTouchCallback)
     }
