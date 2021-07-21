@@ -2,6 +2,7 @@ package net.longday.planner.ui.bottomsheet
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,13 +13,17 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import net.longday.planner.R
 import net.longday.planner.data.entity.Category
-import net.longday.planner.retrofit.RetrofitClient
 import net.longday.planner.retrofit.RetrofitServices
 import net.longday.planner.viewmodel.CategoryViewModel
-import retrofit2.create
+import retrofit2.Retrofit
+import retrofit2.await
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 
 @AndroidEntryPoint
@@ -46,22 +51,38 @@ class AddCategoryFragment : BottomSheetDialogFragment() {
             activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment)
                 ?.findNavController()
         saveButton.setOnClickListener {
-            categoryViewModel.insert(
-                Category(
-                    UUID.randomUUID().toString(),
-                    editText.editText?.text.toString(),
-                )
+            val newCategory = Category(
+                UUID.randomUUID().toString(),
+                editText.editText?.text.toString(),
             )
-            val getCategoryListService = RetrofitClient.getClient("http://longday.net/test/")
-                .create(RetrofitServices::class.java)
-            CoroutineScope(Dispatchers.IO).launch {
-                runCatching{
-                    getCategoryListService.getCategoryList().execute().body()
-                }
-            }.start()
-            ioScope.launch {
-                getCategoryListService.getCategoryList().execute().body()
-            }.start()
+            categoryViewModel.insert(newCategory)
+            val retrofitClient = Retrofit.Builder()
+                .baseUrl("http://longday.net/test/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+            val retrofitService = retrofitClient.create(RetrofitServices::class.java)
+            try {
+                Log.e("RETRO", "TRYING TO DO REQUEST")
+//                val r = retrofitService.createCategory(newCategory)
+                ioScope.launch {
+                    retrofitService.createCategory(newCategory)
+                }.start()
+                Log.e("RETRO", "REQUEST DONE")
+            }catch (e: Exception) {
+                Log.e("RETRO", "REQUEST FAILED")
+                Log.e("RETRO", e.stackTraceToString())
+            }
+
+//            val getCategoryListService = RetrofitClient.getClient("http://longday.net/test/")
+//                .create(RetrofitServices::class.java)
+//            CoroutineScope(Dispatchers.IO).launch {
+//                runCatching{
+//                    getCategoryListService.getCategoryList().execute().body()
+//                }
+//            }.start()
+//            ioScope.launch {
+//                getCategoryListService.getCategoryList().execute().body()
+//            }.start()
 
             navController?.navigate(R.id.action_addCategoryFragment_to_categoryEditorFragment)
             it.hideKeyboard()
