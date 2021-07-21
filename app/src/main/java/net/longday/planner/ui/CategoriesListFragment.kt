@@ -3,6 +3,7 @@ package net.longday.planner.ui
 import android.content.Context
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -34,6 +35,8 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
     private val itemTouchHelper by lazy {
         val simpleItemTouchCallback =
             object : ItemTouchHelper.SimpleCallback(UP or DOWN or START or END, 0) {
+                private var dragFromPosition = -1
+                private var dragToPosition = -1
                 override fun onMove(
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder,
@@ -42,20 +45,43 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
                     val adapter = recyclerView.adapter as CategoryAdapter
                     val innerFrom = viewHolder.adapterPosition
                     val innerTo = target.adapterPosition
-                    moveItem(innerFrom, innerTo, categoryViewModel)
+                    if (dragFromPosition == -1) {
+                        dragFromPosition = viewHolder.adapterPosition
+                    }
+                    dragToPosition = target.adapterPosition
+//                    moveItem(innerFrom, innerTo, categoryViewModel)
 //                    if (from == -1) from = viewHolder.adapterPosition
 //                    to = target.adapterPosition
                     adapter.notifyItemMoved(innerFrom, innerTo)
                     return true
                 }
+
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
-//                override fun onSelectedChanged(
-//                    viewHolder: RecyclerView.ViewHolder?,
-//                    actionState: Int
-//                ) {
-//                    super.onSelectedChanged(viewHolder, actionState)
-//                    if (actionState == ACTION_STATE_IDLE) moveItem(from, to, categoryViewModel)
-//                }
+
+                override fun onSelectedChanged(
+                    viewHolder: RecyclerView.ViewHolder?,
+                    actionState: Int
+                ) {
+                    super.onSelectedChanged(viewHolder, actionState)
+                    Log.d(
+                        "DRAG",
+                        "onSelectedChanged\nСостояние actionState = $actionState.\ndragFromPosition = $dragFromPosition\ndragToPosition = $dragToPosition"
+                    )
+                    when (actionState) {
+                        ACTION_STATE_DRAG -> {
+                            viewHolder?.also { dragToPosition = it.adapterPosition }
+                        }
+                        ACTION_STATE_IDLE -> {
+                            if (dragFromPosition != -1 && dragToPosition != -1 && dragFromPosition != dragToPosition) {
+                                // Item successfully dragged
+                                moveItem(dragFromPosition, dragToPosition, categoryViewModel)
+                                // Reset drag positions
+                                dragFromPosition = -1
+                                dragToPosition = -1
+                            }
+                        }
+                    }
+                }
             }
         ItemTouchHelper(simpleItemTouchCallback)
     }
@@ -90,6 +116,7 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
     }
 
     private fun moveItem(from: Int, to: Int, categoryViewModel: CategoryViewModel) {
+        Log.d("DRAG", "moveItem: from($from), to($to)")
 //        object : CountDownTimer(2000, 1000) {
 //            override fun onTick(millisUntilFinished: Long) {}
 //            override fun onFinish() {

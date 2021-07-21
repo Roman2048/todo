@@ -12,15 +12,22 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
 import net.longday.planner.R
 import net.longday.planner.data.entity.Category
+import net.longday.planner.retrofit.RetrofitClient
+import net.longday.planner.retrofit.RetrofitServices
 import net.longday.planner.viewmodel.CategoryViewModel
+import retrofit2.create
 import java.util.*
 
 @AndroidEntryPoint
 class AddCategoryFragment : BottomSheetDialogFragment() {
 
     private val categoryViewModel: CategoryViewModel by viewModels()
+
+    private val job = Job()
+    private val ioScope = CoroutineScope(Dispatchers.IO + job)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +52,17 @@ class AddCategoryFragment : BottomSheetDialogFragment() {
                     editText.editText?.text.toString(),
                 )
             )
+            val getCategoryListService = RetrofitClient.getClient("http://longday.net/test/")
+                .create(RetrofitServices::class.java)
+            CoroutineScope(Dispatchers.IO).launch {
+                runCatching{
+                    getCategoryListService.getCategoryList().execute().body()
+                }
+            }.start()
+            ioScope.launch {
+                getCategoryListService.getCategoryList().execute().body()
+            }.start()
+
             navController?.navigate(R.id.action_addCategoryFragment_to_categoryEditorFragment)
             it.hideKeyboard()
         }
