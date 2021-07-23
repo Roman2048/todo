@@ -2,10 +2,12 @@ package net.longday.planner.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -59,9 +61,14 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                     categoryId = task.categoryId,
                     dateTime = if (dayTime == null) task.dateTime else dayTime,
                     isDone = doneCheckBox.isChecked,
+                    orderInCategory = task.orderInCategory,
                 )
             )
-            view.findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
+            Log.d("NAVIGATE", "action_editTaskFragment_to_homeFragment:\ncategoryId = ${task.categoryId}")
+            view.findNavController().navigate(
+                R.id.action_editTaskFragment_to_homeFragment,
+                bundleOf("categoryId" to task.categoryId)
+            )
             it.hideKeyboard()
         }
         deleteButton.setOnClickListener {

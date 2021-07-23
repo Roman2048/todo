@@ -1,11 +1,8 @@
 package net.longday.planner.ui
 
-import android.content.Intent
 import android.os.Bundle
-import android.os.SystemClock.elapsedRealtime
-import android.provider.AlarmClock.EXTRA_MESSAGE
+import android.util.Log
 import android.view.View
-import android.widget.ImageButton
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -18,7 +15,6 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
-import net.longday.planner.ReminderActivity
 import net.longday.planner.adapter.ViewPagerAdapter
 import net.longday.planner.data.entity.Category
 import net.longday.planner.viewmodel.CategoryViewModel
@@ -34,6 +30,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val categoryViewModel: CategoryViewModel by viewModels()
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         var category: Category = Category("", "")
         val viewPager: ViewPager2 = view.findViewById(R.id.category_view_pager)
@@ -41,6 +38,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewPager.adapter = pagerAdapter
         val tabLayout: TabLayout = view.findViewById(R.id.tab_layout)
         var categories: List<Category> = listOf()
+        val categoryId: String? = arguments?.get("categoryId") as String?
         categoryViewModel.categories.observe(viewLifecycleOwner) {
             val sortedCategories = it.sortedBy { cat -> cat.position }
             categories = sortedCategories
@@ -50,6 +48,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 tab.text = sortedCategories[position].title
 
             }.attach()
+            // Выбор вкладки при возврате с деталей таски
+            if (categoryId != null) {
+                Log.d("NAVIGATE", "categories.size = ${categories.size}")
+                val categoryToReturn = categories.filter { cat -> cat.id == categoryId }[0]
+                Log.d("NAVIGATE", "categoryToReturn.position = $categoryToReturn")
+                viewPager.postDelayed({ viewPager.currentItem = categoryToReturn.position }, 100)
+            }
         }
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -58,6 +63,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
+
+
 
         val fab: FloatingActionButton = view.findViewById(R.id.fab)
         fab.setOnClickListener {

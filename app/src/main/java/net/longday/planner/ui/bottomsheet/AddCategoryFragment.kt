@@ -13,10 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import net.longday.planner.R
 import net.longday.planner.data.entity.Category
 import net.longday.planner.retrofit.RetrofitServices
@@ -43,6 +40,9 @@ class AddCategoryFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        categoryViewModel.categories.observe(viewLifecycleOwner) {
+            if (it.any { cat -> cat.position == -1 }) updateOrder(it)
+        }
         val editText: TextInputLayout =
             view.findViewById(R.id.fragment_add_category_text_input)
         editText.requestFocus()
@@ -56,6 +56,7 @@ class AddCategoryFragment : BottomSheetDialogFragment() {
                 editText.editText?.text.toString(),
             )
             categoryViewModel.insert(newCategory)
+
             val retrofitClient = Retrofit.Builder()
                 .baseUrl("http://longday.net/test/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -68,21 +69,10 @@ class AddCategoryFragment : BottomSheetDialogFragment() {
                     retrofitService.createCategory(newCategory)
                 }.start()
                 Log.e("RETRO", "REQUEST DONE")
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 Log.e("RETRO", "REQUEST FAILED")
                 Log.e("RETRO", e.stackTraceToString())
             }
-
-//            val getCategoryListService = RetrofitClient.getClient("http://longday.net/test/")
-//                .create(RetrofitServices::class.java)
-//            CoroutineScope(Dispatchers.IO).launch {
-//                runCatching{
-//                    getCategoryListService.getCategoryList().execute().body()
-//                }
-//            }.start()
-//            ioScope.launch {
-//                getCategoryListService.getCategoryList().execute().body()
-//            }.start()
 
             navController?.navigate(R.id.action_addCategoryFragment_to_categoryEditorFragment)
             it.hideKeyboard()
@@ -96,5 +86,28 @@ class AddCategoryFragment : BottomSheetDialogFragment() {
     private fun View.hideKeyboard() {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+    }
+
+    private fun updateOrder(categories: List<Category>) {
+        ioScope.launch {
+            Log.e("RETRO", "Updating ordering")
+            if (categories.isNotEmpty()) {
+                Log.e("RETRO", "categories.size = ${categories.size}")
+                val sortedCategories = categories.sortedBy { it.position }
+                val mutableSortedCategories = sortedCategories.toMutableList()
+                mutableSortedCategories.forEachIndexed { index, category -> category.position = index }
+                mutableSortedCategories.forEach {
+                    categoryViewModel.update(
+                        Category(
+                            it.id,
+                            it.title,
+                            it.position,
+                        )
+                    )
+                }
+            } else {
+                Log.e("RETRO", "Categories is EMPTY")
+            }
+        }.start()
     }
 }
