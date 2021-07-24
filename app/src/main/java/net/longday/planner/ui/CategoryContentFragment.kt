@@ -143,9 +143,17 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
             taskViewModel.update(
                 Task(
                     id = it.id,
-                    categoryId = it.categoryId,
-                    dateTime = it.dateTime,
                     title = it.title,
+                    categoryId = it.categoryId,
+                    createdTime = it.createdTime,
+                    timeZone = it.timeZone,
+                    content = it.content,
+                    dateTime = it.dateTime,
+                    completedTime = it.completedTime,
+                    dueDate = it.dueDate,
+                    isDone = it.isDone,
+                    isDeleted = it.isDeleted,
+                    isScheduled = it.isScheduled,
                     orderInCategory = it.orderInCategory
                 )
             )

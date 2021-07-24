@@ -1,5 +1,6 @@
 package net.longday.planner.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -32,6 +33,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val pref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+
         var category: Category = Category("", "")
         val viewPager: ViewPager2 = view.findViewById(R.id.category_view_pager)
         val pagerAdapter = ViewPagerAdapter(this, listOf())
@@ -51,14 +54,25 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             // Выбор вкладки при возврате с деталей таски
             if (categoryId != null) {
                 Log.d("NAVIGATE", "categories.size = ${categories.size}")
-                val categoryToReturn = categories.filter { cat -> cat.id == categoryId }[0]
-                Log.d("NAVIGATE", "categoryToReturn.position = $categoryToReturn")
-                viewPager.postDelayed({ viewPager.currentItem = categoryToReturn.position }, 100)
+//                val categoryToReturn = categories.filter { cat -> cat.id == categoryId }[0]
+//                viewPager.postDelayed({ viewPager.currentItem = categoryToReturn.position }, 100)
+                val pos = pref.getInt("categoryPositionToReturn", 1)
+                Log.d("PREF", "i read shared pref and it is = $pos")
+                viewPager.post { viewPager.currentItem = pos }
+//                viewPager.postDelayed({ viewPager.currentItem = pos }, 100)
             }
+
         }
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 category = categories[tab!!.position]
+                if (categoryId == null) {
+                    with (pref.edit()) {
+                        putInt("categoryPositionToReturn", viewPager.currentItem)
+                        Log.d("PREF", "save pref viewPager.currentItem = ${viewPager.currentItem}")
+                        apply()
+                    }
+                }
             }
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
             override fun onTabReselected(tab: TabLayout.Tab?) {}

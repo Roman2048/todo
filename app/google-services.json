@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "163660923063",
+    "project_id": "longday-planner",
+    "storage_bucket": "longday-planner.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:163660923063:android:62df9036bce8fc2e8d4d32",
+        "android_client_info": {
+          "package_name": "net.longday.planner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "163660923063-drvahb11372of6n1j13ptpt6ec610unc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtmaTbuxY2QFxBeb73_Iko_szxIJMXgJg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "163660923063-drvahb11372of6n1j13ptpt6ec610unc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

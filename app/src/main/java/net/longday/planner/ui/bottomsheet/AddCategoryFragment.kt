@@ -40,9 +40,14 @@ class AddCategoryFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Обновляем позиции если одна из них равна "-1" (то есть добавлена новая категория)
         categoryViewModel.categories.observe(viewLifecycleOwner) {
-            if (it.any { cat -> cat.position == -1 }) updateOrder(it)
+            if (it.any { category -> category.position == -1 }) {
+                updateOrder(it)
+            }
         }
+
         val editText: TextInputLayout =
             view.findViewById(R.id.fragment_add_category_text_input)
         editText.requestFocus()
