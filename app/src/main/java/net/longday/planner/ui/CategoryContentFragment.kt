@@ -9,14 +9,13 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
-import net.longday.planner.adapter.CategoryAdapter
 import net.longday.planner.adapter.DoneTaskAdapter
 import net.longday.planner.adapter.TaskAdapter
 import net.longday.planner.data.entity.Category
 import net.longday.planner.data.entity.Task
-import net.longday.planner.viewmodel.CategoryViewModel
 import net.longday.planner.viewmodel.TaskViewModel
 
 
@@ -89,7 +88,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
         itemTouchHelper.attachToRecyclerView(recyclerView)
         val emptyImageView: AppCompatImageView =
             view.findViewById(R.id.fragment_category_content_empty_image_view)
-//        val doneRecyclerView: RecyclerView = view.findViewById(R.id.done_task_recycler)
+        val doneRecyclerView: RecyclerView = view.findViewById(R.id.done_task_recycler)
         // Да как так то почему он вертикальный ****
 //        recyclerView.addItemDecoration(
 //            DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
@@ -97,30 +96,40 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
         val adapter = TaskAdapter(listOf())
         val doneAdapter = DoneTaskAdapter(listOf())
         recyclerView.adapter = adapter
-//        doneRecyclerView.adapter = doneAdapter
+        doneRecyclerView.adapter = doneAdapter
 //        recyclerView.addItemDecoration(
 //            DividerItemDecoration(
 //                recyclerView.context,
 //                DividerItemDecoration.HORIZONTAL
 //            )
 //        )
+        val imageCard = view.findViewById<MaterialCardView>(R.id.category_content_image_card)
         val category: Category = arguments?.get("category") as Category
         currentCategory = category
+        val taskRecyclerCard = view.findViewById<MaterialCardView>(R.id.category_content_task_recycler_card)
         taskViewModel.tasks.observe(viewLifecycleOwner) { tasks ->
             if (tasks.none { it.categoryId == category.id }) {
                 emptyImageView.visibility = View.VISIBLE
             } else {
                 emptyImageView.visibility = View.GONE
+                imageCard.visibility = View.GONE
             }
             // TODO: зарандомить изображения кактуса
             // TODO: если категория "All" то не фильтруем список
+            if (tasks.none { it.categoryId == category.id && !it.isDone }) {
+                taskRecyclerCard.visibility = View.GONE
+                emptyImageView.visibility = View.VISIBLE
+                imageCard.visibility = View.VISIBLE
+            }
+            doneRecyclerView.adapter = DoneTaskAdapter(tasks.filter { it.categoryId == category.id && it.isDone })
             if (false) {
                 recyclerView.adapter = TaskAdapter(filterTasks(tasks))
             } else {
                 recyclerView.adapter =
-                    TaskAdapter(filterTasks(tasks).filter { it.categoryId == category.id })
+                    TaskAdapter(filterTasks(tasks).filter { it.categoryId == category.id && !it.isDone })
             }
             adapter.notifyDataSetChanged()
+            doneAdapter.notifyDataSetChanged()
         }
     }
 

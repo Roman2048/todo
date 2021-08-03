@@ -8,6 +8,27 @@
     android:orientation="vertical">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/category_content_image_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="16dp"
+        card_view:cardCornerRadius="12dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/fragment_category_content_empty_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_cactus"
+            android:visibility="gone"
+            tools:srcCompat="@drawable/ic_cactus" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/category_content_task_recycler_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
@@ -25,14 +46,23 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/fragment_category_content_empty_image_view"
-        android:layout_width="wrap_content"
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_cactus"
-        android:visibility="gone"
-        tools:srcCompat="@drawable/ic_cactus" />
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="16dp"
+        card_view:cardCornerRadius="12dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/done_task_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:context=".ui.CategoryContentFragment"
+            tools:itemCount="20" />
+
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
 

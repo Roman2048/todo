@@ -34,9 +34,9 @@ class TaskAdapter(
         val task = tasks[position]
         holder.textView.text = task.title
         holder.textTime.text = getTime(task)
-        if (task.isDone) {
-            holder.textView.paintFlags = holder.textView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-        }
+//        if (task.isDone) {
+//            holder.textView.paintFlags = holder.textView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+//        }
         holder.textView.setOnClickListener {
             it.findNavController().navigate(
                 R.id.action_homeFragment_to_editTaskFragment,

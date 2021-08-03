@@ -29,6 +29,7 @@ object PersistenceModule {
                     Thread {
                         db.execSQL("INSERT INTO categories VALUES ('402ca0fd-7a92-4a55-aa34-bf3077cfe805','Personal', 0);")
                         db.execSQL("INSERT INTO categories VALUES ('4705dfd2-ce2e-4a5e-8c59-8ebe17c6c5f8','Wishlist', 1);")
+//                        db.execSQL("INSERT INTO tasks VALUES ('4705dfd2-ce2e-4a5e-8c59-8ebe17c6c5f8','Wishlist', '402ca0fd-7a92-4a55-aa34-bf3077cfe805');")
                     }.start()
                 }
             })
