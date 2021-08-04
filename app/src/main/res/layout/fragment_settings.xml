@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:text="Settings"
+            android:text="@string/fragment_settings_top_bar_text_view_text"
             android:textSize="24sp" />
 
     </com.google.android.material.appbar.MaterialToolbar>

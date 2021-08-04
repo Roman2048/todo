@@ -6,8 +6,18 @@
     <string name="categories_image_button">Manage categories</string>
     <string name="categories_list_toolbar_title">Manage categories</string>
     <string name="categories_hint">Categories from the homepage</string>
-    <string name="username"></string>
-    <string name="reminder_text">Remember it!</string>
+
     <string name="reminder_done_button_text">Done</string>
     <string name="reminder_later_button_text">Later</string>
+    <string name="bottom_sheet_edit_text_hint">Add task</string>
+    <string name="categories_add_new_category_item_text">+ Create new</string>
+    <string name="fragment_add_category_save_button_text">Save</string>
+    <string name="fragment_add_task_text_input_hint">New task</string>
+    <string name="new_task_set_time_content_description">Set time</string>
+    <string name="fragment_add_task_save_button_text">Save</string>
+    <string name="fragment_edit_category_text_input_hint">Edit category</string>
+    <string name="fragment_edit_category_delete_button_text">Delete</string>
+    <string name="fragment_edit_task_top_label_text">Task details</string>
+    <string name="fragment_language_header_text">Settings: language</string>
+    <string name="fragment_settings_top_bar_text_view_text">Settings</string>
 </resources>

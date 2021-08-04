@@ -1,29 +1,37 @@
 <resources>
-    <string name="search">Find</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_task">Add task</string>
     <string name="add_category">Add category</string>
     <string name="back">Back</string>
     <string name="categories_image_button">Manage categories</string>
     <string name="categories_list_toolbar_title">Manage categories</string>
     <string name="categories_hint">Categories from the homepage</string>
-    <string name="username"></string>
-    <string name="reminder_text">Remember it!</string>
+
     <string name="reminder_done_button_text">Done</string>
     <string name="reminder_later_button_text">Later</string>
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
+    <string name="sync_header" translatable="false">Sync</string>
 
     <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
+    <string name="signature_title" translatable="false">Your signature</string>
+    <string name="reply_title" translatable="false">Default reply action</string>
 
     <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    <string name="sync_title" translatable="false">Sync email periodically</string>
+    <string name="attachment_title" translatable="false">Download incoming attachments</string>
+    <string name="attachment_summary_on" translatable="false">Automatically download attachments for incoming emails
     </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="attachment_summary_off" translatable="false">Only download attachments when manually requested</string>
+    <string name="bottom_sheet_edit_text_hint">Add task</string>
+    <string name="categories_add_new_category_item_text">+ Create new</string>
+    <string name="fragment_add_category_text_input_hint">New category</string>
+    <string name="fragment_add_category_save_button_text">Save</string>
+    <string name="fragment_add_task_text_input_hint">New task</string>
+    <string name="new_task_set_time_content_description">Set time</string>
+    <string name="fragment_add_task_save_button_text">Save</string>
+    <string name="fragment_edit_category_text_input_hint">Edit category</string>
+    <string name="fragment_edit_category_delete_button_text">Delete</string>
+    <string name="fragment_edit_task_top_label_text">Task details</string>
+    <string name="fragment_language_header_text">Settings: language</string>
+    <string name="fragment_settings_top_bar_text_view_text">Settings</string>
 </resources>

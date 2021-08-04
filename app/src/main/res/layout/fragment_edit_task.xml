@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:text="Task details"
+            android:text="@string/fragment_edit_task_top_label_text"
             android:textSize="24sp" />
 
     </com.google.android.material.appbar.MaterialToolbar>
@@ -68,9 +68,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:contentDescription="Set time"
-                android:src="@drawable/ic_outline_access_time_24"
-                android:text="Time" />
+                android:contentDescription="@string/new_task_set_time_content_description"
+                android:src="@drawable/ic_outline_access_time_24" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/fragment_edit_date_time_text_view"
@@ -99,7 +98,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="Delete"
+        android:text="@string/fragment_edit_category_delete_button_text"
         app:icon="@drawable/ic_outline_delete_24"
         app:layout_constraintBottom_toBottomOf="@id/fragment_edit_task_done_checkbox"
         app:layout_constraintEnd_toEndOf="parent"
