@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/ic_empty1.xml" value="0.33055555555555555" />
+        <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/ic_empty6.xml" value="0.33055555555555555" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/layout/fragment_category_content.xml" value="0.35462962962962963" />
       </map>
     </option>

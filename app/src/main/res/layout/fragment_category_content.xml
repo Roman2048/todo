@@ -18,12 +18,13 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/fragment_category_content_empty_image_view"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="160dp"
             android:layout_gravity="center"
-            android:layout_margin="16dp"
-            android:src="@drawable/ic_cactus"
+            android:layout_margin="4dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_empty_box"
             android:visibility="gone"
-            tools:srcCompat="@drawable/ic_cactus" />
+            tools:srcCompat="@drawable/ic_empty_box" />
 
     </com.google.android.material.card.MaterialCardView>
 
