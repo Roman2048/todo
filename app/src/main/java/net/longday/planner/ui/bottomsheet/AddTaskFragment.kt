@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -38,8 +39,8 @@ class AddTaskFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val editText: TextInputLayout = view.findViewById(R.id.fragment_add_task_text_input)
-        val saveButton: Button = view.findViewById(R.id.fragment_add_task_save_button)
-        val dateTimePicker: ImageButton = view.findViewById(R.id.new_task_set_time)
+        val saveButton: AppCompatImageButton = view.findViewById(R.id.fragment_add_task_save_button)
+        val dateTimePicker: AppCompatImageButton = view.findViewById(R.id.new_task_set_time)
         val category: Category? = arguments?.get("category") as Category?
         editText.requestFocus()
         val navController =

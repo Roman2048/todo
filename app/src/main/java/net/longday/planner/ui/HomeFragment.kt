@@ -22,12 +22,6 @@ import net.longday.planner.adapter.ViewPagerAdapter
 import net.longday.planner.data.entity.Category
 import net.longday.planner.viewmodel.CategoryViewModel
 
-/**
- * Основной рабочий экран приложения.
- * Сверху отображается список категорий в виде вкладок, и кнопка для перехода на страницу
- * для их редактирования.
- * Основное содержимое - список задач для выбранной влкадки.
- */
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
