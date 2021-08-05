@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/ic_empty1.xml" value="0.33055555555555555" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/ic_empty6.xml" value="0.33055555555555555" />
+        <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/ic_round_list_24.xml" value="0.3769230769230769" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/layout/activity_reminder.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/layout/bottom_sheet.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/layout/category_item.xml" value="0.20520833333333333" />
@@ -18,6 +19,7 @@
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/layout/fragment_language.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/layout/fragment_settings.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/layout/task_item.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3769230769230769" />
       </map>
     </option>
   </component>

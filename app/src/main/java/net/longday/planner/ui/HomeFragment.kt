@@ -1,6 +1,8 @@
 package net.longday.planner.ui
 
 import android.content.Context
+import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -33,8 +35,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // Set Navigation bar color to black when dark theme is active
+        when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+            Configuration.UI_MODE_NIGHT_YES -> {requireActivity().window.navigationBarColor = Color.BLACK}
+            Configuration.UI_MODE_NIGHT_NO -> {}
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> {}
+        }
         val pref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-
         var category: Category = Category("", "")
         val viewPager: ViewPager2 = view.findViewById(R.id.category_view_pager)
         val pagerAdapter = ViewPagerAdapter(this, listOf())
