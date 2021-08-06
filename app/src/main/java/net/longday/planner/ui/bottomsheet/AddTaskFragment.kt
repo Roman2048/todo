@@ -1,12 +1,12 @@
 package net.longday.planner.ui.bottomsheet
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -20,8 +20,6 @@ import net.longday.planner.R
 import net.longday.planner.data.entity.Category
 import net.longday.planner.data.entity.Task
 import net.longday.planner.viewmodel.TaskViewModel
-import java.time.Instant
-import java.time.LocalDateTime
 import java.util.*
 
 @AndroidEntryPoint
@@ -39,7 +37,9 @@ class AddTaskFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val editText: TextInputLayout = view.findViewById(R.id.fragment_add_task_text_input)
-        val saveButton: AppCompatImageButton = view.findViewById(R.id.fragment_add_task_save_button)
+//        editText.setEndIconDrawable(R.drawable.ic_round_send_24)
+//        val drawable =  ResourcesCompat.getDrawable(R.drawable.ic_round_send_24, Resources.getSystem().newTheme())
+//        editText.endIconContentDescription = getString(R.string.fragment_add_task_save_button_text)
         val dateTimePicker: AppCompatImageButton = view.findViewById(R.id.new_task_set_time)
         val category: Category? = arguments?.get("category") as Category?
         editText.requestFocus()
@@ -48,7 +48,7 @@ class AddTaskFragment : BottomSheetDialogFragment() {
                 ?.findNavController()
         var dayTime: Long? = null
         /* Save button */
-        saveButton.setOnClickListener {
+        editText.setEndIconOnClickListener {
             if (category?.id != "") {
                 taskViewModel.insert(
                     Task(

@@ -1,69 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/category_content_image_card"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="16dp"
-        card_view:cardCornerRadius="12dp">
+        android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/fragment_category_content_empty_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="160dp"
-            android:layout_gravity="center"
-            android:layout_margin="4dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_empty_box"
-            android:visibility="gone"
-            tools:srcCompat="@drawable/ic_empty_box" />
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/category_content_task_recycler_card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="16dp"
-        card_view:cardCornerRadius="12dp">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/task_recycler"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/category_content_image_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:context=".ui.CategoryContentFragment"
-            tools:itemCount="20" />
+            android:layout_marginTop="16dp"
+            card_view:cardCornerRadius="12dp">
 
-    </com.google.android.material.card.MaterialCardView>
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/fragment_category_content_empty_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="160dp"
+                android:layout_gravity="center"
+                android:layout_margin="4dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_empty_box"
+                android:visibility="gone"
+                tools:srcCompat="@drawable/ic_empty_box" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="16dp"
-        card_view:cardCornerRadius="12dp">
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/done_task_recycler"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/category_content_task_recycler_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:context=".ui.CategoryContentFragment"
-            tools:itemCount="20" />
+            android:layout_marginTop="16dp"
+            card_view:cardCornerRadius="12dp">
 
-    </com.google.android.material.card.MaterialCardView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/task_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:context=".ui.CategoryContentFragment"
+                tools:itemCount="20" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+        </com.google.android.material.card.MaterialCardView>
 
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="16dp"
+            card_view:cardCornerRadius="12dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/done_task_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:context=".ui.CategoryContentFragment"
+                tools:itemCount="20" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.core.widget.NestedScrollView>

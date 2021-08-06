@@ -11,6 +11,7 @@ import android.widget.Button
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
@@ -36,13 +37,13 @@ class EditCategoryFragment : BottomSheetDialogFragment() {
         val editText: TextInputLayout =
             view.findViewById(R.id.fragment_edit_category_text_input)
         editText.requestFocus()
-        val saveButton: Button = view.findViewById(R.id.fragment_edit_category_save_button)
-        val deleteButton: Button = view.findViewById(R.id.fragment_edit_category_delete_button)
+        val deleteButton: MaterialButton =
+            view.findViewById(R.id.fragment_edit_category_delete_button)
         editText.editText?.setText(category?.title)
         val navController =
             activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment)
                 ?.findNavController()
-        saveButton.setOnClickListener {
+        editText.setEndIconOnClickListener {
             categoryViewModel.update(
                 Category(
                     category?.id ?: "",

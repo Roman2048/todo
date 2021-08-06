@@ -51,11 +51,11 @@ class AddCategoryFragment : BottomSheetDialogFragment() {
         val editText: TextInputLayout =
             view.findViewById(R.id.fragment_add_category_text_input)
         editText.requestFocus()
-        val saveButton: Button = view.findViewById(R.id.fragment_add_category_save_button)
+//        val saveButton: Button = view.findViewById(R.id.fragment_add_category_save_button)
         val navController =
             activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment)
                 ?.findNavController()
-        saveButton.setOnClickListener {
+        editText.setEndIconOnClickListener {
             val newCategory = Category(
                 UUID.randomUUID().toString(),
                 editText.editText?.text.toString(),
