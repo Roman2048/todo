@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -27,6 +28,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val categoryViewModel: CategoryViewModel by viewModels()
 
+    /**
+     * Close app if the back button what pressed on main screen
+     */
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                activity?.finish()
+            }
+        })
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // Set Navigation bar color to black when dark theme is active
