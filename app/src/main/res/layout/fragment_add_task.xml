@@ -43,6 +43,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_add_task_text_input" />
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/add_task_fragment_time_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/new_task_set_time"
+            app:layout_constraintStart_toEndOf="@id/new_task_set_time"
+            app:layout_constraintTop_toTopOf="@id/new_task_set_time" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

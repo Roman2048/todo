@@ -5,40 +5,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/fragment_edit_task_toolbar"
-        android:layout_width="match_parent"
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/fragment_edit_task_back_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@null"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        android:src="@drawable/ic_baseline_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/fragment_edit_task_back_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:src="@drawable/ic_baseline_arrow_back_24" />
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/fragment_edit_task_top_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment_edit_task_top_label_text"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/fragment_edit_task_back_button"
+        app:layout_constraintStart_toEndOf="@id/fragment_edit_task_back_button"
+        app:layout_constraintTop_toTopOf="@id/fragment_edit_task_back_button" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/fragment_edit_task_top_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:text="@string/fragment_edit_task_top_label_text"
-            android:textSize="24sp" />
-
-    </com.google.android.material.appbar.MaterialToolbar>
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/fragment_edit_task_done_checkbox"
+        android:layout_width="36dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/edit_task_edit_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/edit_task_edit_text" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edit_task_edit_text"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        app:endIconMode="clear_text"
-        app:layout_constraintTop_toBottomOf="@id/fragment_edit_task_toolbar">
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fragment_edit_task_done_checkbox"
+        app:layout_constraintTop_toBottomOf="@id/fragment_edit_task_back_button">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -46,62 +51,27 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/fragment_edit_task_date_time_card_view"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fragment_edit_task_date_time_button"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="8dp"
+        android:background="@null"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/new_task_set_time_content_description"
+        android:text="Set time"
+        app:icon="@drawable/ic_outline_access_time_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_task_edit_text"
-        card_view:cardCornerRadius="12dp">
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="4dp">
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/fragment_edit_task_date_time_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:contentDescription="@string/new_task_set_time_content_description"
-                android:src="@drawable/ic_outline_access_time_24" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/fragment_edit_date_time_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                android:text="--.--.--- --:--"
-                android:textSize="16sp" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/fragment_edit_task_done_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        app:layout_constraintBottom_toBottomOf="@id/fragment_edit_task_date_time_card_view"
-        app:layout_constraintStart_toEndOf="@id/fragment_edit_task_date_time_card_view"
-        app:layout_constraintTop_toTopOf="@id/fragment_edit_task_date_time_card_view" />
+        app:layout_constraintTop_toBottomOf="@id/edit_task_edit_text" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/edit_task_delete_button"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:text="@string/fragment_edit_category_delete_button_text"
         app:icon="@drawable/ic_outline_delete_24"
-        app:layout_constraintBottom_toBottomOf="@id/fragment_edit_task_done_checkbox"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/fragment_edit_task_done_checkbox" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_edit_task_date_time_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

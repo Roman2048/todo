@@ -8,6 +8,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -94,7 +95,9 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
         val backButton: AppCompatImageButton = view.findViewById(R.id.category_editor_edit_button)
         backButton.setOnClickListener {
             view.findNavController()
-                .navigate(R.id.action_categoryEditorFragment_to_homeFragment)
+                .navigate(R.id.action_categoryEditorFragment_to_homeFragment,
+                    bundleOf("categoryId" to "notnulcategoryid")
+                )
         }
 
         addCategoryItem.setOnClickListener {

@@ -1,8 +1,7 @@
 package net.longday.planner.adapter
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.Paint
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,9 +33,6 @@ class TaskAdapter(
         val task = tasks[position]
         holder.textView.text = task.title
         holder.textTime.text = getTime(task)
-//        if (task.isDone) {
-//            holder.textView.paintFlags = holder.textView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-//        }
         holder.textView.setOnClickListener {
             it.findNavController().navigate(
                 R.id.action_homeFragment_to_editTaskFragment,
@@ -55,19 +51,17 @@ class TaskAdapter(
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
     }
 
-    // TODO: Надо так: если дата = сегодня, то пишем время вместо даты. Если дата не сегодня,
-    // TODO: то пишем дату. Если завтра то пишем TOMORROW.
+    // TODO: if date is tomorrow, show "tomorrow"
     private fun getTime(task: Task): String {
-        // Если null ничего не показываем
+        // If date is null, show nothing
         return if (task.dateTime == null) {
             ""
         } else {
-            // Определяем дата это или дата + время
-            if (task.dateTime.toString().endsWith("00000")) {
-                // Если дата то показываем как есть
-                SimpleDateFormat("MMM d").format(task.dateTime)
-            } else {
+            // If date is today, show only time. Else show only date.
+            if (DateUtils.isToday(task.dateTime!!)) {
                 SimpleDateFormat("HH:mm").format(task.dateTime)
+            } else {
+                SimpleDateFormat("MMM d").format(task.dateTime)
             }
         }
     }

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -15,7 +14,6 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputLayout
-import com.google.android.material.textview.MaterialTextView
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,14 +32,13 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         val deleteButton: MaterialButton = view.findViewById(R.id.edit_task_delete_button)
         val backButton: AppCompatImageButton = view.findViewById(R.id.fragment_edit_task_back_button)
         val doneCheckBox: MaterialCheckBox = view.findViewById(R.id.fragment_edit_task_done_checkbox)
-        val dateTimeTextView: MaterialTextView = view.findViewById(R.id.fragment_edit_date_time_text_view)
-        val setTimeButton: AppCompatImageButton =
+        val setTimeButton: MaterialButton =
             view.findViewById(R.id.fragment_edit_task_date_time_button)
         val task: Task = arguments?.get("task") as Task
         var dayTime: Long? = null
         if (task.dateTime != null) {
-            dateTimeTextView.text =
-            if (task.dateTime.toString().endsWith("0000")) {
+            setTimeButton.text =
+            if (SimpleDateFormat("HH:mm").format(task.dateTime) == "00:00") {
                 // Если дата то показываем как есть
                 SimpleDateFormat("MMM d").format(task.dateTime)
             } else {
@@ -91,7 +88,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                     val newMinute: Int = materialTimePicker.minute
                     val plus = (newHour * 3600000) + (newMinute * 60000)
                     dayTime = dayTime?.plus(plus)
-                    dateTimeTextView.text = SimpleDateFormat("MMM d HH:mm").format(dayTime)
+                    setTimeButton.text = SimpleDateFormat("MMM d HH:mm").format(dayTime)
 //                    Toast.makeText(requireContext(),"Super toast!",Toast.LENGTH_LONG).show()
                 }
                 materialTimePicker.show(childFragmentManager, "fragment_time_picker_tag")

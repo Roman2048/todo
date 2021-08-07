@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.textview.MaterialTextView
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,6 +21,7 @@ import net.longday.planner.R
 import net.longday.planner.data.entity.Category
 import net.longday.planner.data.entity.Task
 import net.longday.planner.viewmodel.TaskViewModel
+import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
@@ -41,6 +43,7 @@ class AddTaskFragment : BottomSheetDialogFragment() {
 //        val drawable =  ResourcesCompat.getDrawable(R.drawable.ic_round_send_24, Resources.getSystem().newTheme())
 //        editText.endIconContentDescription = getString(R.string.fragment_add_task_save_button_text)
         val dateTimePicker: AppCompatImageButton = view.findViewById(R.id.new_task_set_time)
+        val timeTextView: MaterialTextView = view.findViewById(R.id.add_task_fragment_time_text_view)
         val category: Category? = arguments?.get("category") as Category?
         editText.requestFocus()
         val navController =
@@ -84,6 +87,7 @@ class AddTaskFragment : BottomSheetDialogFragment() {
                     val newMinute: Int = materialTimePicker.minute
                     val plus = (newHour * 3600000) + (newMinute * 60000)
                     dayTime = dayTime?.plus(plus)
+                    timeTextView.text = SimpleDateFormat("MMM d\nHH:mm").format(dayTime) ?: error("dayTime is null")
                 }
                 materialTimePicker.show(childFragmentManager, "fragment_time_picker_tag")
             }

@@ -6,15 +6,15 @@
     android:layout_marginVertical="12dp"
     android:orientation="horizontal">
 
+<!--    android:ellipsize="end"-->
+<!--    android:maxLines="1"-->
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/task_item_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="2"
-        android:ellipsize="end"
         android:gravity="start|center"
-        android:maxLines="1"
-        android:textSize="18sp"
+        android:textSize="17sp"
         tools:text="Поздравить сына" />
 
     <com.google.android.material.textview.MaterialTextView
