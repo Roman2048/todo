@@ -1,7 +1,14 @@
 <resources>
+
     <style name="Theme.Planner" parent="Theme.MaterialComponents.Light">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <!-- Primary brand color. -->
+<!--        <item name="colorPrimary">@color/primaryColor</item>-->
+<!--        <item name="colorPrimaryDark">@color/primaryDarkColor</item>-->
+        <!-- Secondary brand color. -->
+<!--        <item name="colorSecondary">@color/secondaryColor</item>-->
+<!--        <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>-->
     </style>
 
     <style name="BottomSheetStyle" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
