@@ -1,18 +1,27 @@
 package net.longday.planner.ui
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
+import android.content.Context.NOTIFICATION_SERVICE
 import android.content.res.Configuration
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.core.app.ActivityCompat.recreate
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
@@ -22,6 +31,9 @@ import net.longday.planner.R
 import net.longday.planner.adapter.ViewPagerAdapter
 import net.longday.planner.data.entity.Category
 import net.longday.planner.viewmodel.CategoryViewModel
+import net.longday.planner.work.OneTimeScheduleWorker
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -41,6 +53,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create the NotificationChannel
+            val mChannel = NotificationChannel("test_planner_reminders", "Reminders", NotificationManager.IMPORTANCE_DEFAULT)
+            val notificationManager: NotificationManager = requireContext().getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(mChannel)
+        }
         // Set Navigation bar color to black when dark theme is active
         when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
             Configuration.UI_MODE_NIGHT_YES -> {requireActivity().window.navigationBarColor = Color.BLACK}
@@ -95,6 +113,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         val fab: FloatingActionButton = view.findViewById(R.id.fab)
         fab.setOnClickListener {
+            // Навигация
             view.findNavController().navigate(
                 R.id.action_homeFragment_to_addTaskFragment,
                 bundleOf("category" to category)
@@ -108,6 +127,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         val appBarButton: BottomAppBar = view.findViewById(R.id.bottom_app_bar)
         appBarButton.setNavigationOnClickListener {
+            scheduleOneTimeNotification(5000)
             view.findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
         }
 
@@ -119,5 +139,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //            }
 //            startActivity(intent)
 //        }
+    }
+    // Уведомление
+    private fun scheduleOneTimeNotification(initialDelay: Long) {
+
+        val work =
+            OneTimeWorkRequestBuilder<OneTimeScheduleWorker>()
+                .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
+                .addTag("WORK_TAG")
+                .build()
+        WorkManager.getInstance(requireContext()).enqueue(work)
     }
 }

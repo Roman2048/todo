@@ -47,7 +47,7 @@
             app:fabAlignmentMode="end"
             app:fabCradleMargin="6dp"
             app:fabCradleRoundedCornerRadius="8dp"
-            app:navigationIcon="@drawable/ic_outline_settings_24">
+            app:navigationIcon="@drawable/ic_round_settings_24">
 
         </com.google.android.material.bottomappbar.BottomAppBar>
 

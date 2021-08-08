@@ -29,51 +29,52 @@
 
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="8dp"
-        card_view:cardCornerRadius="12dp">
+        android:layout_marginHorizontal="16dp"
+        android:orientation="vertical">
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+<!--        <com.google.android.material.textview.MaterialTextView-->
+<!--            android:id="@+id/fragment_settings_customize_header"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="CUSTOMIZE"-->
+<!--            android:textSize="14sp" />-->
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:orientation="vertical">
+<!--        <com.google.android.material.textview.MaterialTextView-->
+<!--            android:id="@+id/fragment_settings_version_language"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginVertical="8dp"-->
+<!--            android:text="Language"-->
+<!--            android:textSize="24sp" />-->
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/fragment_settings_version_language"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="8dp"
-                    android:text="Language"
-                    android:textSize="24sp" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/fragment_settings_about_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="ABOUT"
+            android:textSize="14sp" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/fragment_settings_version_policy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="8dp"
-                    android:text="Privacy policy"
-                    android:textSize="24sp" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/fragment_settings_version_policy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:text="Privacy policy"
+            android:textSize="24sp" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/fragment_settings_version"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="8dp"
-                    android:text="Version 1.027"
-                    android:textSize="24sp" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/fragment_settings_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:text="Version 1.21"
+            android:textSize="24sp" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-        </androidx.core.widget.NestedScrollView>
-
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
