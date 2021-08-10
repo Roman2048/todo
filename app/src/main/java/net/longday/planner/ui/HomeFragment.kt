@@ -53,8 +53,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // Create the NotificationChannel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Create the NotificationChannel
             val mChannel = NotificationChannel("test_planner_reminders", "Reminders", NotificationManager.IMPORTANCE_DEFAULT)
             val notificationManager: NotificationManager = requireContext().getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(mChannel)
@@ -127,7 +127,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         val appBarButton: BottomAppBar = view.findViewById(R.id.bottom_app_bar)
         appBarButton.setNavigationOnClickListener {
-            scheduleOneTimeNotification(5000)
             view.findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
         }
 
@@ -140,14 +139,5 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //            startActivity(intent)
 //        }
     }
-    // Уведомление
-    private fun scheduleOneTimeNotification(initialDelay: Long) {
 
-        val work =
-            OneTimeWorkRequestBuilder<OneTimeScheduleWorker>()
-                .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
-                .addTag("WORK_TAG")
-                .build()
-        WorkManager.getInstance(requireContext()).enqueue(work)
-    }
 }
