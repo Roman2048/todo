@@ -46,4 +46,8 @@ object PersistenceModule {
     @Provides
     @Singleton
     fun provideCategoryDao(plannerDatabase: PlannerDatabase) = plannerDatabase.categoryDao()
+
+    @Provides
+    @Singleton
+    fun provideTabDao(plannerDatabase: PlannerDatabase) = plannerDatabase.tabDao()
 }

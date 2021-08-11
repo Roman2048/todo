@@ -18,6 +18,7 @@ import net.longday.planner.R
 import net.longday.planner.data.entity.Task
 import java.text.SimpleDateFormat
 import java.time.Instant
+import java.util.*
 
 class DoneTaskAdapter(
     var tasks: List<Task>,
@@ -39,11 +40,6 @@ class DoneTaskAdapter(
         holder.textView.text = task.title
         holder.textTime.text = getTime(task)
         holder.textView.paintFlags = holder.textView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-//        if (task.isDone) {
-//            holder.textView.setTextColor(Color.LTGRAY)
-//        } else {
-//            holder.textView.setTextColor(Color.DKGRAY)
-//        }
         holder.textView.setOnClickListener {
             it.findNavController().navigate(
                 R.id.action_homeFragment_to_editTaskFragment,
@@ -63,16 +59,15 @@ class DoneTaskAdapter(
     }
 
     private fun getTime(task: Task): String {
-        // Если null ничего не показываем
+        // Show nothing if the task don't have time
         return if (task.dateTime == null) {
             ""
         } else {
-            // Определяем дата это или дата + время
+            // Choose only date or only time
             if (task.dateTime.toString().endsWith("00000")) {
-                // Если дата то показываем как есть
-                SimpleDateFormat("MMM d").format(task.dateTime)
+                SimpleDateFormat("MMM d", Locale.getDefault()).format(task.dateTime)
             } else {
-                SimpleDateFormat("HH:mm").format(task.dateTime)
+                SimpleDateFormat("HH:mm", Locale.getDefault()).format(task.dateTime)
             }
         }
     }

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:weightSum="100"
     android:layout_marginVertical="12dp"
     android:orientation="horizontal">
 
@@ -12,7 +13,7 @@
         android:id="@+id/task_item_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:layout_weight="12"
         android:gravity="start|center"
         android:textSize="17sp"
         tools:text="Поздравить сына" />
@@ -21,7 +22,7 @@
         android:id="@+id/task_item_time"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="10"
+        android:layout_weight="88"
         android:gravity="end|center"
         android:textSize="12sp"
         tools:text="Jul 12" />

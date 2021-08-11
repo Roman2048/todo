@@ -13,6 +13,7 @@ import com.google.android.material.textview.MaterialTextView
 import net.longday.planner.R
 import net.longday.planner.data.entity.Task
 import java.text.SimpleDateFormat
+import java.util.*
 
 class TaskAdapter(
     var tasks: List<Task>,
@@ -59,9 +60,9 @@ class TaskAdapter(
         } else {
             // If date is today, show only time. Else show only date.
             if (DateUtils.isToday(task.dateTime!!)) {
-                SimpleDateFormat("HH:mm").format(task.dateTime)
+                SimpleDateFormat("HH:mm", Locale.getDefault()).format(task.dateTime)
             } else {
-                SimpleDateFormat("MMM d").format(task.dateTime)
+                SimpleDateFormat("MMM d", Locale.getDefault()).format(task.dateTime)
             }
         }
     }
