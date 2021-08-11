@@ -7,11 +7,13 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +31,21 @@ import net.longday.planner.viewmodel.CategoryViewModel
 class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
 
     private val categoryViewModel: CategoryViewModel by viewModels()
+
+    /**
+     * Go to main screen if the back button what pressed
+     */
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity
+            ?.onBackPressedDispatcher
+            ?.addCallback(this, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController()
+                        .navigate(R.id.action_categoryEditorFragment_to_homeFragment)
+                }
+            })
+    }
 
     private val itemTouchHelper by lazy {
         val simpleItemTouchCallback =

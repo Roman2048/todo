@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
@@ -32,6 +34,21 @@ import java.util.concurrent.TimeUnit
 class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
 
     private val taskViewModel: TaskViewModel by viewModels()
+
+    /**
+     * Go to main screen if the back button what pressed
+     */
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity
+            ?.onBackPressedDispatcher
+            ?.addCallback(this, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController()
+                        .navigate(R.id.action_editTaskFragment_to_homeFragment)
+                }
+            })
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val editText: TextInputLayout = view.findViewById(R.id.edit_task_edit_text)
