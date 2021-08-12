@@ -36,4 +36,7 @@
     <string name="fragment_settings_top_bar_text_view_text">Settings</string>
     <string name="channel_name">nchan</string>
     <string name="channel_description">chan desc</string>
+    <string name="app_name">Planner</string>
+    <string name="personal_category_title">Personal</string>
+    <string name="wishlist_category_title">Wishlist</string>
 </resources>

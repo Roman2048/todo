@@ -21,4 +21,7 @@
     <string name="fragment_edit_task_top_label_text">Информация о задаче</string>
     <string name="fragment_language_header_text">Настройки: язык</string>
     <string name="fragment_settings_top_bar_text_view_text">Настройки</string>
+    <string name="app_name">Planner</string>
+    <string name="personal_category_title">Личное</string>
+    <string name="wishlist_category_title">Покупки</string>
 </resources>

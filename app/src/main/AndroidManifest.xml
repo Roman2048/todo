@@ -7,11 +7,10 @@
         android:name=".PlannerApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="Planner"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Planner"
-        android:usesCleartextTraffic="true">
+        android:theme="@style/Theme.Planner">
         <activity android:name=".ReminderActivity" />
         <activity android:name=".PlannerActivity">
             <intent-filter>

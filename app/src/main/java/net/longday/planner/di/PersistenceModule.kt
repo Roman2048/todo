@@ -1,6 +1,7 @@
 package net.longday.planner.di
 
 import android.app.Application
+
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -8,6 +9,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import net.longday.planner.R
 import net.longday.planner.data.PlannerDatabase
 import javax.inject.Singleton
 
@@ -27,9 +29,8 @@ object PersistenceModule {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
                     Thread {
-                        db.execSQL("INSERT INTO categories VALUES ('402ca0fd-7a92-4a55-aa34-bf3077cfe805','Personal', 0);")
-                        db.execSQL("INSERT INTO categories VALUES ('4705dfd2-ce2e-4a5e-8c59-8ebe17c6c5f8','Wishlist', 1);")
-//                        db.execSQL("INSERT INTO tasks VALUES ('4705dfd2-ce2e-4a5e-8c59-8ebe17c6c5f8','Wishlist', '402ca0fd-7a92-4a55-aa34-bf3077cfe805');")
+                        db.execSQL("INSERT INTO categories VALUES ('402ca0fd-7a92-4a55-aa34-bf3077cfe805','${application.applicationContext.getString(R.string.personal_category_title)}', 0);")
+                        db.execSQL("INSERT INTO categories VALUES ('4705dfd2-ce2e-4a5e-8c59-8ebe17c6c5f8','${application.applicationContext.getString(R.string.wishlist_category_title)}', 1);")
                     }.start()
                 }
             })
