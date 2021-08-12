@@ -9,12 +9,12 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.*
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomappbar.BottomAppBar
@@ -92,23 +92,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         })
 
         tabViewModel.tab.observe(viewLifecycleOwner) {
-            var currTab = tabLayout.getTabAt(it.selected)
-            if (currTab != null) {
-                currTab.select()
-            } else {
-                // Very dirty hack to return previous tab
-                CoroutineScope(Dispatchers.IO).launch {
-                    while (currTab == null) {
-                        Handler(Looper.getMainLooper()).postDelayed(
-                            {
-                                currTab = tabLayout.getTabAt(it.selected)
-                                currTab?.select()
-                            }, 100
-                        )
-                        delay(800)
-                    }
-                }
-            }
+            viewPager.postDelayed(
+                {
+                tabLayout.getTabAt(it.selected)?.select()
+                viewPager.currentItem = it.selected
+                }, 100)
         }
 
         val fab: FloatingActionButton = view.findViewById(R.id.fab)
