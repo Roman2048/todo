@@ -1,15 +1,12 @@
 package net.longday.planner.ui.bottomsheet
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
@@ -26,10 +23,6 @@ import net.longday.planner.data.entity.Task
 import net.longday.planner.viewmodel.TaskViewModel
 import net.longday.planner.work.OneTimeScheduleWorker
 import java.text.SimpleDateFormat
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZoneOffset
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -76,10 +69,7 @@ class AddTaskFragment : BottomSheetDialogFragment() {
             }
             editText.editText?.setText("")
             dayTime = null
-            navController?.navigate(
-                R.id.action_addTaskFragment_to_homeFragment,
-                bundleOf("categoryId" to "notnulcategoryid")
-            )
+            navController?.navigate(R.id.action_addTaskFragment_to_homeFragment)
         }
         /* Date time pickers */
         dateTimePicker.setOnClickListener {
@@ -88,7 +78,6 @@ class AddTaskFragment : BottomSheetDialogFragment() {
                 dayTime = datePicker.selection
                 timeTextView.text =
                     SimpleDateFormat("MMM d", Locale.getDefault()).format(dayTime)
-                        ?: error("dayTime is null")
                 val timePicker = MaterialTimePicker.Builder()
                     .setTimeFormat(TimeFormat.CLOCK_24H)
                     .build()
@@ -98,15 +87,8 @@ class AddTaskFragment : BottomSheetDialogFragment() {
                     val plus =
                         (newHour * 3600000) + (newMinute * 60000) - TimeZone.getDefault().rawOffset
                     dayTime = dayTime?.plus(plus)
-                    Log.d("PICKER", "dayTime = $dayTime")
-                    Log.d("PICKER", "newHour = $newHour")
-                    Log.d("PICKER", "displayName = ${TimeZone.getDefault().displayName}")
-                    Log.d("PICKER", "rawOffset = ${TimeZone.getDefault().rawOffset}")
-
-
                     timeTextView.text =
                         SimpleDateFormat("MMM d\nHH:mm", Locale.getDefault()).format(dayTime)
-                            ?: error("dayTime is null")
                 }
                 timePicker.show(childFragmentManager, "fragment_time_picker_tag")
             }
@@ -118,24 +100,14 @@ class AddTaskFragment : BottomSheetDialogFragment() {
         return R.style.BottomSheetStyle
     }
 
-    // Уведомление
+    // Create Notification
     private fun scheduleOneTimeNotification(scheduledTime: Long, title: String) {
-        val calendar = Calendar.getInstance()
-        val diff: Long = scheduledTime - calendar.timeInMillis
-        Log.d("PICKER", "calendar.timeInMillis = ${calendar.timeInMillis}")
-        Log.d("PICKER", "diff = $diff")
-        Log.d(
-            "PICKER",
-            "calendar.timeInMillis = ${
-                SimpleDateFormat("MMM d\nHH:mm", Locale.getDefault()).format(calendar.timeInMillis)
-            }"
-        )
-        val work =
-            OneTimeWorkRequestBuilder<OneTimeScheduleWorker>()
-                .setInputData(workDataOf(Pair("title", title)))
-                .setInitialDelay(diff, TimeUnit.MILLISECONDS)
-                .addTag("WORK_TAG")
-                .build()
+        val diff: Long = scheduledTime - Calendar.getInstance().timeInMillis
+        val work = OneTimeWorkRequestBuilder<OneTimeScheduleWorker>()
+            .setInputData(workDataOf(Pair("content", title)))
+            .setInitialDelay(diff, TimeUnit.MILLISECONDS)
+            .addTag("WORK_TAG")
+            .build()
         WorkManager.getInstance(requireContext()).enqueue(work)
     }
 }

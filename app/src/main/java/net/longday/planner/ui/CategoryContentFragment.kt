@@ -1,7 +1,6 @@
 package net.longday.planner.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
@@ -17,11 +16,9 @@ import net.longday.planner.adapter.TaskAdapter
 import net.longday.planner.data.entity.Category
 import net.longday.planner.data.entity.Task
 import net.longday.planner.viewmodel.TaskViewModel
-import kotlin.random.Random
-
 
 /**
- * Фрагмент, содержащий список задач, входящих в данную категорию
+ * Fragment with list of tasks
  */
 @AndroidEntryPoint
 class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
@@ -58,16 +55,15 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
                     actionState: Int
                 ) {
                     super.onSelectedChanged(viewHolder, actionState)
-                    Log.d(
-                        "DRAG",
-                        "onSelectedChanged\nСостояние actionState = $actionState.\ndragFromPosition = $dragFromPosition\ndragToPosition = $dragToPosition"
-                    )
                     when (actionState) {
                         ACTION_STATE_DRAG -> {
                             viewHolder?.also { dragToPosition = it.adapterPosition }
                         }
                         ACTION_STATE_IDLE -> {
-                            if (dragFromPosition != -1 && dragToPosition != -1 && dragFromPosition != dragToPosition) {
+                            if (dragFromPosition != -1
+                                && dragToPosition != -1
+                                && dragFromPosition != dragToPosition
+                            ) {
                                 // Item successfully dragged
                                 moveItem(dragFromPosition, dragToPosition, taskViewModel)
                                 // Reset drag positions
@@ -82,7 +78,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
     }
 
     /**
-     * Получаем категорию из бандла, фильтруем таски по id полученной категории, передаем в адаптер
+     * Get category form the bundle, filter tasks by the bundle, send to adapter
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val recyclerView: RecyclerView = view.findViewById(R.id.task_recycler)
@@ -98,16 +94,11 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
         val doneAdapter = DoneTaskAdapter(listOf())
         recyclerView.adapter = adapter
         doneRecyclerView.adapter = doneAdapter
-//        recyclerView.addItemDecoration(
-//            DividerItemDecoration(
-//                recyclerView.context,
-//                DividerItemDecoration.HORIZONTAL
-//            )
-//        )
         val imageCard = view.findViewById<MaterialCardView>(R.id.category_content_image_card)
         val category: Category = arguments?.get("category") as Category
         currentCategory = category
-        val taskRecyclerCard = view.findViewById<MaterialCardView>(R.id.category_content_task_recycler_card)
+        val taskRecyclerCard =
+            view.findViewById<MaterialCardView>(R.id.category_content_task_recycler_card)
         taskViewModel.tasks.observe(viewLifecycleOwner) { tasks ->
             if (tasks.none { it.categoryId == category.id }) {
                 emptyImageView.visibility = View.VISIBLE
@@ -115,20 +106,15 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
                 emptyImageView.visibility = View.GONE
                 imageCard.visibility = View.GONE
             }
-            // TODO: зарандомить изображения кактуса
-            // TODO: если категория "All" то не фильтруем список
             if (tasks.none { it.categoryId == category.id && !it.isDone }) {
                 taskRecyclerCard.visibility = View.GONE
                 emptyImageView.visibility = View.VISIBLE
                 imageCard.visibility = View.VISIBLE
             }
-            doneRecyclerView.adapter = DoneTaskAdapter(tasks.filter { it.categoryId == category.id && it.isDone })
-            if (false) {
-                recyclerView.adapter = TaskAdapter(filterTasks(tasks))
-            } else {
-                recyclerView.adapter =
-                    TaskAdapter(filterTasks(tasks).filter { it.categoryId == category.id && !it.isDone })
-            }
+            doneRecyclerView.adapter =
+                DoneTaskAdapter(tasks.filter { it.categoryId == category.id && it.isDone })
+            recyclerView.adapter =
+                TaskAdapter(filterTasks(tasks).filter { it.categoryId == category.id && !it.isDone })
             adapter.notifyDataSetChanged()
             doneAdapter.notifyDataSetChanged()
         }

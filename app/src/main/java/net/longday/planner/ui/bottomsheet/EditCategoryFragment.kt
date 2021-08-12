@@ -2,12 +2,10 @@ package net.longday.planner.ui.bottomsheet
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -17,7 +15,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
 import net.longday.planner.data.entity.Category
 import net.longday.planner.viewmodel.CategoryViewModel
-import java.util.*
 
 @AndroidEntryPoint
 class EditCategoryFragment : BottomSheetDialogFragment() {

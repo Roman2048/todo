@@ -39,7 +39,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 .navigate(R.id.action_settingsFragment_to_homeFragment)
         }
         privacyPolicy.setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://longday.net")))
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("http://longday.net/planner/privacy_policy")
+                )
+            )
         }
     }
 }

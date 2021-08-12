@@ -96,7 +96,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 {
                 tabLayout.getTabAt(it.selected)?.select()
                 viewPager.currentItem = it.selected
-                }, 100)
+                }, 0)
         }
 
         val fab: FloatingActionButton = view.findViewById(R.id.fab)
@@ -106,7 +106,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 R.id.action_homeFragment_to_addTaskFragment,
                 bundleOf("category" to category)
             )
-
         }
 
         val categoryEditorButton: AppCompatImageButton = view.findViewById(R.id.categories_button)

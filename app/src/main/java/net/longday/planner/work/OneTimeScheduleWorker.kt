@@ -1,16 +1,10 @@
 package net.longday.planner.work
 
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
-import android.widget.Toast
-import androidx.core.app.NotificationChannelCompat.DEFAULT_CHANNEL_ID
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import androidx.work.workDataOf
 import net.longday.planner.R
 import kotlin.random.Random
 
@@ -21,9 +15,10 @@ class OneTimeScheduleWorker(
 
     override fun doWork(): Result {
         val builder = NotificationCompat.Builder(context, "test_planner_reminders")
+            .setVibrate(longArrayOf(400, 200, 200))
             .setSmallIcon(R.drawable.ic_round_notifications_active_24)
-            .setContentTitle(inputData.getString("title"))
-//            .setContentText("Content")
+            .setContentTitle("Planner reminder:")
+            .setContentText(inputData.getString("content"))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         with(NotificationManagerCompat.from(context)) {
             notify(Random.nextInt(), builder.build())

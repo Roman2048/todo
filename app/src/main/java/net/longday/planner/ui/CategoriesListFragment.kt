@@ -2,14 +2,10 @@ package net.longday.planner.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -25,7 +21,7 @@ import net.longday.planner.data.entity.Category
 import net.longday.planner.viewmodel.CategoryViewModel
 
 /**
- * Экран со списком категорий, для их редактирования.
+ * Category management screen
  */
 @AndroidEntryPoint
 class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
@@ -75,16 +71,15 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
                     actionState: Int
                 ) {
                     super.onSelectedChanged(viewHolder, actionState)
-                    Log.d(
-                        "DRAG",
-                        "onSelectedChanged\nСостояние actionState = $actionState.\ndragFromPosition = $dragFromPosition\ndragToPosition = $dragToPosition"
-                    )
                     when (actionState) {
                         ACTION_STATE_DRAG -> {
                             viewHolder?.also { dragToPosition = it.adapterPosition }
                         }
                         ACTION_STATE_IDLE -> {
-                            if (dragFromPosition != -1 && dragToPosition != -1 && dragFromPosition != dragToPosition) {
+                            if (dragFromPosition != -1
+                                && dragToPosition != -1
+                                && dragFromPosition != dragToPosition
+                            ) {
                                 // Item successfully dragged
                                 moveItem(dragFromPosition, dragToPosition, categoryViewModel)
                                 // Reset drag positions
@@ -111,10 +106,7 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
         }
         val backButton: AppCompatImageButton = view.findViewById(R.id.category_editor_edit_button)
         backButton.setOnClickListener {
-            view.findNavController()
-                .navigate(R.id.action_categoryEditorFragment_to_homeFragment,
-                    bundleOf("categoryId" to "notnulcategoryid")
-                )
+            view.findNavController().navigate(R.id.action_categoryEditorFragment_to_homeFragment)
         }
 
         addCategoryItem.setOnClickListener {
@@ -130,11 +122,7 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
     }
 
     private fun moveItem(from: Int, to: Int, categoryViewModel: CategoryViewModel) {
-        Log.d("DRAG", "moveItem: from($from), to($to)")
-//        object : CountDownTimer(2000, 1000) {
-//            override fun onTick(millisUntilFinished: Long) {}
-//            override fun onFinish() {
-        val categories = categoryViewModel.categories.value ?: listOf<Category>()
+        val categories = categoryViewModel.categories.value ?: listOf()
         val sortedCategories = categories.sortedBy { it.position }
         val mutableSortedCategories = sortedCategories.toMutableList()
         val itemToMove = sortedCategories[from]
@@ -154,8 +142,5 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
                 )
             )
         }
-//            }
-//        }.start()
-//        Toast.makeText(requireContext(), "try to move: from = $from, to = $to", Toast.LENGTH_SHORT).show()
     }
 }

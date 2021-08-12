@@ -7,7 +7,7 @@
         android:name=".PlannerApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="Longday planner"
+        android:label="Planner"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Planner"
