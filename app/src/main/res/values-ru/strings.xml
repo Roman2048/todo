@@ -24,4 +24,6 @@
     <string name="app_name">Planner</string>
     <string name="personal_category_title">Личное</string>
     <string name="wishlist_category_title">Покупки</string>
+    <string name="notification_channel_name">Reminders</string>
+    <string name="notification_title">Planner reminder</string>
 </resources>

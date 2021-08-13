@@ -22,4 +22,6 @@
     <string name="fragment_settings_top_bar_text_view_text">Settings</string>
     <string name="personal_category_title">Personal</string>
     <string name="wishlist_category_title">Wishlist</string>
+    <string name="notification_channel_name">Reminders</string>
+    <string name="notification_title">Planner reminder</string>
 </resources>

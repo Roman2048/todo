@@ -87,6 +87,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 newSelect = false
                 category = categories[tab!!.position]
             }
+
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
@@ -94,9 +95,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         tabViewModel.tab.observe(viewLifecycleOwner) {
             viewPager.postDelayed(
                 {
-                tabLayout.getTabAt(it.selected)?.select()
-                viewPager.currentItem = it.selected
-                }, 0)
+                    tabLayout.getTabAt(it.selected)?.select()
+                    viewPager.currentItem = it.selected
+                }, 0
+            )
         }
 
         val fab: FloatingActionButton = view.findViewById(R.id.fab)
@@ -124,14 +126,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
      */
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val mChannel = NotificationChannel(
-                "test_planner_reminders",
-                "Reminders",
-                NotificationManager.IMPORTANCE_DEFAULT
+            val notificationChannel = NotificationChannel(
+                "planner_nc_1000",
+                getString(R.string.notification_channel_name),
+                NotificationManager.IMPORTANCE_HIGH
             )
-            val notificationManager: NotificationManager =
+//            notificationChannel.vibrationPattern = longArrayOf(700L)
+            notificationChannel.importance = NotificationManager.IMPORTANCE_HIGH
+            notificationChannel.enableVibration(true)
+            val notificationManager =
                 requireContext().getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(mChannel)
+//            notificationManager.deleteNotificationChannel("test_planner_reminders");
+            notificationManager.createNotificationChannel(notificationChannel)
         }
     }
 

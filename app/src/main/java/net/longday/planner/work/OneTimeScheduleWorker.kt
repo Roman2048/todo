@@ -14,12 +14,13 @@ class OneTimeScheduleWorker(
 ) : Worker(context, workerParams) {
 
     override fun doWork(): Result {
-        val builder = NotificationCompat.Builder(context, "test_planner_reminders")
-            .setVibrate(longArrayOf(400, 200, 200))
+        val builder = NotificationCompat.Builder(context, "planner_nc_1000")
+//            .setVibrate(longArrayOf(700L))
             .setSmallIcon(R.drawable.ic_round_notifications_active_24)
-            .setContentTitle("Planner reminder:")
+            .setContentTitle(context.getString(R.string.notification_title))
             .setContentText(inputData.getString("content"))
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_REMINDER)
         with(NotificationManagerCompat.from(context)) {
             notify(Random.nextInt(), builder.build())
         }
