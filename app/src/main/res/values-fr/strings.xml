@@ -6,4 +6,5 @@
     <string name="wishlist_category_title">Wishlist</string>
     <string name="notification_channel_name">Reminders</string>
     <string name="notification_title">Planner reminder</string>
+    <string name="add_task_fb_description">Add task</string>
 </resources>
