@@ -11,7 +11,6 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import net.longday.planner.R
 import net.longday.planner.data.entity.Category
-import net.longday.planner.viewmodel.CategoryViewModel
 
 class CategoryAdapter(
     var categories: List<Category>,

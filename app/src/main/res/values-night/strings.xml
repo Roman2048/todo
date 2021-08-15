@@ -4,13 +4,13 @@
     <string name="add_category">Add category</string>
     <string name="back">Back</string>
     <string name="categories_image_button">Manage categories</string>
-    <string name="categories_list_toolbar_title">Manage categories</string>
+    <string name="categories_list_toolbar_title">Categories</string>
     <string name="categories_hint">Categories from the homepage</string>
 
     <string name="reminder_done_button_text">Done</string>
     <string name="reminder_later_button_text">Later</string>
     <string name="bottom_sheet_edit_text_hint">Add task</string>
-    <string name="categories_add_new_category_item_text">+ Create new</string>
+    <string name="categories_add_new_category_item_text">+ New category</string>
     <string name="fragment_add_category_save_button_text">Save</string>
     <string name="fragment_add_task_text_input_hint">New task</string>
     <string name="new_task_set_time_content_description">Set time</string>
@@ -25,4 +25,10 @@
     <string name="notification_channel_name">Reminders</string>
     <string name="notification_title">Planner reminder</string>
     <string name="add_task_fb_description">Add task</string>
+    <string name="edit_task_title">Edit task title</string>
+    <string name="edit_task_set_time_text">Set time</string>
+    <string name="home_fragment_tab_layout_description">Choose category</string>
+    <string name="settings_section_title_about">ABOUT</string>
+    <string name="settings_about_privacy_policy_text">Privacy policy</string>
+    <string name="settings_about_version_text">Version 1.2</string>
 </resources>

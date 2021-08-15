@@ -11,7 +11,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginRight="8dp">
 
-        <!--https://developer.android.com/reference/com/google/android/material/textfield/TextInputLayout-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fragment_add_task_text_input"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
@@ -39,7 +38,7 @@
             android:contentDescription="@string/new_task_set_time_content_description"
             android:minWidth="48dp"
             android:minHeight="48dp"
-            android:src="@drawable/ic_baseline_more_time_24"
+            android:src="@drawable/ic_round_more_time_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_add_task_text_input" />
 

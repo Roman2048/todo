@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,9 +9,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@null"
+        android:contentDescription="@string/back"
         android:minWidth="48dp"
         android:minHeight="48dp"
-        android:src="@drawable/ic_baseline_arrow_back_24"
+        android:src="@drawable/ic_round_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,6 +41,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:hint="@string/edit_task_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/fragment_edit_task_done_checkbox"
         app:layout_constraintTop_toBottomOf="@id/fragment_edit_task_back_button">
@@ -56,11 +57,11 @@
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@null"
         android:layout_marginTop="16dp"
+        android:background="@null"
         android:contentDescription="@string/new_task_set_time_content_description"
-        android:text="Set time"
-        app:icon="@drawable/ic_outline_access_time_24"
+        android:text="@string/edit_task_set_time_text"
+        app:icon="@drawable/ic_round_access_time_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_task_edit_text" />
 
@@ -70,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/fragment_edit_category_delete_button_text"
-        app:icon="@drawable/ic_outline_delete_24"
+        app:icon="@drawable/ic_round_delete_outline_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_edit_task_date_time_button" />
 

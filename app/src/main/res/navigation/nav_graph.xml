@@ -60,7 +60,7 @@
         android:id="@+id/addCategoryFragment"
         android:name="net.longday.planner.ui.bottomsheet.AddCategoryFragment"
         android:label="fragment_add_category"
-        tools:layout="@layout/fragment_add_category" >
+        tools:layout="@layout/fragment_add_category">
         <action
             android:id="@+id/action_addCategoryFragment_to_categoryEditorFragment"
             app:destination="@id/categoryEditorFragment" />
@@ -69,7 +69,7 @@
         android:id="@+id/editCategoryFragment"
         android:name="net.longday.planner.ui.bottomsheet.EditCategoryFragment"
         android:label="fragment_edit_category"
-        tools:layout="@layout/fragment_edit_category" >
+        tools:layout="@layout/fragment_edit_category">
         <action
             android:id="@+id/action_editCategoryFragment_to_categoryEditorFragment"
             app:destination="@id/categoryEditorFragment" />
@@ -78,7 +78,7 @@
         android:id="@+id/settingsFragment"
         android:name="net.longday.planner.ui.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" >
+        tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_settingsFragment_to_homeFragment"
             app:destination="@id/homeFragment" />

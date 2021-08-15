@@ -7,14 +7,12 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.os.bundleOf
-import androidx.fragment.app.*
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomappbar.BottomAppBar
@@ -22,15 +20,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import net.longday.planner.R
 import net.longday.planner.adapter.ViewPagerAdapter
 import net.longday.planner.data.entity.Category
 import net.longday.planner.data.entity.Tab
-import net.longday.planner.di.PersistenceModule
 import net.longday.planner.viewmodel.CategoryViewModel
 import net.longday.planner.viewmodel.TabViewModel
 

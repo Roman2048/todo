@@ -29,8 +29,20 @@ object PersistenceModule {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
                     Thread {
-                        db.execSQL("INSERT INTO categories VALUES ('402ca0fd-7a92-4a55-aa34-bf3077cfe805','${application.applicationContext.getString(R.string.personal_category_title)}', 0);")
-                        db.execSQL("INSERT INTO categories VALUES ('4705dfd2-ce2e-4a5e-8c59-8ebe17c6c5f8','${application.applicationContext.getString(R.string.wishlist_category_title)}', 1);")
+                        db.execSQL(
+                            "INSERT INTO categories VALUES ('402ca0fd-7a92-4a55-aa34-bf3077cfe805','${
+                                application.applicationContext.getString(
+                                    R.string.personal_category_title
+                                )
+                            }', 0);"
+                        )
+                        db.execSQL(
+                            "INSERT INTO categories VALUES ('4705dfd2-ce2e-4a5e-8c59-8ebe17c6c5f8','${
+                                application.applicationContext.getString(
+                                    R.string.wishlist_category_title
+                                )
+                            }', 1);"
+                        )
                     }.start()
                 }
             })

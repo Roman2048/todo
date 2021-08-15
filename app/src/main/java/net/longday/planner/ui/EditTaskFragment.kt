@@ -2,7 +2,6 @@ package net.longday.planner.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
@@ -85,7 +84,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                     title = editText.editText?.text.toString(),
                     categoryId = task.categoryId,
                     createdTime = task.createdTime,
-                    timeZone = "Europe/Moscow",
+                    timeZone = task.timeZone,
                     content = task.content,
                     dateTime = if (dayTime == null) task.dateTime else dayTime,
                     completedTime = if (doneCheckBox.isChecked) System.currentTimeMillis() else null,
@@ -112,9 +111,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         }
 
         setTimeButton.setOnClickListener {
-            val materialDatePicker = MaterialDatePicker.Builder.datePicker()
-                .setTitleText("Select date")
-                .build()
+            val materialDatePicker = MaterialDatePicker.Builder.datePicker().build()
             materialDatePicker.addOnPositiveButtonClickListener {
                 dayTime = materialDatePicker.selection
                 setTimeButton.text =

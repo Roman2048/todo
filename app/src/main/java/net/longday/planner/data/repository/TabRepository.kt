@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class TabRepository @Inject constructor(private val tabDao: TabDao) {
 
-     val tab = tabDao.read()
+    val tab = tabDao.read()
 
     suspend fun insert(tab: Tab) = tabDao.insert(tab)
 

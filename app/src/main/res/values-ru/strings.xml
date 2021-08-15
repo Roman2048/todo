@@ -4,13 +4,13 @@
     <string name="add_category">Добавить категорию</string>
     <string name="back">Назад</string>
     <string name="categories_image_button">Управление категориями</string>
-    <string name="categories_list_toolbar_title">Управление категориями</string>
+    <string name="categories_list_toolbar_title">Категории</string>
     <string name="categories_hint">Категории</string>
     <string name="reminder_done_button_text">Завершить</string>
     <string name="reminder_later_button_text">Отложить</string>
     <string name="messages_header">Сообщения</string>
     <string name="bottom_sheet_edit_text_hint">Добавить задачу</string>
-    <string name="categories_add_new_category_item_text">+ Добавить новую</string>
+    <string name="categories_add_new_category_item_text">+ Новая категория</string>
     <string name="fragment_add_category_text_input_hint">Новая категория</string>
     <string name="fragment_add_category_save_button_text">Сохранить</string>
     <string name="fragment_add_task_text_input_hint">Новая задача</string>
@@ -27,4 +27,10 @@
     <string name="notification_channel_name">Reminders</string>
     <string name="notification_title">Planner reminder</string>
     <string name="add_task_fb_description">Add task</string>
+    <string name="edit_task_title">Edit task title</string>
+    <string name="edit_task_set_time_text">Set time</string>
+    <string name="home_fragment_tab_layout_description">Choose category</string>
+    <string name="settings_section_title_about">ABOUT</string>
+    <string name="settings_about_privacy_policy_text">Privacy policy</string>
+    <string name="settings_about_version_text">Version 1.2</string>
 </resources>

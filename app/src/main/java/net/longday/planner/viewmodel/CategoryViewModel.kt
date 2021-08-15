@@ -8,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import net.longday.planner.data.entity.Category
-import net.longday.planner.data.entity.Task
 import net.longday.planner.data.repository.CategoryRepository
 import javax.inject.Inject
 

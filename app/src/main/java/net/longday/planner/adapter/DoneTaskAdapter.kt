@@ -1,15 +1,12 @@
 package net.longday.planner.adapter
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.graphics.Paint
-import android.os.Build
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +14,6 @@ import com.google.android.material.textview.MaterialTextView
 import net.longday.planner.R
 import net.longday.planner.data.entity.Task
 import java.text.SimpleDateFormat
-import java.time.Instant
 import java.util.*
 
 class DoneTaskAdapter(
@@ -59,15 +55,15 @@ class DoneTaskAdapter(
     }
 
     private fun getTime(task: Task): String {
-        // Show nothing if the task don't have time
+        // If date is null, show nothing
         return if (task.dateTime == null) {
             ""
         } else {
-            // Choose only date or only time
-            if (task.dateTime.toString().endsWith("00000")) {
-                SimpleDateFormat("MMM d", Locale.getDefault()).format(task.dateTime)
-            } else {
+            // If date is today, show only time. Else show only date.
+            if (DateUtils.isToday(task.dateTime!!)) {
                 SimpleDateFormat("HH:mm", Locale.getDefault()).format(task.dateTime)
+            } else {
+                SimpleDateFormat("MMM d", Locale.getDefault()).format(task.dateTime)
             }
         }
     }
