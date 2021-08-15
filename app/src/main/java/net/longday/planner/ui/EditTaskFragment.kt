@@ -111,6 +111,8 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                 .build()
             materialDatePicker.addOnPositiveButtonClickListener {
                 dayTime = materialDatePicker.selection
+                setTimeButton.text =
+                    SimpleDateFormat("MMM d", Locale.getDefault()).format(dayTime)
                 val materialTimePicker = MaterialTimePicker.Builder()
                     .setTimeFormat(TimeFormat.CLOCK_24H)
                     .build()

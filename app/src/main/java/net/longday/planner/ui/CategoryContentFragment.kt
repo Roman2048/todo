@@ -1,8 +1,12 @@
 package net.longday.planner.ui
 
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -107,9 +111,16 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
                 imageCard.visibility = View.GONE
             }
             if (tasks.none { it.categoryId == category.id && !it.isDone }) {
+                taskRecyclerCard.setBackgroundColor(Color.BLUE)
                 taskRecyclerCard.visibility = View.GONE
                 emptyImageView.visibility = View.VISIBLE
                 imageCard.visibility = View.VISIBLE
+
+            }
+            // Set gone visibility for done task card to remove margin
+            if (tasks.none { it.categoryId == category.id && it.isDone }) {
+                view.findViewById<MaterialCardView>(R.id.category_content_done_task_recycler_card)
+                    .visibility = View.GONE
             }
             doneRecyclerView.adapter =
                 DoneTaskAdapter(tasks.filter { it.categoryId == category.id && it.isDone })
