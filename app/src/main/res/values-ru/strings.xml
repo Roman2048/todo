@@ -5,7 +5,6 @@
     <string name="back">Назад</string>
     <string name="categories_image_button">Управление категориями</string>
     <string name="categories_list_toolbar_title">Категории</string>
-    <string name="categories_hint">Категории</string>
     <string name="reminder_done_button_text">Завершить</string>
     <string name="reminder_later_button_text">Отложить</string>
     <string name="messages_header">Сообщения</string>
@@ -24,13 +23,12 @@
     <string name="app_name">Planner</string>
     <string name="personal_category_title">Личное</string>
     <string name="wishlist_category_title">Покупки</string>
-    <string name="notification_channel_name">Reminders</string>
-    <string name="notification_title">Planner reminder</string>
-    <string name="add_task_fb_description">Add task</string>
-    <string name="edit_task_title">Edit task title</string>
-    <string name="edit_task_set_time_text">Set time</string>
-    <string name="home_fragment_tab_layout_description">Choose category</string>
-    <string name="settings_section_title_about">ABOUT</string>
-    <string name="settings_about_privacy_policy_text">Privacy policy</string>
-    <string name="settings_about_version_text">Version 1.2</string>
+    <string name="notification_channel_name">Напоминания</string>
+    <string name="notification_title">Planner уведомление</string>
+    <string name="add_task_fb_description">Добавить задачу</string>
+    <string name="edit_task_set_time_text">Установить время</string>
+    <string name="home_fragment_tab_layout_description">Выбор категории</string>
+    <string name="settings_section_title_about">О ПРИЛОЖЕНИИ</string>
+    <string name="settings_about_privacy_policy_text">Политика приватности</string>
+    <string name="settings_about_version_text">Версия 1.2</string>
 </resources>

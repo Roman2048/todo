@@ -1,16 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="add_task">Add task</string>
+    <string name="add_task">タスクを追加</string>
     <string name="app_name">Planner</string>
-    <string name="personal_category_title">Personal</string>
-    <string name="wishlist_category_title">Wishlist</string>
-    <string name="notification_channel_name">Reminders</string>
-    <string name="notification_title">Planner reminder</string>
-    <string name="add_task_fb_description">Add task</string>
-    <string name="edit_task_title">Edit task title</string>
-    <string name="edit_task_set_time_text">Set time</string>
-    <string name="home_fragment_tab_layout_description">Choose category</string>
-    <string name="settings_section_title_about">ABOUT</string>
-    <string name="settings_about_privacy_policy_text">Privacy policy</string>
-    <string name="settings_about_version_text">Version 1.2</string>
+    <string name="personal_category_title">個人的</string>
+    <string name="wishlist_category_title">ウィッシュリスト</string>
+    <string name="notification_channel_name">リマインダー</string>
+    <string name="notification_title">プランナーのリマインダー</string>
+    <string name="add_task_fb_description">タスクを追加</string>
+    <string name="edit_task_set_time_text">時間を設定する</string>
+    <string name="home_fragment_tab_layout_description">カテゴリを選択してください</string>
+    <string name="settings_section_title_about">約</string>
+    <string name="settings_about_privacy_policy_text">プライバシーポリシー</string>
+    <string name="settings_about_version_text">バージョン1.2</string>
+    <string name="add_category">カテゴリを追加</string>
+    <string name="bottom_sheet_edit_text_hint">タスクを追加</string>
+    <string name="back">禿上がる</string>
+    <string name="categories_image_button">カテゴリを管理する</string>
+    <string name="categories_list_toolbar_title">カテゴリ</string>
+    <string name="reminder_done_button_text">仕上げる</string>
+    <string name="reminder_later_button_text">延期</string>
+    <string name="messages_header">メッセージ</string>
+    <string name="categories_add_new_category_item_text">+新しいカテゴリ</string>
+    <string name="fragment_add_category_text_input_hint">新たなカテゴリー</string>
+    <string name="fragment_add_category_save_button_text">保存する</string>
+    <string name="fragment_add_task_save_button_text">保存する</string>
+    <string name="fragment_add_task_text_input_hint">新しい仕事</string>
+    <string name="new_task_set_time_content_description">時間を設定する</string>
+    <string name="fragment_edit_category_text_input_hint">カテゴリを編集</string>
+    <string name="fragment_edit_category_delete_button_text">消去</string>
+    <string name="fragment_edit_task_top_label_text">タスクの詳細</string>
+    <string name="fragment_language_header_text">設定：言語</string>
+    <string name="fragment_settings_top_bar_text_view_text">設定</string>
 </resources>

@@ -1,16 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="add_task">Add task</string>
+    <string name="add_task">Adicionar tarefa</string>
     <string name="app_name">Planner</string>
-    <string name="personal_category_title">Personal</string>
-    <string name="wishlist_category_title">Wishlist</string>
-    <string name="notification_channel_name">Reminders</string>
-    <string name="notification_title">Planner reminder</string>
-    <string name="add_task_fb_description">Add task</string>
-    <string name="edit_task_title">Edit task title</string>
-    <string name="edit_task_set_time_text">Set time</string>
-    <string name="home_fragment_tab_layout_description">Choose category</string>
-    <string name="settings_section_title_about">ABOUT</string>
-    <string name="settings_about_privacy_policy_text">Privacy policy</string>
-    <string name="settings_about_version_text">Version 1.2</string>
+    <string name="personal_category_title">Pessoal</string>
+    <string name="wishlist_category_title">Lista de Desejos</string>
+    <string name="notification_channel_name">Lembretes</string>
+    <string name="notification_title">Lembrete do planejador</string>
+    <string name="add_task_fb_description">Adicionar tarefa</string>
+    <string name="edit_task_set_time_text">Definir tempo</string>
+    <string name="home_fragment_tab_layout_description">Escolher categoria</string>
+    <string name="settings_section_title_about">CERCA DE</string>
+    <string name="settings_about_privacy_policy_text">Política de Privacidade</string>
+    <string name="settings_about_version_text">Versão 1.2</string>
+    <string name="add_category">Adicionar categoria</string>
+    <string name="back">Apoiar</string>
+    <string name="categories_image_button">Gerenciar categorias</string>
+    <string name="categories_list_toolbar_title">Categorias</string>
+    <string name="reminder_done_button_text">"Completar "</string>
+    <string name="reminder_later_button_text">Soneca</string>
+    <string name="messages_header">Mensagens</string>
+    <string name="bottom_sheet_edit_text_hint">Adicionar tarefa</string>
+    <string name="categories_add_new_category_item_text">+ Nova categoria</string>
+    <string name="fragment_add_category_text_input_hint">Nova categoria</string>
+    <string name="fragment_add_category_save_button_text">Salvar</string>
+    <string name="fragment_add_task_text_input_hint">Nova tarefa</string>
+    <string name="new_task_set_time_content_description">Definir tempo</string>
+    <string name="fragment_add_task_save_button_text">Nova tarefa</string>
+    <string name="fragment_edit_category_text_input_hint">Editar categoria</string>
+    <string name="fragment_edit_category_delete_button_text">Excluir</string>
+    <string name="fragment_edit_task_top_label_text">Detalhes da tarefa</string>
+    <string name="fragment_language_header_text">Configurações: idioma</string>
+    <string name="fragment_settings_top_bar_text_view_text">Configurações</string>
 </resources>

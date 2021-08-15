@@ -1,16 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="add_task">Add task</string>
+    <string name="add_task">Ajouter une tâche</string>
     <string name="app_name">Planner</string>
-    <string name="personal_category_title">Personal</string>
-    <string name="wishlist_category_title">Wishlist</string>
-    <string name="notification_channel_name">Reminders</string>
-    <string name="notification_title">Planner reminder</string>
-    <string name="add_task_fb_description">Add task</string>
-    <string name="edit_task_title">Edit task title</string>
-    <string name="edit_task_set_time_text">Set time</string>
-    <string name="home_fragment_tab_layout_description">Choose category</string>
-    <string name="settings_section_title_about">ABOUT</string>
-    <string name="settings_about_privacy_policy_text">Privacy policy</string>
+    <string name="personal_category_title">Personnel</string>
+    <string name="wishlist_category_title">Liste de souhaits</string>
+    <string name="notification_channel_name">Rappels</string>
+    <string name="notification_title">Planner rappels</string>
+    <string name="add_task_fb_description">Ajouter une tâche</string>
+    <string name="edit_task_set_time_text">Régler le temps</string>
+    <string name="home_fragment_tab_layout_description">Choisissez la catégorie</string>
+    <string name="settings_section_title_about">À PROPOS DE</string>
+    <string name="settings_about_privacy_policy_text">Politique de confidentialité</string>
     <string name="settings_about_version_text">Version 1.2</string>
+    <string name="add_category">Ajouter une catégorie</string>
+    <string name="back">Arrière</string>
+    <string name="categories_image_button">Gérer les catégories</string>
+    <string name="categories_list_toolbar_title">Catégories</string>
+    <string name="reminder_done_button_text">Terminer</string>
+    <string name="reminder_later_button_text">Retard</string>
+    <string name="messages_header">Messages</string>
+    <string name="bottom_sheet_edit_text_hint">Ajouter une tâche</string>
+    <string name="categories_add_new_category_item_text">+ Nouvelle catégorie</string>
+    <string name="fragment_add_category_text_input_hint">Nouvelle catégorie</string>
+    <string name="fragment_add_category_save_button_text">Sauver</string>
+    <string name="fragment_add_task_text_input_hint">Nouvelle tâche</string>
+    <string name="new_task_set_time_content_description">Régler le temps</string>
+    <string name="fragment_add_task_save_button_text">Sauver</string>
+    <string name="fragment_edit_category_text_input_hint">Modifier la catégorie</string>
+    <string name="fragment_edit_category_delete_button_text">Supprimer</string>
+    <string name="fragment_edit_task_top_label_text">Détails de la tâche</string>
+    <string name="fragment_language_header_text">Paramètres : langue</string>
+    <string name="fragment_settings_top_bar_text_view_text">Paramètres</string>
 </resources>
