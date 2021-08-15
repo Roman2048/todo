@@ -1,6 +1,7 @@
 package net.longday.planner.ui.bottomsheet
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,12 +58,13 @@ class AddTaskFragment : BottomSheetDialogFragment() {
                         id = UUID.randomUUID().toString(),
                         title = editText.editText?.text.toString(),
                         categoryId = category?.id ?: "",
-                        dateTime = dayTime,
                         createdTime = System.currentTimeMillis(),
+                        timeZone = TimeZone.getDefault().displayName,
                         content = "",
-                        timeZone = "Europe/Moscow",
+                        dateTime = dayTime,
                     )
                 )
+                refreshOrder(category!!)
                 dayTime?.let { time ->
                     scheduleOneTimeNotification(time, editText.editText?.text.toString())
                 }
@@ -109,5 +111,23 @@ class AddTaskFragment : BottomSheetDialogFragment() {
             .addTag("WORK_TAG")
             .build()
         WorkManager.getInstance(requireContext()).enqueue(work)
+    }
+
+    /**
+     * Refresh ordering number in each task when new task added
+     */
+    private fun refreshOrder(currentCategory: Category) {
+        taskViewModel.tasks.observe(viewLifecycleOwner) { tasks ->
+            tasks
+                .filter { it.categoryId == currentCategory.id && !it.isDone }
+                .sortedBy { it.orderInCategory }
+                .toMutableList()
+                .forEachIndexed { index, category ->
+                    category.orderInCategory = index
+                    taskViewModel.update(
+                        category
+                    )
+                }
+        }
     }
 }

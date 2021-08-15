@@ -82,12 +82,18 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             taskViewModel.update(
                 Task(
                     id = task.id,
-                    timeZone = "Europe/Moscow",
                     title = editText.editText?.text.toString(),
                     categoryId = task.categoryId,
+                    createdTime = task.createdTime,
+                    timeZone = "Europe/Moscow",
+                    content = task.content,
                     dateTime = if (dayTime == null) task.dateTime else dayTime,
+                    completedTime = if (doneCheckBox.isChecked) System.currentTimeMillis() else null,
+                    dueDate = task.dueDate,
                     isDone = doneCheckBox.isChecked,
-                    orderInCategory = task.orderInCategory,
+                    isDeleted = task.isDeleted,
+                    isScheduled = task.isScheduled,
+                    orderInCategory = if (doneCheckBox.isChecked) -1 else task.orderInCategory,
                 )
             )
             dayTime?.let { time ->

@@ -1,12 +1,8 @@
 package net.longday.planner.ui
 
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -111,7 +107,6 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
                 imageCard.visibility = View.GONE
             }
             if (tasks.none { it.categoryId == category.id && !it.isDone }) {
-                taskRecyclerCard.setBackgroundColor(Color.BLUE)
                 taskRecyclerCard.visibility = View.GONE
                 emptyImageView.visibility = View.VISIBLE
                 imageCard.visibility = View.VISIBLE
@@ -123,7 +118,12 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
                     .visibility = View.GONE
             }
             doneRecyclerView.adapter =
-                DoneTaskAdapter(tasks.filter { it.categoryId == category.id && it.isDone })
+                DoneTaskAdapter(
+                    tasks
+                        .filter { it.categoryId == category.id && it.isDone }
+                        .sortedBy { it.completedTime }
+                        .reversed()
+                )
             recyclerView.adapter =
                 TaskAdapter(filterTasks(tasks).filter { it.categoryId == category.id && !it.isDone })
             adapter.notifyDataSetChanged()
@@ -137,7 +137,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
 
     private fun moveItem(from: Int, to: Int, taskViewModel: TaskViewModel) {
         val tasks = taskViewModel.tasks.value ?: listOf<Task>()
-        val tasksByCategory = tasks.filter { it.categoryId == currentCategory.id }
+        val tasksByCategory = tasks.filter { it.categoryId == currentCategory.id && !it.isDone }
         val sortedTasks = tasksByCategory.sortedBy { it.orderInCategory }
         val mutableSortedTasks = sortedTasks.toMutableList()
         val itemToMove = sortedTasks[from]
