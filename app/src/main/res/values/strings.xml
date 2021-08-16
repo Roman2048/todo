@@ -45,4 +45,8 @@
     <string name="settings_section_title_about">ABOUT</string>
     <string name="settings_about_privacy_policy_text">Privacy policy</string>
     <string name="settings_about_version_text">Version 1.2</string>
+    <string name="settings_reminders_text_battery_ok">Reminders settings are optimal.</string>
+    <string name="settings_reminders_text_need_ignore_optimizations">It is recommended that you change the battery settings for the app. This is necessary for the notifications to work correctly.</string>
+    <string name="settings_optimize_button_text">Change settings</string>
+    <string name="settings_reminders_header_text">REMINDERS</string>
 </resources>

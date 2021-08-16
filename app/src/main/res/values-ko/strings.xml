@@ -31,4 +31,8 @@
     <string name="categories_list_toolbar_title">카테고리</string>
     <string name="categories_image_button">카테고리 관리</string>
     <string name="back">뒤쪽에</string>
+    <string name="settings_reminders_text_battery_ok">미리 알림 설정이 최적입니다.</string>
+    <string name="settings_reminders_text_need_ignore_optimizations">미리 알림이 제대로 작동하도록 설정을 변경하는 것이 좋습니다.</string>
+    <string name="settings_optimize_button_text">설정 변경</string>
+    <string name="settings_reminders_header_text">알림</string>
 </resources>

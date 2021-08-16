@@ -31,4 +31,8 @@
     <string name="fragment_edit_task_top_label_text">Detalles de la tarea</string>
     <string name="fragment_language_header_text">Configuración: idioma</string>
     <string name="fragment_settings_top_bar_text_view_text">Configuración</string>
+    <string name="settings_reminders_text_battery_ok">La configuración de los recordatorios es óptima.</string>
+    <string name="settings_reminders_text_need_ignore_optimizations">Se recomienda que cambie la configuración para que los recordatorios funcionen correctamente.</string>
+    <string name="settings_optimize_button_text">Cambiar ajustes</string>
+    <string name="settings_reminders_header_text">RECORDATORIOS</string>
 </resources>

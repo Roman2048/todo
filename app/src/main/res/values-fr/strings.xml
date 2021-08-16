@@ -31,4 +31,8 @@
     <string name="fragment_edit_task_top_label_text">Détails de la tâche</string>
     <string name="fragment_language_header_text">Paramètres : langue</string>
     <string name="fragment_settings_top_bar_text_view_text">Paramètres</string>
+    <string name="settings_reminders_text_battery_ok">Les paramètres de rappels sont optimaux.</string>
+    <string name="settings_reminders_text_need_ignore_optimizations">Il est recommandé de modifier les paramètres pour que les rappels fonctionnent correctement.</string>
+    <string name="settings_optimize_button_text">Modifier les paramètres</string>
+    <string name="settings_reminders_header_text">RAPPELS</string>
 </resources>
