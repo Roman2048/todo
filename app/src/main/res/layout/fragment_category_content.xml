@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             android:layout_marginTop="4dp"
+            android:layout_marginBottom="2dp"
             card_view:cardCornerRadius="12dp">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -38,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             android:layout_marginTop="4dp"
+            android:layout_marginBottom="2dp"
             card_view:cardCornerRadius="12dp">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -57,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="2dp"
             card_view:cardCornerRadius="12dp">
 
             <androidx.recyclerview.widget.RecyclerView
