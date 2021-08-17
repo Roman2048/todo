@@ -31,8 +31,8 @@
     <string name="fragment_edit_task_top_label_text">タスクの詳細</string>
     <string name="fragment_language_header_text">設定：言語</string>
     <string name="fragment_settings_top_bar_text_view_text">設定</string>
-    <string name="settings_reminders_text_battery_ok">リマインダー設定が最適です。</string>
-    <string name="settings_reminders_text_need_ignore_optimizations">リマインダーが正しく機能するように設定を変更することをお勧めします。</string>
+    <string name="settings_reminders_text_battery_ok">リマインダー設定が最適です</string>
+    <string name="settings_reminders_text_need_ignore_optimizations">リマインダーが正しく機能するように設定を変更することをお勧めします</string>
     <string name="settings_optimize_button_text">設定を変更する</string>
     <string name="settings_reminders_header_text">リマインダー</string>
 </resources>

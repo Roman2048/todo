@@ -31,8 +31,8 @@
     <string name="fragment_edit_task_top_label_text">任务详情</string>
     <string name="fragment_language_header_text">设置：语言</string>
     <string name="fragment_settings_top_bar_text_view_text">设置</string>
-    <string name="settings_reminders_text_battery_ok">提醒设置是最佳的。</string>
-    <string name="settings_reminders_text_need_ignore_optimizations">建议您更改设置以使提醒正常工作。</string>
+    <string name="settings_reminders_text_battery_ok">提醒设置是最佳的</string>
+    <string name="settings_reminders_text_need_ignore_optimizations">建议您更改设置以使提醒正常工作</string>
     <string name="settings_optimize_button_text">更改设置</string>
     <string name="settings_reminders_header_text">提醒</string>
 </resources>

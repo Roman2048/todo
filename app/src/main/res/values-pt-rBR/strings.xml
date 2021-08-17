@@ -31,8 +31,8 @@
     <string name="fragment_edit_task_top_label_text">Detalhes da tarefa</string>
     <string name="fragment_language_header_text">Configurações: idioma</string>
     <string name="fragment_settings_top_bar_text_view_text">Configurações</string>
-    <string name="settings_reminders_text_battery_ok">As configurações de lembretes são ideais.</string>
-    <string name="settings_reminders_text_need_ignore_optimizations">É recomendável que você altere as configurações para que os lembretes funcionem corretamente.</string>
+    <string name="settings_reminders_text_battery_ok">As configurações de lembretes são ideais</string>
+    <string name="settings_reminders_text_need_ignore_optimizations">É recomendável que você altere as configurações para que os lembretes funcionem corretamente</string>
     <string name="settings_optimize_button_text">Mudar configurações</string>
     <string name="settings_reminders_header_text">LEMBRETES</string>
 </resources>

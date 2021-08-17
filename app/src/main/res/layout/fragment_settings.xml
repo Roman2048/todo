@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/settings_reminders_header_text"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/fragment_settings_reminders_text"
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
             android:text="@string/settings_reminders_text_battery_ok"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/settings_optimize_button"
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/settings_section_title_about"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/fragment_settings_version_policy"
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
             android:text="@string/settings_about_privacy_policy_text"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/fragment_settings_version"
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
             android:text="@string/settings_about_version_text"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
