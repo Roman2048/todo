@@ -58,7 +58,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse("http://longday.net/planner/privacy_policy")
+                    Uri.parse("https://longday.net/planner_policy.html")
                 )
             )
         }
