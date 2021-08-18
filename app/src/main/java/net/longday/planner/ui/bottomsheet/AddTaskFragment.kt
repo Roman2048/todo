@@ -58,7 +58,7 @@ class AddTaskFragment : BottomSheetDialogFragment() {
                         title = editText.editText?.text.toString(),
                         categoryId = category?.id ?: "",
                         createdTime = System.currentTimeMillis(),
-                        timeZone = TimeZone.getDefault().displayName,
+                        timeZone = TimeZone.getDefault().id,
                         content = "",
                         dateTime = dayTime,
                     )

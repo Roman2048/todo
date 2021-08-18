@@ -157,7 +157,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
                     content = it.content,
                     dateTime = it.dateTime,
                     completedTime = it.completedTime,
-                    dueDate = it.dueDate,
+                    deletedTime = it.deletedTime,
                     isDone = it.isDone,
                     isDeleted = it.isDeleted,
                     isScheduled = it.isScheduled,

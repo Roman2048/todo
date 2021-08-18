@@ -7,7 +7,7 @@ import net.longday.planner.data.entity.Task
 @Dao
 interface TaskDao {
 
-    @Query("SELECT * FROM tasks")
+    @Query("SELECT * FROM tasks WHERE isDeleted = 0")
     fun getAll(): Flow<List<Task>>
 
     @Insert

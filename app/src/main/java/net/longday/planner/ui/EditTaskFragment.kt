@@ -88,7 +88,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                     content = task.content,
                     dateTime = if (dayTime == null) task.dateTime else dayTime,
                     completedTime = if (doneCheckBox.isChecked) System.currentTimeMillis() else null,
-                    dueDate = task.dueDate,
+                    deletedTime = task.deletedTime,
                     isDone = doneCheckBox.isChecked,
                     isDeleted = task.isDeleted,
                     isScheduled = task.isScheduled,
@@ -105,7 +105,9 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             it.hideKeyboard()
         }
         deleteButton.setOnClickListener {
-            taskViewModel.delete(task)
+            task.deletedTime = System.currentTimeMillis()
+            task.isDeleted = true
+            taskViewModel.update(task)
             view.findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
             it.hideKeyboard()
         }

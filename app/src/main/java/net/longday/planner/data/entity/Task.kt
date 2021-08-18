@@ -14,7 +14,7 @@ data class Task(
     var content: String? = null,
     var dateTime: Long? = null,
     var completedTime: Long? = null,
-    var dueDate: Long? = null,
+    var deletedTime: Long? = null,
     var isDone: Boolean = false,
     var isDeleted: Boolean = false,
     var isScheduled: Boolean = false,
