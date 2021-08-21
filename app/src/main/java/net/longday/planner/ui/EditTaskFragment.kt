@@ -91,7 +91,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                 createdTime = task.createdTime,
                 timeZone = task.timeZone,
                 content = task.content,
-                dateTime = if (dayTime == null) task.dateTime else dayTime,
+                dateTime = if (dayTime == null) null else dayTime,
                 completedTime = if (doneCheckBox.isChecked) System.currentTimeMillis() else null,
                 deletedTime = task.deletedTime,
                 isDone = doneCheckBox.isChecked,
@@ -102,6 +102,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             )
             taskViewModel.update(editedTask)
             if (!isAllDay) {
+                cancelRemindersForTask(task)
                 dayTime?.let { time ->
                     val workerId =
                         scheduleOneTimeNotification(time, editText.editText?.text.toString())
@@ -134,6 +135,11 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
 
         setTimeButton.setOnClickListener {
             val materialDatePicker = MaterialDatePicker.Builder.datePicker().build()
+            materialDatePicker.addOnNegativeButtonClickListener {
+                dayTime = null
+                isAllDay = true
+                setTimeButton.text = requireContext().getString(R.string.edit_task_set_time_text)
+            }
             materialDatePicker.addOnPositiveButtonClickListener {
                 dayTime = materialDatePicker.selection
                 isAllDay = true
@@ -177,13 +183,13 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
     }
 
     // Create Notification
-    private fun scheduleOneTimeNotification(scheduledTime: Long, title: String) {
+    private fun scheduleOneTimeNotification(scheduledTime: Long, title: String): UUID {
         val diff: Long = scheduledTime - Calendar.getInstance().timeInMillis
         val work = OneTimeWorkRequestBuilder<OneTimeScheduleWorker>()
             .setInputData(workDataOf(Pair("content", title)))
             .setInitialDelay(diff, TimeUnit.MILLISECONDS)
-            .addTag("WORK_TAG")
             .build()
         WorkManager.getInstance(requireContext()).enqueue(work)
+        return work.id
     }
 }
