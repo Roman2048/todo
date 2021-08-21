@@ -35,4 +35,5 @@
     <string name="settings_reminders_text_need_ignore_optimizations">미리 알림이 제대로 작동하도록 설정을 변경하는 것이 좋습니다</string>
     <string name="settings_optimize_button_text">설정 변경</string>
     <string name="settings_reminders_header_text">알림</string>
+    <string name="home_fragment_list_item_today_text">오늘</string>
 </resources>

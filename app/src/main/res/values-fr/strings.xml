@@ -35,4 +35,5 @@
     <string name="settings_reminders_text_need_ignore_optimizations">Il est recommandé de modifier les paramètres pour que les rappels fonctionnent correctement</string>
     <string name="settings_optimize_button_text">Modifier les paramètres</string>
     <string name="settings_reminders_header_text">RAPPELS</string>
+    <string name="home_fragment_list_item_today_text">Aujourd\'hui</string>
 </resources>

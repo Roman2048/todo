@@ -35,4 +35,5 @@
     <string name="settings_reminders_text_need_ignore_optimizations">يوصى بتغيير إعدادات التذكيرات لتعمل بشكل صحيح.</string>
     <string name="settings_optimize_button_text">تغيير الاعدادات</string>
     <string name="settings_reminders_header_text">تذكير</string>
+    <string name="home_fragment_list_item_today_text">اليوم</string>
 </resources>

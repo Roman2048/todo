@@ -34,7 +34,7 @@ class DoneTaskAdapter(
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val task = tasks[position]
         holder.textView.text = task.title
-        holder.textTime.text = getTime(task)
+        holder.textTime.text = getTime(task, holder.textView.context)
         holder.textView.paintFlags = holder.textView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         holder.textView.setOnClickListener {
             it.findNavController().navigate(
@@ -54,14 +54,18 @@ class DoneTaskAdapter(
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
     }
 
-    private fun getTime(task: Task): String {
+    private fun getTime(task: Task, context: Context): String {
         // If date is null, show nothing
         return if (task.dateTime == null) {
             ""
         } else {
             // If date is today, show only time. Else show only date.
             if (DateUtils.isToday(task.dateTime!!)) {
-                SimpleDateFormat("HH:mm", Locale.getDefault()).format(task.dateTime)
+                if (task.isAllDay) {
+                    context.getString(R.string.home_fragment_list_item_today_text)
+                } else {
+                    SimpleDateFormat("HH:mm", Locale.getDefault()).format(task.dateTime)
+                }
             } else {
                 SimpleDateFormat("MMM d", Locale.getDefault()).format(task.dateTime)
             }

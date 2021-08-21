@@ -19,7 +19,9 @@ import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
 import net.longday.planner.data.entity.Category
+import net.longday.planner.data.entity.Reminder
 import net.longday.planner.data.entity.Task
+import net.longday.planner.viewmodel.ReminderViewModel
 import net.longday.planner.viewmodel.TaskViewModel
 import net.longday.planner.work.OneTimeScheduleWorker
 import java.text.SimpleDateFormat
@@ -31,6 +33,10 @@ class AddTaskFragment : BottomSheetDialogFragment() {
 
     private val taskViewModel: TaskViewModel by viewModels()
 
+    private val reminderViewModel: ReminderViewModel by viewModels()
+
+    private var tasks = listOf<Task>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -38,6 +44,7 @@ class AddTaskFragment : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        taskViewModel.tasks.observe(viewLifecycleOwner) { tasks = it }
         super.onViewCreated(view, savedInstanceState)
         val editText: TextInputLayout = view.findViewById(R.id.fragment_add_task_text_input)
         val dateTimePicker: AppCompatImageButton = view.findViewById(R.id.new_task_set_time)
@@ -49,23 +56,35 @@ class AddTaskFragment : BottomSheetDialogFragment() {
             activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment)
                 ?.findNavController()
         var dayTime: Long? = null
+        var isAllDay = true
         /* Save button */
         editText.setEndIconOnClickListener {
             if (category?.id != "") {
-                taskViewModel.insert(
-                    Task(
-                        id = UUID.randomUUID().toString(),
-                        title = editText.editText?.text.toString(),
-                        categoryId = category?.id ?: "",
-                        createdTime = System.currentTimeMillis(),
-                        timeZone = TimeZone.getDefault().id,
-                        content = "",
-                        dateTime = dayTime,
-                    )
+                val newTask = Task(
+                    id = UUID.randomUUID().toString(),
+                    title = editText.editText?.text.toString(),
+                    categoryId = category?.id ?: "",
+                    createdTime = System.currentTimeMillis(),
+                    timeZone = TimeZone.getDefault().id,
+                    content = "",
+                    dateTime = dayTime,
+                    isAllDay = isAllDay,
                 )
+                taskViewModel.insert(newTask)
+
                 refreshOrder(category!!)
-                dayTime?.let { time ->
-                    scheduleOneTimeNotification(time, editText.editText?.text.toString())
+                if (!isAllDay) {
+                    dayTime?.let { time ->
+                        val workerId =
+                            scheduleOneTimeNotification(time, editText.editText?.text.toString())
+                        reminderViewModel.insert(
+                            Reminder(
+                                taskId = newTask.id,
+                                workerId = workerId.toString(),
+                                time = dayTime,
+                            )
+                        )
+                    }
                 }
             }
             editText.editText?.setText("")
@@ -76,7 +95,8 @@ class AddTaskFragment : BottomSheetDialogFragment() {
         dateTimePicker.setOnClickListener {
             val datePicker = MaterialDatePicker.Builder.datePicker().build()
             datePicker.addOnPositiveButtonClickListener {
-                dayTime = datePicker.selection
+                dayTime = datePicker.selection?.minus(TimeZone.getDefault().rawOffset)
+                isAllDay = true
                 timeTextView.text =
                     SimpleDateFormat("MMM d", Locale.getDefault()).format(dayTime)
                 val timePicker = MaterialTimePicker.Builder()
@@ -90,6 +110,7 @@ class AddTaskFragment : BottomSheetDialogFragment() {
                     dayTime = dayTime?.plus(plus)
                     timeTextView.text =
                         SimpleDateFormat("MMM d\nHH:mm", Locale.getDefault()).format(dayTime)
+                    isAllDay = false
                 }
                 timePicker.show(childFragmentManager, "fragment_time_picker_tag")
             }
@@ -102,31 +123,28 @@ class AddTaskFragment : BottomSheetDialogFragment() {
     }
 
     // Create Notification
-    private fun scheduleOneTimeNotification(scheduledTime: Long, title: String) {
+    private fun scheduleOneTimeNotification(scheduledTime: Long, title: String): UUID {
         val diff: Long = scheduledTime - Calendar.getInstance().timeInMillis
         val work = OneTimeWorkRequestBuilder<OneTimeScheduleWorker>()
             .setInputData(workDataOf(Pair("content", title)))
             .setInitialDelay(diff, TimeUnit.MILLISECONDS)
-            .addTag("WORK_TAG")
             .build()
         WorkManager.getInstance(requireContext()).enqueue(work)
+        return work.id
     }
 
     /**
      * Refresh ordering number in each task when new task added
      */
     private fun refreshOrder(currentCategory: Category) {
-        taskViewModel.tasks.observe(viewLifecycleOwner) { tasks ->
-            tasks
-                .filter { it.categoryId == currentCategory.id && !it.isDone }
-                .sortedBy { it.orderInCategory }
-                .toMutableList()
-                .forEachIndexed { index, category ->
-                    category.orderInCategory = index
-                    taskViewModel.update(
-                        category
-                    )
-                }
-        }
+        tasks.filter { it.categoryId == currentCategory.id && !it.isDone }
+            .sortedBy { it.orderInCategory }
+            .toMutableList()
+            .forEachIndexed { index, category ->
+                category.orderInCategory = index
+                taskViewModel.update(
+                    category
+                )
+            }
     }
 }

@@ -10,7 +10,7 @@ data class Task(
     var title: String,
     val categoryId: String,
     var createdTime: Long = -1,
-    var timeZone: String = "Europe/Moscow",
+    var timeZone: String? = null,
     var content: String? = null,
     var dateTime: Long? = null,
     var completedTime: Long? = null,
@@ -19,4 +19,5 @@ data class Task(
     var isDeleted: Boolean = false,
     var isScheduled: Boolean = false,
     var orderInCategory: Int = -1,
+    var isAllDay: Boolean = true,
 ) : Serializable

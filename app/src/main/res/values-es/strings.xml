@@ -35,4 +35,5 @@
     <string name="settings_reminders_text_need_ignore_optimizations">Se recomienda que cambie la configuración para que los recordatorios funcionen correctamente</string>
     <string name="settings_optimize_button_text">Cambiar ajustes</string>
     <string name="settings_reminders_header_text">RECORDATORIOS</string>
+    <string name="home_fragment_list_item_today_text">Hoy dia</string>
 </resources>

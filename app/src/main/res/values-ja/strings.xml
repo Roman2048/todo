@@ -35,4 +35,5 @@
     <string name="settings_reminders_text_need_ignore_optimizations">リマインダーが正しく機能するように設定を変更することをお勧めします</string>
     <string name="settings_optimize_button_text">設定を変更する</string>
     <string name="settings_reminders_header_text">リマインダー</string>
+    <string name="home_fragment_list_item_today_text">今日</string>
 </resources>

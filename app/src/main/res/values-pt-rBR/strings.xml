@@ -35,4 +35,5 @@
     <string name="settings_reminders_text_need_ignore_optimizations">É recomendável que você altere as configurações para que os lembretes funcionem corretamente</string>
     <string name="settings_optimize_button_text">Mudar configurações</string>
     <string name="settings_reminders_header_text">LEMBRETES</string>
+    <string name="home_fragment_list_item_today_text">Hoje</string>
 </resources>

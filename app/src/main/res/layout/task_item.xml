@@ -7,14 +7,14 @@
     android:orientation="horizontal"
     android:weightSum="100">
 
-    <!--    android:ellipsize="end"-->
-    <!--    android:maxLines="1"-->
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/task_item_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="14"
+        android:layout_weight="16"
+        android:ellipsize="end"
         android:gravity="start|center"
+        android:maxLines="3"
         android:textSize="17sp"
         tools:text="Поздравить сына" />
 
@@ -22,7 +22,7 @@
         android:id="@+id/task_item_time"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="86"
+        android:layout_weight="84"
         android:gravity="end|center"
         android:textSize="12sp"
         tools:text="Jul 12" />

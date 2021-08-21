@@ -145,25 +145,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
         mutableSortedTasks.add(to, itemToMove)
         mutableSortedTasks.forEachIndexed { index, category ->
             category.orderInCategory = index
-        }
-        mutableSortedTasks.forEach {
-            taskViewModel.update(
-                Task(
-                    id = it.id,
-                    title = it.title,
-                    categoryId = it.categoryId,
-                    createdTime = it.createdTime,
-                    timeZone = it.timeZone,
-                    content = it.content,
-                    dateTime = it.dateTime,
-                    completedTime = it.completedTime,
-                    deletedTime = it.deletedTime,
-                    isDone = it.isDone,
-                    isDeleted = it.isDeleted,
-                    isScheduled = it.isScheduled,
-                    orderInCategory = it.orderInCategory
-                )
-            )
+            taskViewModel.update(category)
         }
     }
 }

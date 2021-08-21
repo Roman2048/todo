@@ -22,7 +22,9 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
+import net.longday.planner.data.entity.Reminder
 import net.longday.planner.data.entity.Task
+import net.longday.planner.viewmodel.ReminderViewModel
 import net.longday.planner.viewmodel.TaskViewModel
 import net.longday.planner.work.OneTimeScheduleWorker
 import java.text.SimpleDateFormat
@@ -33,6 +35,10 @@ import java.util.concurrent.TimeUnit
 class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
 
     private val taskViewModel: TaskViewModel by viewModels()
+
+    private val reminderViewModel: ReminderViewModel by viewModels()
+
+    private var reminders = listOf<Reminder>()
 
     /**
      * Go to main screen if the back button what pressed
@@ -50,6 +56,9 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        reminderViewModel.reminders.observe(viewLifecycleOwner) {
+            reminders = it
+        }
         val editText: TextInputLayout = view.findViewById(R.id.edit_task_edit_text)
         val deleteButton: MaterialButton = view.findViewById(R.id.edit_task_delete_button)
         val backButton: AppCompatImageButton =
@@ -60,13 +69,10 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             view.findViewById(R.id.fragment_edit_task_date_time_button)
         val task: Task = arguments?.get("task") as Task
         var dayTime: Long? = null
+        var isAllDay = true
         if (task.dateTime != null) {
             setTimeButton.text =
-                if (SimpleDateFormat(
-                        "HH:mm",
-                        Locale.getDefault()
-                    ).format(task.dateTime) == "00:00"
-                ) {
+                if (task.isAllDay) {
                     // Если дата то показываем как есть
                     SimpleDateFormat("MMM d", Locale.getDefault()).format(task.dateTime)
                 } else {
@@ -78,25 +84,38 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         editText.requestFocus()
 
         backButton.setOnClickListener {
-            taskViewModel.update(
-                Task(
-                    id = task.id,
-                    title = editText.editText?.text.toString(),
-                    categoryId = task.categoryId,
-                    createdTime = task.createdTime,
-                    timeZone = task.timeZone,
-                    content = task.content,
-                    dateTime = if (dayTime == null) task.dateTime else dayTime,
-                    completedTime = if (doneCheckBox.isChecked) System.currentTimeMillis() else null,
-                    deletedTime = task.deletedTime,
-                    isDone = doneCheckBox.isChecked,
-                    isDeleted = task.isDeleted,
-                    isScheduled = task.isScheduled,
-                    orderInCategory = if (doneCheckBox.isChecked) -1 else task.orderInCategory,
-                )
+            val editedTask = Task(
+                id = task.id,
+                title = editText.editText?.text.toString(),
+                categoryId = task.categoryId,
+                createdTime = task.createdTime,
+                timeZone = task.timeZone,
+                content = task.content,
+                dateTime = if (dayTime == null) task.dateTime else dayTime,
+                completedTime = if (doneCheckBox.isChecked) System.currentTimeMillis() else null,
+                deletedTime = task.deletedTime,
+                isDone = doneCheckBox.isChecked,
+                isDeleted = task.isDeleted,
+                isScheduled = task.isScheduled,
+                orderInCategory = if (doneCheckBox.isChecked) -1 else task.orderInCategory,
+                isAllDay = isAllDay,
             )
-            dayTime?.let { time ->
-                scheduleOneTimeNotification(time, editText.editText?.text.toString())
+            taskViewModel.update(editedTask)
+            if (!isAllDay) {
+                dayTime?.let { time ->
+                    val workerId =
+                        scheduleOneTimeNotification(time, editText.editText?.text.toString())
+                    reminderViewModel.insert(
+                        Reminder(
+                            taskId = editedTask.id,
+                            workerId = workerId.toString(),
+                            time = dayTime,
+                        )
+                    )
+                }
+            }
+            if (doneCheckBox.isChecked) {
+                cancelRemindersForTask(task)
             }
             view.findNavController().navigate(
                 R.id.action_editTaskFragment_to_homeFragment,
@@ -108,6 +127,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             task.deletedTime = System.currentTimeMillis()
             task.isDeleted = true
             taskViewModel.update(task)
+            cancelRemindersForTask(task)
             view.findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
             it.hideKeyboard()
         }
@@ -116,6 +136,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             val materialDatePicker = MaterialDatePicker.Builder.datePicker().build()
             materialDatePicker.addOnPositiveButtonClickListener {
                 dayTime = materialDatePicker.selection
+                isAllDay = true
                 setTimeButton.text =
                     SimpleDateFormat("MMM d", Locale.getDefault()).format(dayTime)
                 val materialTimePicker = MaterialTimePicker.Builder()
@@ -127,6 +148,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                     val plus =
                         (newHour * 3600000) + (newMinute * 60000) - TimeZone.getDefault().rawOffset
                     dayTime = dayTime?.plus(plus)
+                    isAllDay = false
                     setTimeButton.text =
                         SimpleDateFormat("MMM d HH:mm", Locale.getDefault()).format(dayTime)
                 }
@@ -134,6 +156,19 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             }
             materialDatePicker.show(childFragmentManager, "fragment_date_picker_tag")
         }
+    }
+
+    /**
+     * Cancel active notifications if the task is done or marked as deleted
+     */
+    private fun cancelRemindersForTask(task: Task) {
+        reminders
+            .filter { reminder -> reminder.taskId == task.id }
+            .forEach { reminder ->
+                WorkManager.getInstance(requireContext())
+                    .cancelWorkById(UUID.fromString(reminder.workerId))
+                reminderViewModel.delete(reminder)
+            }
     }
 
     private fun View.hideKeyboard() {

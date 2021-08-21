@@ -63,4 +63,8 @@ object PersistenceModule {
     @Provides
     @Singleton
     fun provideTabDao(plannerDatabase: PlannerDatabase) = plannerDatabase.tabDao()
+
+    @Provides
+    @Singleton
+    fun provideReminderDao(plannerDatabase: PlannerDatabase) = plannerDatabase.reminderDao()
 }
