@@ -1,6 +1,7 @@
 package net.longday.planner.ui.bottomsheet
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -75,15 +76,17 @@ class AddTaskFragment : BottomSheetDialogFragment() {
                 refreshOrder(category!!)
                 if (!isAllDay) {
                     dayTime?.let { time ->
-                        val workerId =
-                            scheduleOneTimeNotification(time, editText.editText?.text.toString())
-                        reminderViewModel.insert(
-                            Reminder(
-                                taskId = newTask.id,
-                                workerId = workerId.toString(),
-                                time = dayTime,
+                        if (time - Calendar.getInstance().timeInMillis > 0) {
+                            val workerId =
+                                scheduleOneTimeNotification(time, editText.editText?.text.toString())
+                            reminderViewModel.insert(
+                                Reminder(
+                                    taskId = newTask.id,
+                                    workerId = workerId.toString(),
+                                    time = dayTime,
+                                )
                             )
-                        )
+                        }
                     }
                 }
             }

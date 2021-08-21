@@ -104,15 +104,17 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             if (!isAllDay) {
                 cancelRemindersForTask(task)
                 dayTime?.let { time ->
-                    val workerId =
-                        scheduleOneTimeNotification(time, editText.editText?.text.toString())
-                    reminderViewModel.insert(
-                        Reminder(
-                            taskId = editedTask.id,
-                            workerId = workerId.toString(),
-                            time = dayTime,
+                    if (time - Calendar.getInstance().timeInMillis > 0) {
+                        val workerId =
+                            scheduleOneTimeNotification(time, editText.editText?.text.toString())
+                        reminderViewModel.insert(
+                            Reminder(
+                                taskId = editedTask.id,
+                                workerId = workerId.toString(),
+                                time = dayTime,
+                            )
                         )
-                    )
+                    }
                 }
             }
             if (doneCheckBox.isChecked) {
