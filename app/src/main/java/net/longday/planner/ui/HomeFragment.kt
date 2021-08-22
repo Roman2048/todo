@@ -7,17 +7,14 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.bottomappbar.BottomAppBar
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,11 +26,11 @@ import net.longday.planner.adapter.ViewPagerAdapter
 import net.longday.planner.data.entity.Category
 import net.longday.planner.data.entity.Statistic
 import net.longday.planner.data.entity.Tab
+import net.longday.planner.databinding.FragmentHomeBinding
 import net.longday.planner.retrofit.RetrofitClient
 import net.longday.planner.retrofit.StatisticService
 import net.longday.planner.viewmodel.CategoryViewModel
 import net.longday.planner.viewmodel.TabViewModel
-import retrofit2.awaitResponse
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -41,6 +38,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val categoryViewModel: CategoryViewModel by viewModels()
 
     private val tabViewModel: TabViewModel by viewModels()
+
+    private var _binding: FragmentHomeBinding? = null
+
+    private val binding get() = _binding!!
 
     /**
      * Close app if the back button what pressed on main screen
@@ -56,34 +57,44 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             })
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         createNotificationChannel()
         syncNavigationBarColorWithUiNightMode()
-
-        var category = Category("", "")
-        val viewPager: ViewPager2 = view.findViewById(R.id.category_view_pager)
         val pagerAdapter = ViewPagerAdapter(this, listOf())
-        viewPager.adapter = pagerAdapter
-        val tabLayout: TabLayout = view.findViewById(R.id.tab_layout)
-        var categories: List<Category> = listOf()
+        binding.categoryViewPager.adapter = pagerAdapter
+        var category = Category("", "")
+        var categories = listOf<Category>()
 
         categoryViewModel.categories.observe(viewLifecycleOwner) {
             val sortedCategories = it.sortedBy { cat -> cat.position }
             categories = sortedCategories
             pagerAdapter.categories = sortedCategories
             pagerAdapter.notifyDataSetChanged()
-            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            TabLayoutMediator(binding.tabLayout, binding.categoryViewPager) { tab, position ->
                 tab.text = sortedCategories[position].title
             }.attach()
         }
 
         // Handle the tabs
         var newSelect = true
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 if (!newSelect) {
-                    tabViewModel.insert(Tab(1, tabLayout.selectedTabPosition))
+                    tabViewModel.insert(Tab(1, binding.tabLayout.selectedTabPosition))
                 }
                 newSelect = false
                 category = categories[tab!!.position]
@@ -94,16 +105,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         })
 
         tabViewModel.tab.observe(viewLifecycleOwner) {
-            viewPager.postDelayed(
+            binding.categoryViewPager.postDelayed(
                 {
-                    tabLayout.getTabAt(it.selected)?.select()
-                    viewPager.currentItem = it.selected
+                    binding.tabLayout.getTabAt(it.selected)?.select()
+                    binding.categoryViewPager.currentItem = it.selected
                 }, 0
             )
         }
 
-        val fab: FloatingActionButton = view.findViewById(R.id.fab)
-        fab.setOnClickListener {
+        binding.fab.setOnClickListener {
             // Навигация
             view.findNavController().navigate(
                 R.id.action_homeFragment_to_addTaskFragment,
@@ -111,13 +121,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             )
         }
 
-        val categoryEditorButton: AppCompatImageButton = view.findViewById(R.id.categories_button)
-        categoryEditorButton.setOnClickListener {
+        binding.categoriesButton.setOnClickListener {
             view.findNavController().navigate(R.id.action_homeFragment_to_categoryEditorFragment)
         }
 
-        val settingsButton: BottomAppBar = view.findViewById(R.id.bottom_app_bar)
-        settingsButton.setNavigationOnClickListener {
+        binding.bottomAppBar.setNavigationOnClickListener {
             view.findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
         }
     }
@@ -165,11 +173,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 .create(StatisticService::class.java)
                 .sendStatistic(
                     Statistic(
+                        userId = "",
                         categories = 1,
                         tasks = 2,
                         reminders = 3,
                     )
-                ).awaitResponse().isSuccessful
+                )
         }
     }
 }
