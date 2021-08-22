@@ -1,11 +1,7 @@
 package net.longday.planner.retrofit
 
-import net.longday.planner.data.entity.Category
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.POST
 
 object RetrofitClient {
     private var retrofit: Retrofit? = null
@@ -19,9 +15,4 @@ object RetrofitClient {
         }
         return retrofit!!
     }
-}
-
-interface RetrofitServices {
-    @POST("category")
-    fun createCategory(@Body category: Category): Call<Category>
 }

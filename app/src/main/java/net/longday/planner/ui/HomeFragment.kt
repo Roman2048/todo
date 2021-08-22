@@ -7,6 +7,7 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatImageButton
@@ -20,12 +21,19 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import net.longday.planner.R
 import net.longday.planner.adapter.ViewPagerAdapter
 import net.longday.planner.data.entity.Category
+import net.longday.planner.data.entity.Statistic
 import net.longday.planner.data.entity.Tab
+import net.longday.planner.retrofit.RetrofitClient
+import net.longday.planner.retrofit.StatisticService
 import net.longday.planner.viewmodel.CategoryViewModel
 import net.longday.planner.viewmodel.TabViewModel
+import retrofit2.awaitResponse
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -146,6 +154,22 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
             Configuration.UI_MODE_NIGHT_UNDEFINED -> {
             }
+        }
+    }
+
+    private fun sendStats() {
+        CoroutineScope(Dispatchers.IO).launch {
+//            val tasks = categoryViewModel.categories.value.size
+            RetrofitClient
+                .getClient("https://longday.net/")
+                .create(StatisticService::class.java)
+                .sendStatistic(
+                    Statistic(
+                        categories = 1,
+                        tasks = 2,
+                        reminders = 3,
+                    )
+                ).awaitResponse().isSuccessful
         }
     }
 }
