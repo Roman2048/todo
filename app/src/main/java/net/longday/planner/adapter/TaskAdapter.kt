@@ -9,19 +9,23 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.textview.MaterialTextView
 import net.longday.planner.R
 import net.longday.planner.data.entity.Task
+import net.longday.planner.viewmodel.TaskViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
 class TaskAdapter(
     var tasks: List<Task>,
+    private val updateTask: (task: Task) -> Unit
 ) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
     class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textView: MaterialTextView = view.findViewById(R.id.task_item_text)
         val textTime: MaterialTextView = view.findViewById(R.id.task_item_time)
+        val textCheckbox: MaterialCheckBox = view.findViewById(R.id.task_item_checkbox)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
@@ -34,6 +38,11 @@ class TaskAdapter(
         val task = tasks[position]
         holder.textView.text = task.title
         holder.textTime.text = getTime(task, holder.textView.context)
+        holder.textCheckbox.isChecked = task.isDone
+        holder.textCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            task.isDone = isChecked
+            updateTask(task)
+        }
         holder.textView.setOnClickListener {
             it.findNavController().navigate(
                 R.id.action_homeFragment_to_editTaskFragment,

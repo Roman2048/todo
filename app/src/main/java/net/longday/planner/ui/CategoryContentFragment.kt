@@ -27,6 +27,10 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
 
     private lateinit var currentCategory: Category
 
+    private fun onClickListener(taskViewModel: TaskViewModel) {
+    }
+
+
     private val itemTouchHelper by lazy {
         val simpleItemTouchCallback =
             object : ItemTouchHelper.SimpleCallback(UP or DOWN or START or END, 0) {
@@ -90,8 +94,9 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
 //        recyclerView.addItemDecoration(
 //            DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
 //        )
-        val adapter = TaskAdapter(listOf())
-        val doneAdapter = DoneTaskAdapter(listOf())
+        val updateTask: (task: Task) -> Unit = { taskViewModel.update(it) }
+        val adapter = TaskAdapter(listOf(), updateTask)
+        val doneAdapter = DoneTaskAdapter(listOf(), updateTask)
         recyclerView.adapter = adapter
         doneRecyclerView.adapter = doneAdapter
         val imageCard = view.findViewById<MaterialCardView>(R.id.category_content_image_card)
@@ -122,10 +127,12 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
                     tasks
                         .filter { it.categoryId == category.id && it.isDone }
                         .sortedBy { it.completedTime }
-                        .reversed()
-                )
+                        .reversed(), updateTask)
             recyclerView.adapter =
-                TaskAdapter(filterTasks(tasks).filter { it.categoryId == category.id && !it.isDone })
+                TaskAdapter(
+                    filterTasks(tasks).filter { it.categoryId == category.id && !it.isDone },
+                    updateTask
+                )
             adapter.notifyDataSetChanged()
             doneAdapter.notifyDataSetChanged()
         }
