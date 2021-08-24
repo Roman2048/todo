@@ -98,7 +98,7 @@ class AddTaskFragment : BottomSheetDialogFragment() {
         dateTimePicker.setOnClickListener {
             val datePicker = MaterialDatePicker.Builder.datePicker().build()
             datePicker.addOnPositiveButtonClickListener {
-                dayTime = datePicker.selection?.minus(TimeZone.getDefault().rawOffset)
+                dayTime = datePicker.selection
                 isAllDay = true
                 timeTextView.text =
                     SimpleDateFormat("MMM d", Locale.getDefault()).format(dayTime)
