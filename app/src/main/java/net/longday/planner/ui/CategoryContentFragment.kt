@@ -122,7 +122,8 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
                 binding.categoryContentTaskRecyclerCard.visibility = View.GONE
                 binding.emptyImageView.visibility = View.VISIBLE
                 binding.categoryContentImageCard.visibility = View.VISIBLE
-
+            } else {
+                binding.categoryContentTaskRecyclerCard.visibility = View.VISIBLE
             }
             // Set gone visibility for done task card to remove margin
             if (tasks.none { it.categoryId == category.id && it.isDone }) {
