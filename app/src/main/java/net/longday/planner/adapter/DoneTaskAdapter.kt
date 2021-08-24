@@ -43,7 +43,8 @@ class DoneTaskAdapter(
         holder.textCheckbox.isChecked = task.isDone
         holder.textCheckbox.setOnCheckedChangeListener { _, isChecked ->
             task.isDone = isChecked
-            updateTask.invoke(task)
+            task.completedTime = null
+            updateTask(task)
         }
         holder.textView.setOnClickListener {
             it.findNavController().navigate(

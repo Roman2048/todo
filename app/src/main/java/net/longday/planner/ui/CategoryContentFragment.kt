@@ -1,20 +1,21 @@
 package net.longday.planner.ui
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.appcompat.widget.AppCompatImageView
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.card.MaterialCardView
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
 import net.longday.planner.adapter.DoneTaskAdapter
 import net.longday.planner.adapter.TaskAdapter
 import net.longday.planner.data.entity.Category
 import net.longday.planner.data.entity.Task
+import net.longday.planner.databinding.FragmentCategoryContentBinding
 import net.longday.planner.viewmodel.TaskViewModel
 
 /**
@@ -27,9 +28,9 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
 
     private lateinit var currentCategory: Category
 
-    private fun onClickListener(taskViewModel: TaskViewModel) {
-    }
+    private var _binding: FragmentCategoryContentBinding? = null
 
+    private val binding get() = _binding!!
 
     private val itemTouchHelper by lazy {
         val simpleItemTouchCallback =
@@ -81,54 +82,61 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
         ItemTouchHelper(simpleItemTouchCallback)
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentCategoryContentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     /**
      * Get category form the bundle, filter tasks by the bundle, send to adapter
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val recyclerView: RecyclerView = view.findViewById(R.id.task_recycler)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
-        val emptyImageView: AppCompatImageView =
-            view.findViewById(R.id.fragment_category_content_empty_image_view)
-        val doneRecyclerView: RecyclerView = view.findViewById(R.id.done_task_recycler)
-        // Да как так то почему он вертикальный ****
+        itemTouchHelper.attachToRecyclerView(binding.taskRecycler)
 //        recyclerView.addItemDecoration(
 //            DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
 //        )
         val updateTask: (task: Task) -> Unit = { taskViewModel.update(it) }
         val adapter = TaskAdapter(listOf(), updateTask)
         val doneAdapter = DoneTaskAdapter(listOf(), updateTask)
-        recyclerView.adapter = adapter
-        doneRecyclerView.adapter = doneAdapter
-        val imageCard = view.findViewById<MaterialCardView>(R.id.category_content_image_card)
+        binding.taskRecycler.adapter = adapter
+        binding.doneTaskRecycler.adapter = doneAdapter
         val category: Category = arguments?.get("category") as Category
         currentCategory = category
-        val taskRecyclerCard =
-            view.findViewById<MaterialCardView>(R.id.category_content_task_recycler_card)
         taskViewModel.tasks.observe(viewLifecycleOwner) { tasks ->
             if (tasks.none { it.categoryId == category.id }) {
-                emptyImageView.visibility = View.VISIBLE
+                binding.emptyImageView.visibility = View.VISIBLE
             } else {
-                emptyImageView.visibility = View.GONE
-                imageCard.visibility = View.GONE
+                binding.emptyImageView.visibility = View.GONE
+                binding.categoryContentImageCard.visibility = View.GONE
             }
             if (tasks.none { it.categoryId == category.id && !it.isDone }) {
-                taskRecyclerCard.visibility = View.GONE
-                emptyImageView.visibility = View.VISIBLE
-                imageCard.visibility = View.VISIBLE
+                binding.categoryContentTaskRecyclerCard.visibility = View.GONE
+                binding.emptyImageView.visibility = View.VISIBLE
+                binding.categoryContentImageCard.visibility = View.VISIBLE
 
             }
             // Set gone visibility for done task card to remove margin
             if (tasks.none { it.categoryId == category.id && it.isDone }) {
-                view.findViewById<MaterialCardView>(R.id.category_content_done_task_recycler_card)
-                    .visibility = View.GONE
+                binding.categoryContentDoneTaskRecyclerCard.visibility = View.GONE
+            } else {
+                binding.categoryContentDoneTaskRecyclerCard.visibility = View.VISIBLE
             }
-            doneRecyclerView.adapter =
+            binding.doneTaskRecycler.adapter =
                 DoneTaskAdapter(
                     tasks
                         .filter { it.categoryId == category.id && it.isDone }
                         .sortedBy { it.completedTime }
                         .reversed(), updateTask)
-            recyclerView.adapter =
+            binding.taskRecycler.adapter =
                 TaskAdapter(
                     filterTasks(tasks).filter { it.categoryId == category.id && !it.isDone },
                     updateTask

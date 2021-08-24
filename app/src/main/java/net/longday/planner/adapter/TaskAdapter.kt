@@ -41,6 +41,7 @@ class TaskAdapter(
         holder.textCheckbox.isChecked = task.isDone
         holder.textCheckbox.setOnCheckedChangeListener { _, isChecked ->
             task.isDone = isChecked
+            task.completedTime = System.currentTimeMillis()
             updateTask(task)
         }
         holder.textView.setOnClickListener {

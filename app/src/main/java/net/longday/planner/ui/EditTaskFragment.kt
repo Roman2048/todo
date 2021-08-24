@@ -68,8 +68,8 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         val setTimeButton: MaterialButton =
             view.findViewById(R.id.fragment_edit_task_date_time_button)
         val task: Task = arguments?.get("task") as Task
-        var dayTime: Long? = null
-        var isAllDay = true
+        var dayTime: Long? = task.dateTime
+        var isAllDay = task.isAllDay ?: true
         if (task.dateTime != null) {
             setTimeButton.text =
                 if (task.isAllDay) {
@@ -91,7 +91,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                 createdTime = task.createdTime,
                 timeZone = task.timeZone,
                 content = task.content,
-                dateTime = if (dayTime == null) null else dayTime,
+                dateTime = dayTime,
                 completedTime = if (doneCheckBox.isChecked) System.currentTimeMillis() else null,
                 deletedTime = task.deletedTime,
                 isDone = doneCheckBox.isChecked,

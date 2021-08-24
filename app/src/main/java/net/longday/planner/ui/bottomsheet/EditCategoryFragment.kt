@@ -14,6 +14,8 @@ import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
 import net.longday.planner.data.entity.Category
+import net.longday.planner.databinding.FragmentCategoryContentBinding
+import net.longday.planner.databinding.FragmentEditCategoryBinding
 import net.longday.planner.viewmodel.CategoryViewModel
 
 @AndroidEntryPoint
@@ -21,21 +23,35 @@ class EditCategoryFragment : BottomSheetDialogFragment() {
 
     private val categoryViewModel: CategoryViewModel by viewModels()
 
+    private var categories = listOf<Category>()
+
+    private var _binding: FragmentEditCategoryBinding? = null
+
+    private val binding get() = _binding!!
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_edit_category, container, false)
+    ): View {
+        _binding = FragmentEditCategoryBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val category: Category? = arguments?.get("category") as Category?
-        val editText: TextInputLayout =
-            view.findViewById(R.id.fragment_edit_category_text_input)
+        val editText = binding.fragmentEditCategoryTextInput
         editText.requestFocus()
-        val deleteButton: MaterialButton =
-            view.findViewById(R.id.fragment_edit_category_delete_button)
+        categoryViewModel.categories.observe(viewLifecycleOwner) {
+            categories = it
+            if (it.size <= 1) binding.fragmentEditCategoryDeleteButton.isEnabled = false
+        }
         editText.editText?.setText(category?.title)
         val navController =
             activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment)
@@ -51,7 +67,7 @@ class EditCategoryFragment : BottomSheetDialogFragment() {
             navController?.navigate(R.id.action_editCategoryFragment_to_categoryEditorFragment)
             it.hideKeyboard()
         }
-        deleteButton.setOnClickListener {
+        binding.fragmentEditCategoryDeleteButton.setOnClickListener {
             categoryViewModel.delete(
                 Category(
                     category?.id ?: "",
