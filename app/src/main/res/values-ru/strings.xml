@@ -24,7 +24,7 @@
     <string name="personal_category_title">Личное</string>
     <string name="wishlist_category_title">Покупки</string>
     <string name="notification_channel_name">Напоминания</string>
-    <string name="notification_title">Planner уведомление</string>
+    <string name="notification_title">Planner:</string>
     <string name="add_task_fb_description">Добавить задачу</string>
     <string name="edit_task_set_time_text">Установить время</string>
     <string name="home_fragment_tab_layout_description">Выбор категории</string>

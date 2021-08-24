@@ -5,7 +5,7 @@
     <string name="personal_category_title">개인의</string>
     <string name="wishlist_category_title">위시리스트</string>
     <string name="notification_channel_name">미리 알림</string>
-    <string name="notification_title">플래너 알림</string>
+    <string name="notification_title">Planner:</string>
     <string name="add_task_fb_description">작업 추가</string>
     <string name="edit_task_set_time_text">시간 설정</string>
     <string name="home_fragment_tab_layout_description">카테고리 선택</string>

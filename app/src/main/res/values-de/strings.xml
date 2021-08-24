@@ -5,7 +5,7 @@
     <string name="personal_category_title">Persönlich</string>
     <string name="wishlist_category_title">Wunschzettel</string>
     <string name="notification_channel_name">Erinnerungen</string>
-    <string name="notification_title">Planner erinnerungen</string>
+    <string name="notification_title">Planner:</string>
     <string name="add_task_fb_description">Aufgabe hinzufügen</string>
     <string name="edit_task_set_time_text">Zeit einstellen</string>
     <string name="home_fragment_tab_layout_description">Kategorie auswählen</string>
