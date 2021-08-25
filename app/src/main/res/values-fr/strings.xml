@@ -36,4 +36,5 @@
     <string name="settings_optimize_button_text">Modifier les paramètres</string>
     <string name="settings_reminders_header_text">RAPPELS</string>
     <string name="home_fragment_list_item_today_text">Aujourd\'hui</string>
+    <string name="work_category_title_for_first_launch">Work</string>
 </resources>

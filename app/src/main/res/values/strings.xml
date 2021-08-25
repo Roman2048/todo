@@ -50,4 +50,5 @@
     <string name="settings_optimize_button_text">Change settings</string>
     <string name="settings_reminders_header_text">REMINDERS</string>
     <string name="home_fragment_list_item_today_text">Today</string>
+    <string name="work_category_title_for_first_launch">Work</string>
 </resources>

@@ -11,6 +11,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import net.longday.planner.R
 import net.longday.planner.data.PlannerDatabase
+import java.util.*
 import javax.inject.Singleton
 
 @Module
@@ -30,18 +31,25 @@ object PersistenceModule {
                     super.onCreate(db)
                     Thread {
                         db.execSQL(
-                            "INSERT INTO categories VALUES ('402ca0fd-7a92-4a55-aa34-bf3077cfe805','${
+                            "INSERT INTO categories VALUES ('${UUID.randomUUID()}','${
                                 application.applicationContext.getString(
                                     R.string.personal_category_title
                                 )
                             }', 0);"
                         )
                         db.execSQL(
-                            "INSERT INTO categories VALUES ('4705dfd2-ce2e-4a5e-8c59-8ebe17c6c5f8','${
+                            "INSERT INTO categories VALUES ('${UUID.randomUUID()}','${
+                                application.applicationContext.getString(
+                                    R.string.work_category_title_for_first_launch
+                                )
+                            }', 1);"
+                        )
+                        db.execSQL(
+                            "INSERT INTO categories VALUES ('${UUID.randomUUID()}','${
                                 application.applicationContext.getString(
                                     R.string.wishlist_category_title
                                 )
-                            }', 1);"
+                            }', 2);"
                         )
                     }.start()
                 }
