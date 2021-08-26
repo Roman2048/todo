@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add_task">Добавить задачу</string>
-    <string name="add_category">Добавить категорию</string>
+    <string name="add_category">Добавить список</string>
     <string name="back">Назад</string>
     <string name="categories_image_button">Управление списками</string>
     <string name="categories_list_toolbar_title">Управление списками</string>
@@ -20,11 +20,11 @@
     <string name="fragment_edit_task_top_label_text">Информация о задаче</string>
     <string name="fragment_language_header_text">Настройки: язык</string>
     <string name="fragment_settings_top_bar_text_view_text">Настройки</string>
-    <string name="app_name">Planner</string>
+    <string name="app_name">LD Planner</string>
     <string name="personal_category_title">Личное</string>
     <string name="wishlist_category_title">Покупки</string>
     <string name="notification_channel_name">Напоминания</string>
-    <string name="notification_title">Planner:</string>
+    <string name="notification_title">LD Planner:</string>
     <string name="add_task_fb_description">Добавить задачу</string>
     <string name="edit_task_set_time_text">Установить время</string>
     <string name="home_fragment_tab_layout_description">Выбор списка</string>

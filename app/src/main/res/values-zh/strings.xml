@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add_task">添加任务</string>
-    <string name="app_name">Planner</string>
+    <string name="app_name">LD Planner</string>
     <string name="personal_category_title">个人的</string>
     <string name="wishlist_category_title">愿望清单</string>
     <string name="notification_channel_name">提醒事项</string>
-    <string name="notification_title">Planner:</string>
+    <string name="notification_title">LD Planner:</string>
     <string name="add_task_fb_description">添加任务</string>
     <string name="edit_task_set_time_text">设置时间</string>
     <string name="home_fragment_tab_layout_description">选择类别</string>

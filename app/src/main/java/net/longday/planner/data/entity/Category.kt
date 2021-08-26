@@ -9,4 +9,5 @@ data class Category(
     @PrimaryKey val id: String,
     val title: String,
     var position: Int = -1,
+    var icon: String? = null,
 ) : Serializable

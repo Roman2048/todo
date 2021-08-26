@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add_task">Ajouter une tâche</string>
-    <string name="app_name">Planner</string>
+    <string name="app_name">LD Planner</string>
     <string name="personal_category_title">Personnel</string>
     <string name="wishlist_category_title">Liste de souhaits</string>
     <string name="notification_channel_name">Rappels</string>
-    <string name="notification_title">Planner:</string>
+    <string name="notification_title">LD Planner:</string>
     <string name="add_task_fb_description">Ajouter une tâche</string>
     <string name="edit_task_set_time_text">Régler le temps</string>
     <string name="home_fragment_tab_layout_description">Choisissez la catégorie</string>

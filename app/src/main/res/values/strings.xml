@@ -34,11 +34,11 @@
     <string name="fragment_language_header_text">Settings: language</string>
     <string name="fragment_settings_top_bar_text_view_text">Settings</string>
     <string name="channel_name" translatable="false">nchan</string>
-    <string name="app_name">Planner</string>
+    <string name="app_name">LD Planner</string>
     <string name="personal_category_title">Personal</string>
     <string name="wishlist_category_title">Wishlist</string>
     <string name="notification_channel_name">Reminders</string>
-    <string name="notification_title">Planner:</string>
+    <string name="notification_title">LD Planner:</string>
     <string name="add_task_fb_description">Add task</string>
     <string name="edit_task_set_time_text">Set time</string>
     <string name="home_fragment_tab_layout_description">Choose list</string>

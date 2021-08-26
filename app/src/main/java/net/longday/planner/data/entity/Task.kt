@@ -19,5 +19,12 @@ data class Task(
     var isDeleted: Boolean = false,
     var isScheduled: Boolean = false,
     var orderInCategory: Int = -1,
+    var orderInTask: Int = -1, // not yet
     var isAllDay: Boolean = true,
+    var parentTaskId: String? = null, // not yet
+    var dueDate: String? = null, // not yet
+    var startTime: String? = null, // not yet
+    var endTime: String? = null, // not yet
+    var icon: String? = null, // not yet
+    var priority: String? = null, // not yet
 ) : Serializable
