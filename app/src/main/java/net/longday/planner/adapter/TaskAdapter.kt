@@ -13,7 +13,6 @@ import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.textview.MaterialTextView
 import net.longday.planner.R
 import net.longday.planner.data.entity.Task
-import net.longday.planner.viewmodel.TaskViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 

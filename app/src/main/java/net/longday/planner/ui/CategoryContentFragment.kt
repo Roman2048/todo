@@ -152,7 +152,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
     }
 
     private fun moveItem(from: Int, to: Int, taskViewModel: TaskViewModel) {
-        val tasks = taskViewModel.tasks.value ?: listOf<Task>()
+        val tasks = taskViewModel.tasks.value ?: listOf()
         val tasksByCategory = tasks.filter { it.categoryId == currentCategory.id && !it.isDone }
         val sortedTasks = tasksByCategory.sortedBy { it.orderInCategory }
         val mutableSortedTasks = sortedTasks.toMutableList()

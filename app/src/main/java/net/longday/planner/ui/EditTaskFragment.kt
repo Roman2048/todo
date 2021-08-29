@@ -69,7 +69,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             view.findViewById(R.id.fragment_edit_task_date_time_button)
         val task: Task = arguments?.get("task") as Task
         var dayTime: Long? = task.dateTime
-        var isAllDay = task.isAllDay ?: true
+        var isAllDay = task.isAllDay
         if (task.dateTime != null) {
             setTimeButton.text =
                 if (task.isAllDay) {

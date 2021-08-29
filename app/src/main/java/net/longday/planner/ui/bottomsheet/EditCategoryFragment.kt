@@ -9,12 +9,9 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
 import net.longday.planner.data.entity.Category
-import net.longday.planner.databinding.FragmentCategoryContentBinding
 import net.longday.planner.databinding.FragmentEditCategoryBinding
 import net.longday.planner.viewmodel.CategoryViewModel
 
