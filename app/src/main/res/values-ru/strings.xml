@@ -37,4 +37,5 @@
     <string name="settings_reminders_header_text">НАПОМИНАНИЯ</string>
     <string name="home_fragment_list_item_today_text">Сегодня</string>
     <string name="work_category_title_for_first_launch">Работа</string>
+    <string name="fragment_settings_terms_text_view_text">Условия использования</string>
 </resources>

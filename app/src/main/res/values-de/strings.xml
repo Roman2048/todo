@@ -37,4 +37,5 @@
     <string name="settings_reminders_header_text">ERINNERUNGEN</string>
     <string name="home_fragment_list_item_today_text">Heute</string>
     <string name="work_category_title_for_first_launch">Work</string>
+    <string name="fragment_settings_terms_text_view_text">Terms of service</string>
 </resources>

@@ -49,7 +49,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             openPowerSettings()
         }
         val privacyPolicy: MaterialTextView =
-            view.findViewById(R.id.fragment_settings_version_policy)
+            view.findViewById(R.id.fragment_settings_privacy_policy)
         backButton.setOnClickListener {
             view.findNavController()
                 .navigate(R.id.action_settingsFragment_to_homeFragment)
@@ -59,6 +59,16 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 Intent(
                     Intent.ACTION_VIEW,
                     Uri.parse("https://longday.net/planner_policy.html")
+                )
+            )
+        }
+        val termsButton: MaterialTextView =
+            view.findViewById(R.id.fragment_settings_terms)
+        termsButton.setOnClickListener {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://longday.net/planner_terms.html")
                 )
             )
         }
