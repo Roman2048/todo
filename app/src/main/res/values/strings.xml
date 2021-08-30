@@ -42,7 +42,7 @@
     <string name="edit_task_set_time_text">Set time</string>
     <string name="home_fragment_tab_layout_description">Choose list</string>
     <string name="settings_section_title_about">ABOUT</string>
-    <string name="settings_about_privacy_policy_text">Privacy policy</string>
+    <string name="settings_about_privacy_policy_text">Privacy Policy</string>
     <string name="settings_about_version_text">Version 1.2</string>
     <string name="settings_reminders_text_battery_ok">Reminders settings are optimal.</string>
     <string name="settings_reminders_text_need_ignore_optimizations">It is recommended that you change the settings for the reminders to work properly</string>
@@ -50,5 +50,5 @@
     <string name="settings_reminders_header_text">REMINDERS</string>
     <string name="home_fragment_list_item_today_text">Today</string>
     <string name="work_category_title_for_first_launch">Work</string>
-    <string name="fragment_settings_terms_text_view_text">Terms of service</string>
+    <string name="fragment_settings_terms_text_view_text">Terms of Service</string>
 </resources>
