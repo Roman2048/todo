@@ -40,13 +40,6 @@ object PersistenceModule {
                         db.execSQL(
                             "INSERT INTO categories VALUES ('${UUID.randomUUID()}','${
                                 application.applicationContext.getString(
-                                    R.string.work_category_title_for_first_launch
-                                )
-                            }', 1, null);"
-                        )
-                        db.execSQL(
-                            "INSERT INTO categories VALUES ('${UUID.randomUUID()}','${
-                                application.applicationContext.getString(
                                     R.string.wishlist_category_title
                                 )
                             }', 2, null);"
