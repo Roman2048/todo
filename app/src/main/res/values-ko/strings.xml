@@ -38,4 +38,14 @@
     <string name="home_fragment_list_item_today_text">오늘</string>
     <string name="work_category_title_for_first_launch">Work</string>
     <string name="fragment_settings_terms_text_view_text">Terms of service</string>
+    <string name="completed">COMPLETED</string>
+    <string name="delete_done_task_dialog_title">Confirmation</string>
+    <string name="delete_done_task_dialog_message">Delete all completed tasks?</string>
+    <string name="delete_done_task_dialog_cancel_button_text">Cancel</string>
+    <string name="delete_category_dialog_message">Delete list with all its tasks?</string>
+    <string name="delete_task_dialog_message">Delete task?</string>
+    <string name="fragment_edit_task_content_hint">Description</string>
+    <string name="fragment_edit_task_edit_title_hint">Title</string>
+    <string name="fragment_edit_task_checkbox_text_active">Status: active</string>
+    <string name="fragment_edit_task_checkbox_text_done">Status: done</string>
 </resources>

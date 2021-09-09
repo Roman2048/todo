@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -128,8 +129,10 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
             // Set gone visibility for done task card to remove margin
             if (tasks.none { it.categoryId == category.id && it.isDone }) {
                 binding.categoryContentDoneTaskRecyclerCard.visibility = View.GONE
+                binding.fragmentCategoryDeleteDoneButton.visibility = View.GONE
             } else {
                 binding.categoryContentDoneTaskRecyclerCard.visibility = View.VISIBLE
+                binding.fragmentCategoryDeleteDoneButton.visibility = View.VISIBLE
             }
             binding.doneTaskRecycler.adapter =
                 DoneTaskAdapter(
@@ -144,6 +147,29 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
                 )
             adapter.notifyDataSetChanged()
             doneAdapter.notifyDataSetChanged()
+        }
+        binding.fragmentCategoryShowDoneTasks.setOnClickListener {
+            changeDoneTaskRecyclerVisibility()
+        }
+        binding.fragmentCategoryDeleteDoneButton.setOnClickListener {
+            onAlertDialog()
+        }
+        binding.fragmentCategoryContentDoneTaskTitleText.setOnClickListener {
+            changeDoneTaskRecyclerVisibility()
+        }
+    }
+
+    private fun changeDoneTaskRecyclerVisibility() {
+        if (binding.doneTaskRecycler.visibility == View.GONE) {
+            binding.doneTaskRecycler.visibility = View.VISIBLE
+            binding.fragmentCategoryShowDoneTasks
+                .setImageResource(R.drawable.ic_round_keyboard_arrow_down_24)
+            binding.fragmentCategoryDeleteDoneButton.visibility = View.VISIBLE
+        } else {
+            binding.doneTaskRecycler.visibility = View.GONE
+            binding.fragmentCategoryShowDoneTasks
+                .setImageResource(R.drawable.ic_round_keyboard_arrow_left_24)
+            binding.fragmentCategoryDeleteDoneButton.visibility = View.GONE
         }
     }
 
@@ -163,5 +189,25 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
             category.orderInCategory = index
             taskViewModel.update(category)
         }
+    }
+
+    private fun onAlertDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(getString(R.string.delete_done_task_dialog_title))
+        builder.setMessage(getString(R.string.delete_done_task_dialog_message))
+        builder.setPositiveButton(
+            getString(R.string.fragment_edit_category_delete_button_text)
+        ) { _, _ ->
+            taskViewModel.tasks.value
+                ?.filter { it.categoryId == currentCategory.id && it.isDone }
+                ?.forEach {
+                    it.isDeleted = true
+                    taskViewModel.update(it)
+                }
+        }
+        builder.setNegativeButton(
+            getString(R.string.delete_done_task_dialog_cancel_button_text)
+        ) { _, _ -> }
+        builder.show()
     }
 }

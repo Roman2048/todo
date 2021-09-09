@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -65,15 +66,26 @@ class EditCategoryFragment : BottomSheetDialogFragment() {
             it.hideKeyboard()
         }
         binding.fragmentEditCategoryDeleteButton.setOnClickListener {
-            categoryViewModel.delete(
-                Category(
-                    category?.id ?: "",
-                    editText.editText?.text.toString(),
-                    category?.position ?: -1,
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle(getString(R.string.delete_done_task_dialog_title))
+            builder.setMessage(getString(R.string.delete_category_dialog_message))
+            builder.setPositiveButton(
+                getString(R.string.fragment_edit_category_delete_button_text)
+            ) { _, _ ->
+                categoryViewModel.delete(
+                    Category(
+                        category?.id ?: "",
+                        editText.editText?.text.toString(),
+                        category?.position ?: -1,
+                    )
                 )
-            )
-            navController?.navigate(R.id.action_editCategoryFragment_to_categoryEditorFragment)
-            it.hideKeyboard()
+                navController?.navigate(R.id.action_editCategoryFragment_to_categoryEditorFragment)
+                it.hideKeyboard()
+            }
+            builder.setNegativeButton(
+                getString(R.string.delete_done_task_dialog_cancel_button_text)
+            ) { _, _ -> }
+            builder.show()
         }
     }
 

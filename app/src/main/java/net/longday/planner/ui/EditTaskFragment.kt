@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -60,6 +61,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             reminders = it
         }
         val editText: TextInputLayout = view.findViewById(R.id.edit_task_edit_text)
+        val editContent: TextInputLayout = view.findViewById(R.id.edit_task_edit_content)
         val deleteButton: MaterialButton = view.findViewById(R.id.edit_task_delete_button)
         val backButton: AppCompatImageButton =
             view.findViewById(R.id.fragment_edit_task_back_button)
@@ -73,14 +75,24 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         if (task.dateTime != null) {
             setTimeButton.text =
                 if (task.isAllDay) {
-                    // Если дата то показываем как есть
                     SimpleDateFormat("MMM d", Locale.getDefault()).format(task.dateTime)
                 } else {
                     SimpleDateFormat("MMM d HH:mm", Locale.getDefault()).format(task.dateTime)
                 }
         }
         doneCheckBox.isChecked = task.isDone
+        if (task.isDone) {
+            doneCheckBox.text = getString(R.string.fragment_edit_task_checkbox_text_done)
+        }
+        doneCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                doneCheckBox.text = getString(R.string.fragment_edit_task_checkbox_text_done)
+            } else {
+                doneCheckBox.text = getString(R.string.fragment_edit_task_checkbox_text_active)
+            }
+        }
         editText.editText?.setText(task.title)
+        editContent.editText?.setText(task.content)
         editText.requestFocus()
 
         backButton.setOnClickListener {
@@ -90,7 +102,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                 categoryId = task.categoryId,
                 createdTime = task.createdTime,
                 timeZone = task.timeZone,
-                content = task.content,
+                content = editContent.editText?.text.toString(),
                 dateTime = dayTime,
                 completedTime = if (doneCheckBox.isChecked) System.currentTimeMillis() else null,
                 deletedTime = task.deletedTime,
@@ -127,12 +139,23 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             it.hideKeyboard()
         }
         deleteButton.setOnClickListener {
-            task.deletedTime = System.currentTimeMillis()
-            task.isDeleted = true
-            taskViewModel.update(task)
-            cancelRemindersForTask(task)
-            view.findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
-            it.hideKeyboard()
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle(getString(R.string.delete_done_task_dialog_title))
+            builder.setMessage(getString(R.string.delete_task_dialog_message))
+            builder.setPositiveButton(
+                getString(R.string.fragment_edit_category_delete_button_text)
+            ) { _, _ ->
+                task.deletedTime = System.currentTimeMillis()
+                task.isDeleted = true
+                taskViewModel.update(task)
+                cancelRemindersForTask(task)
+                view.findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
+                it.hideKeyboard()
+            }
+            builder.setNegativeButton(
+                getString(R.string.delete_done_task_dialog_cancel_button_text)
+            ) { _, _ -> }
+            builder.show()
         }
 
         setTimeButton.setOnClickListener {
