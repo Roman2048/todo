@@ -248,19 +248,4 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         WorkManager.getInstance(requireContext()).enqueue(work)
         return work.id
     }
-
-    /**
-     * Refresh ordering number in each task when new task added
-     */
-    private fun refreshOrder(currentCategory: Category) {
-        tasks.filter { it.categoryId == currentCategory.id && !it.isDone }
-            .sortedBy { it.orderInCategory }
-            .toMutableList()
-            .forEachIndexed { index, category ->
-                category.orderInCategory = index
-                taskViewModel.update(
-                    category
-                )
-            }
-    }
 }

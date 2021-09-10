@@ -3,7 +3,6 @@ package net.longday.planner.ui
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
 import android.provider.Settings
@@ -78,20 +77,14 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
      * Return true if in App's Battery settings "Not optimized"
      */
     private fun isIgnoringBatteryOptimizations(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            (requireContext()
-                .applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager)
-                .isIgnoringBatteryOptimizations(requireContext().applicationContext.packageName)
-        } else {
-            true
-        }
+        val powerManager = requireContext().applicationContext
+            .getSystemService(Context.POWER_SERVICE) as PowerManager
+        return powerManager
+            .isIgnoringBatteryOptimizations(requireContext().applicationContext.packageName)
     }
 
     private fun openPowerSettings() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isIgnoringBatteryOptimizations()) {
-            val intent = Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
-            startActivity(intent)
-        }
+        startActivity(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS))
     }
 
     /**
