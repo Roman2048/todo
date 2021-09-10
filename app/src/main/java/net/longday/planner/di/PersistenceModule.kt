@@ -47,7 +47,7 @@ object PersistenceModule {
                     }.start()
                 }
             })
-            .fallbackToDestructiveMigration()
+//            .fallbackToDestructiveMigration()
 //            .setQueryCallback({ sqlQuery, bindArgs ->
 //                println("SQL Query: $sqlQuery SQL Args: $bindArgs")
 //            }, Executors.newSingleThreadExecutor())

@@ -8,7 +8,7 @@ import java.io.Serializable
 data class Task(
     @PrimaryKey val id: String,
     var title: String,
-    val categoryId: String,
+    var categoryId: String,
     var createdTime: Long = -1,
     var timeZone: String? = null,
     var content: String? = null,

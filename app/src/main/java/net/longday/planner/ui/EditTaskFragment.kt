@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageButton
@@ -23,8 +25,10 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
+import net.longday.planner.data.entity.Category
 import net.longday.planner.data.entity.Reminder
 import net.longday.planner.data.entity.Task
+import net.longday.planner.viewmodel.CategoryViewModel
 import net.longday.planner.viewmodel.ReminderViewModel
 import net.longday.planner.viewmodel.TaskViewModel
 import net.longday.planner.work.OneTimeScheduleWorker
@@ -37,9 +41,15 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
 
     private val taskViewModel: TaskViewModel by viewModels()
 
+    private val categoryViewModel: CategoryViewModel by viewModels()
+
     private val reminderViewModel: ReminderViewModel by viewModels()
 
     private var reminders = listOf<Reminder>()
+
+    private lateinit var taskCategoryTitle: TextInputLayout
+
+    private var tasks = listOf<Task>()
 
     /**
      * Go to main screen if the back button what pressed
@@ -57,9 +67,32 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        reminderViewModel.reminders.observe(viewLifecycleOwner) {
-            reminders = it
+        taskViewModel.tasks.observe(viewLifecycleOwner) { tasks = it }
+        var chosenCategory: Category? = null
+        var categoryList = listOf<Category>()
+        val task: Task = arguments?.get("task") as Task
+        // User can change category by choosing it in drop menu
+        taskCategoryTitle = view.findViewById(R.id.fragment_edit_task_top_label)
+        val autoCompleteTextView =
+            view.findViewById<AutoCompleteTextView>(R.id.fragment_edit_task_top_label_auto_complete)
+        categoryViewModel.categories.observe(viewLifecycleOwner) { categories ->
+            categoryList = categories
+                .filterNot { it.id == task.categoryId }
+                .sortedBy { it.position }
+            taskCategoryTitle.editText?.setText(categories.first { it.id == task.categoryId }.title)
+            (taskCategoryTitle.editText as? AutoCompleteTextView)?.setAdapter(
+                ArrayAdapter(
+                    requireContext(),
+                    R.layout.edit_task_title,
+                    categoryList.map { it.title }
+                )
+            )
         }
+        autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
+            chosenCategory = categoryList[position]
+            task.categoryId = chosenCategory!!.id
+        }
+        reminderViewModel.reminders.observe(viewLifecycleOwner) { reminders = it }
         val editText: TextInputLayout = view.findViewById(R.id.edit_task_edit_text)
         val editContent: TextInputLayout = view.findViewById(R.id.edit_task_edit_content)
         val deleteButton: MaterialButton = view.findViewById(R.id.edit_task_delete_button)
@@ -69,7 +102,6 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             view.findViewById(R.id.fragment_edit_task_done_checkbox)
         val setTimeButton: MaterialButton =
             view.findViewById(R.id.fragment_edit_task_date_time_button)
-        val task: Task = arguments?.get("task") as Task
         var dayTime: Long? = task.dateTime
         var isAllDay = task.isAllDay
         if (task.dateTime != null) {
@@ -81,21 +113,14 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                 }
         }
         doneCheckBox.isChecked = task.isDone
-        if (task.isDone) {
-            doneCheckBox.text = getString(R.string.fragment_edit_task_checkbox_text_done)
-        }
-        doneCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                doneCheckBox.text = getString(R.string.fragment_edit_task_checkbox_text_done)
-            } else {
-                doneCheckBox.text = getString(R.string.fragment_edit_task_checkbox_text_active)
-            }
-        }
         editText.editText?.setText(task.title)
         editContent.editText?.setText(task.content)
         editText.requestFocus()
 
         backButton.setOnClickListener {
+            /* Set task orderInCategory to top position if category was changed */
+            chosenCategory?.let { task.orderInCategory = -1 }
+            /* Create updated task */
             val editedTask = Task(
                 id = task.id,
                 title = editText.editText?.text.toString(),
@@ -112,6 +137,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                 orderInCategory = if (doneCheckBox.isChecked) -1 else task.orderInCategory,
                 isAllDay = isAllDay,
             )
+            /* Update task in database */
             taskViewModel.update(editedTask)
             if (!isAllDay) {
                 cancelRemindersForTask(task)
@@ -129,9 +155,11 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                     }
                 }
             }
+            /* Remove reminder if task is done */
             if (doneCheckBox.isChecked) {
                 cancelRemindersForTask(task)
             }
+            /* Navigate to the main screen */
             view.findNavController().navigate(
                 R.id.action_editTaskFragment_to_homeFragment,
                 bundleOf("categoryId" to task.categoryId)
@@ -216,5 +244,20 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             .build()
         WorkManager.getInstance(requireContext()).enqueue(work)
         return work.id
+    }
+
+    /**
+     * Refresh ordering number in each task when new task added
+     */
+    private fun refreshOrder(currentCategory: Category) {
+        tasks.filter { it.categoryId == currentCategory.id && !it.isDone }
+            .sortedBy { it.orderInCategory }
+            .toMutableList()
+            .forEachIndexed { index, category ->
+                category.orderInCategory = index
+                taskViewModel.update(
+                    category
+                )
+            }
     }
 }
