@@ -79,6 +79,9 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             categoryList = categories
                 .filterNot { it.id == task.categoryId }
                 .sortedBy { it.position }
+            if (categoryList.isEmpty()) {
+                taskCategoryTitle.isEnabled = false
+            }
             taskCategoryTitle.editText?.setText(categories.first { it.id == task.categoryId }.title)
             (taskCategoryTitle.editText as? AutoCompleteTextView)?.setAdapter(
                 ArrayAdapter(
