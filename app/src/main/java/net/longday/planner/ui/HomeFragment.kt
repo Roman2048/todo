@@ -15,6 +15,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,24 +36,31 @@ import net.longday.planner.viewmodel.TabViewModel
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
+    private var _binding: FragmentHomeBinding? = null
+
+    private val binding get() = _binding!!
+
     private val categoryViewModel: CategoryViewModel by viewModels()
 
     private val tabViewModel: TabViewModel by viewModels()
 
-    private var _binding: FragmentHomeBinding? = null
+    private lateinit var viewPager: ViewPager2
 
-    private val binding get() = _binding!!
+    private lateinit var tabLayout: TabLayout
+
+    private var sortedCategories = listOf<Category>()
+
+    private lateinit var chosenCategory: Category
 
     /**
      * Close app if the back button what pressed on main screen
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activity
-            ?.onBackPressedDispatcher
-            ?.addCallback(this, object : OnBackPressedCallback(true) {
+        requireActivity().onBackPressedDispatcher
+            .addCallback(this, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    activity?.finish()
+                    requireActivity().finish()
                 }
             })
     }
@@ -72,52 +80,48 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewPager = binding.categoryViewPager
+        tabLayout = binding.tabLayout
         createNotificationChannel()
         syncNavigationBarColorWithUiNightMode()
-        val pagerAdapter = ViewPagerAdapter(this, listOf())
-        binding.categoryViewPager.adapter = pagerAdapter
-        var category = Category("", "")
-        var categories = listOf<Category>()
-
+        val pagerAdapter = ViewPagerAdapter(this, sortedCategories)
+        viewPager.adapter = pagerAdapter
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = sortedCategories[position].title
+        }.attach()
         categoryViewModel.categories.observe(viewLifecycleOwner) {
-            val sortedCategories = it.sortedBy { cat -> cat.position }
-            categories = sortedCategories
+            sortedCategories = it.sortedBy { cat -> cat.position }
             pagerAdapter.categories = sortedCategories
             pagerAdapter.notifyDataSetChanged()
-            TabLayoutMediator(binding.tabLayout, binding.categoryViewPager) { tab, position ->
-                tab.text = sortedCategories[position].title
-            }.attach()
         }
 
-        // Handle the tabs
         var newSelect = true
-        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
+                /* Save last used Tab position */
                 if (!newSelect) {
-                    tabViewModel.insert(Tab(1, binding.tabLayout.selectedTabPosition))
+                    tabViewModel.insert(Tab(selected = tabLayout.selectedTabPosition))
                 }
                 newSelect = false
-                category = categories[tab!!.position]
+                /* Save current category. Used in bundle when navigate to AddTaskFragment */
+                chosenCategory = sortedCategories[tab?.position ?: 0]
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
 
+        /* Workaround to return on last used Tab when navigate to HomeFragment from other places */
+        // FIXME: Blink when changing tab to last used
         tabViewModel.tab.observe(viewLifecycleOwner) {
-            binding.categoryViewPager.postDelayed(
-                {
-                    binding.tabLayout.getTabAt(it.selected)?.select()
-                    binding.categoryViewPager.currentItem = it.selected
-                }, 0
-            )
+            viewPager.post { viewPager.currentItem = it.selected }
         }
 
+        /* Create new task fab */
         binding.fab.setOnClickListener {
-            // Навигация
             view.findNavController().navigate(
                 R.id.action_homeFragment_to_addTaskFragment,
-                bundleOf("category" to category)
+                bundleOf("category" to chosenCategory)
             )
         }
 
@@ -140,12 +144,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 getString(R.string.notification_channel_name),
                 NotificationManager.IMPORTANCE_HIGH
             )
-//            notificationChannel.vibrationPattern = longArrayOf(700L)
-            notificationChannel.importance = NotificationManager.IMPORTANCE_HIGH
             notificationChannel.enableVibration(true)
             val notificationManager =
                 requireContext().getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-//            notificationManager.deleteNotificationChannel("test_planner_reminders");
             notificationManager.createNotificationChannel(notificationChannel)
         }
     }
@@ -154,14 +155,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
      * Set Navigation bar color to black when dark theme is active
      */
     private fun syncNavigationBarColorWithUiNightMode() {
-        when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
-            Configuration.UI_MODE_NIGHT_YES -> {
-                requireActivity().window.navigationBarColor = Color.BLACK
-            }
-            Configuration.UI_MODE_NIGHT_NO -> {
-            }
-            Configuration.UI_MODE_NIGHT_UNDEFINED -> {
-            }
+        val uiMode = resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK)
+        if (uiMode == Configuration.UI_MODE_NIGHT_YES) {
+            requireActivity().window.navigationBarColor = Color.BLACK
         }
     }
 

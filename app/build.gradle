@@ -52,75 +52,51 @@ android {
 }
 
 dependencies {
-
+    /* Billing */
     def billing_version = "4.0.0"
-
     implementation "com.android.billingclient:billing-ktx:$billing_version"
-
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
-
-    implementation("androidx.hilt:hilt-navigation-fragment:1.0.0")
-
+    /* Firebase */
+    implementation 'com.google.firebase:firebase-messaging:22.0.0'
 //    implementation platform('com.google.firebase:firebase-bom:28.3.0')
-
+    /* Retrofit */
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.google.firebase:firebase-messaging:22.0.0'
-
+    /* Hilt, Dagger */
+    implementation("androidx.hilt:hilt-navigation-fragment:1.0.0")
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
     // Kotlin + coroutines
     implementation "androidx.work:work-runtime-ktx:2.6.0"
-
     implementation 'androidx.preference:preference-ktx:1.1.1'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    /* Navigation */
     def nav_version = "2.3.5"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-
-    implementation "androidx.viewpager2:viewpager2:1.0.0"
-
-    implementation "com.google.dagger:hilt-android:$hilt_version"
-
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
-
+    /* Lifecycle */
     def lifecycle_version = "2.3.1"
     def arch_version = "2.1.0"
-
-    // ViewModel
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-    // Lifecycles only (without ViewModel or LiveData)
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
-
-    // Saved state module for ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
-
-    // Annotation processor
-//    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
-    // alternately - if using Java8, use the following instead of lifecycle-compiler
-    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
-
-    // optional - helpers for implementing LifecycleOwner in a Service
     implementation "androidx.lifecycle:lifecycle-service:$lifecycle_version"
-
-    // optional - ProcessLifecycleOwner provides a lifecycle for the whole application process
     implementation "androidx.lifecycle:lifecycle-process:$lifecycle_version"
-
-    // optional - ReactiveStreams support for LiveData
     implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version"
-
-    // optional - Test helpers for LiveData
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     testImplementation "androidx.arch.core:core-testing:$arch_version"
+    /* Room */
     def room_version = "2.3.0"
-    implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     testImplementation "androidx.room:room-testing:$room_version"
+    /* Other */
     def activity_version = "1.3.1"
     implementation "androidx.activity:activity-ktx:$activity_version"
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "androidx.fragment:fragment-ktx:1.3.6"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.6.0'
     implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'com.google.android.material:material:1.4.0'
