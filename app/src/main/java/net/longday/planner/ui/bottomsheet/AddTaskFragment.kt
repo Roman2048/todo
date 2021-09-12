@@ -1,5 +1,6 @@
 package net.longday.planner.ui.bottomsheet
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -51,6 +52,15 @@ class AddTaskFragment : BottomSheetDialogFragment() {
         val timeTextView: MaterialTextView =
             view.findViewById(R.id.add_task_fragment_time_text_view)
         val category: Category? = arguments?.get("category") as Category?
+        val intent: Intent? = arguments?.get("intent") as Intent?
+        intent.let {
+            if (intent != null) {
+                intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
+                    editText.editText?.setText(it)
+                }
+                intent.action = ""
+            }
+        }
         editText.requestFocus()
         val navController =
             activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment)

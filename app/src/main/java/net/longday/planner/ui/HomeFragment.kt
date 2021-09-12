@@ -3,6 +3,7 @@ package net.longday.planner.ui
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context.NOTIFICATION_SERVICE
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
@@ -50,7 +51,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private var sortedCategories = listOf<Category>()
 
-    private lateinit var chosenCategory: Category
+    private var chosenCategory: Category? = null
 
     /**
      * Close app if the back button what pressed on main screen
@@ -93,6 +94,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             sortedCategories = it.sortedBy { cat -> cat.position }
             pagerAdapter.categories = sortedCategories
             pagerAdapter.notifyDataSetChanged()
+            /* Create new task if activity started by SEND intent */
+            val intent = requireActivity().intent
+            when (intent.action) {
+                Intent.ACTION_SEND -> {
+                    if (intent.type == "text/plain") {
+                        view.findNavController().navigate(
+                            R.id.action_homeFragment_to_addTaskFragment,
+                            bundleOf(
+                                Pair("category", chosenCategory ?: sortedCategories[0]),
+                                Pair("intent", intent)
+                            )
+                        )
+                    }
+                }
+            }
         }
 
         var newSelect = true
