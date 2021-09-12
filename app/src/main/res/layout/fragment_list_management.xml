@@ -8,15 +8,14 @@
     android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+        app:contentInsetStart="0dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageButton
-            android:id="@+id/category_editor_edit_button"
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/list_management_back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:background="@null"
             android:contentDescription="@string/back"
             android:minWidth="48dp"
@@ -26,7 +25,6 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:text="@string/categories_list_toolbar_title"
             android:textSize="22sp" />
 
@@ -40,7 +38,7 @@
         card_view:cardCornerRadius="12dp">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/categories_add_new_category_item"
+            android:id="@+id/list_management_add_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="4dp"
@@ -58,12 +56,12 @@
         card_view:cardCornerRadius="12dp">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/categories_recycler_view"
+            android:id="@+id/list_management_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:context=".ui.CategoriesListFragment" />
+            tools:context=".ui.ListManagementFragment" />
 
     </com.google.android.material.card.MaterialCardView>
 

@@ -25,13 +25,12 @@ import net.longday.planner.viewmodel.TaskViewModel
 @AndroidEntryPoint
 class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
 
+    private var _binding: FragmentCategoryContentBinding? = null
+    private val binding get() = _binding!!
+
     private val taskViewModel: TaskViewModel by viewModels()
 
     private lateinit var currentCategory: Category
-
-    private var _binding: FragmentCategoryContentBinding? = null
-
-    private val binding get() = _binding!!
 
     private val itemTouchHelper by lazy {
         val simpleItemTouchCallback =
@@ -102,9 +101,6 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         itemTouchHelper.attachToRecyclerView(binding.taskRecycler)
-//        recyclerView.addItemDecoration(
-//            DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
-//        )
         val updateTask: (task: Task) -> Unit = { taskViewModel.update(it) }
         val adapter = TaskAdapter(listOf(), updateTask)
         val doneAdapter = DoneTaskAdapter(listOf(), updateTask)

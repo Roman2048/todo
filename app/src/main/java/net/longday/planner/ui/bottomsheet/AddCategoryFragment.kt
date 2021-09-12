@@ -35,6 +35,7 @@ class AddCategoryFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.showKeyboard()
         // Обновляем позиции если одна из них равна "-1" (то есть добавлена новая категория)
         categoryViewModel.categories.observe(viewLifecycleOwner) {
             if (it.any { category -> category.position == -1 }) {
@@ -60,6 +61,11 @@ class AddCategoryFragment : BottomSheetDialogFragment() {
 
     override fun getTheme(): Int {
         return R.style.BottomSheetStyle
+    }
+
+    private fun View.showKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
     }
 
     private fun View.hideKeyboard() {

@@ -2,14 +2,14 @@ package net.longday.planner.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -28,6 +28,7 @@ import net.longday.planner.R
 import net.longday.planner.data.entity.Category
 import net.longday.planner.data.entity.Reminder
 import net.longday.planner.data.entity.Task
+import net.longday.planner.databinding.FragmentEditTaskBinding
 import net.longday.planner.viewmodel.CategoryViewModel
 import net.longday.planner.viewmodel.ReminderViewModel
 import net.longday.planner.viewmodel.TaskViewModel
@@ -39,74 +40,97 @@ import java.util.concurrent.TimeUnit
 @AndroidEntryPoint
 class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
 
+    private var _binding: FragmentEditTaskBinding? = null
+    private val binding get() = _binding!!
+
     private val taskViewModel: TaskViewModel by viewModels()
-
     private val categoryViewModel: CategoryViewModel by viewModels()
-
     private val reminderViewModel: ReminderViewModel by viewModels()
 
-    private var reminders = listOf<Reminder>()
+    private lateinit var taskListTitle: TextInputLayout
+    private lateinit var autoCompleteTextView: AutoCompleteTextView
+    private lateinit var editTaskTitle: TextInputLayout
+    private lateinit var editTaskContent: TextInputLayout
+    private lateinit var deleteTaskButton: MaterialButton
+    private lateinit var backButton: AppCompatImageButton
+    private lateinit var doneCheckBox: MaterialCheckBox
+    private lateinit var setTimeButton: MaterialButton
 
-    private lateinit var taskCategoryTitle: TextInputLayout
-
+    private var sortedCategories = listOf<Category>()
     private var tasks = listOf<Task>()
+    private var reminders = listOf<Reminder>()
+    private var category: Category? = null
+    private lateinit var task: Task
+    private var taskTime: Long? = null
+    private var isAllDay = true
 
-    /**
-     * Go to main screen if the back button what pressed
-     */
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        activity
-            ?.onBackPressedDispatcher
-            ?.addCallback(this, object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    findNavController()
-                        .navigate(R.id.action_editTaskFragment_to_homeFragment)
-                }
-            })
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentEditTaskBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        bindViews()
+        editTaskTitle.requestFocus()
+        task = arguments?.get("task") as Task
+        taskTime = task.dateTime
+        isAllDay = task.isAllDay
         taskViewModel.tasks.observe(viewLifecycleOwner) { tasks = it }
-        var chosenCategory: Category? = null
-        var categoryList = listOf<Category>()
-        val task: Task = arguments?.get("task") as Task
-        // User can change category by choosing it in drop menu
-        taskCategoryTitle = view.findViewById(R.id.fragment_edit_task_top_label)
-        val autoCompleteTextView =
-            view.findViewById<AutoCompleteTextView>(R.id.fragment_edit_task_top_label_auto_complete)
+        reminderViewModel.reminders.observe(viewLifecycleOwner) { reminders = it }
+        handleChooseCategoryTextInput()
+        showDateOrTime()
+        doneCheckBox.isChecked = task.isDone
+        editTaskTitle.editText?.setText(task.title)
+        editTaskContent.editText?.setText(task.content)
+        setBackButton()
+        setDeleteTaskButton(view)
+        setDateTimePickerButton()
+    }
+
+    private fun bindViews() {
+        taskListTitle = binding.fragmentEditTaskTopLabel
+        autoCompleteTextView = binding.fragmentEditTaskTopLabelAutoComplete
+        editTaskTitle = binding.editTaskEditText
+        editTaskContent = binding.editTaskEditContent
+        deleteTaskButton = binding.editTaskDeleteButton
+        backButton = binding.fragmentEditTaskBackButton
+        doneCheckBox = binding.fragmentEditTaskDoneCheckbox
+        setTimeButton = binding.fragmentEditTaskDateTimeButton
+    }
+
+    private fun handleChooseCategoryTextInput() {
+        /* Fill autoComplete with values */
         categoryViewModel.categories.observe(viewLifecycleOwner) { categories ->
-            categoryList = categories
-                .filterNot { it.id == task.categoryId }
-                .sortedBy { it.position }
-            if (categoryList.isEmpty()) {
-                taskCategoryTitle.isEnabled = false
+            sortedCategories = categories.sortedBy { it.position }
+            if (sortedCategories.isEmpty()) {
+                taskListTitle.isEnabled = false
             }
-            taskCategoryTitle.editText?.setText(categories.first { it.id == task.categoryId }.title)
-            (taskCategoryTitle.editText as? AutoCompleteTextView)?.setAdapter(
+            taskListTitle.editText?.setText(categories.first { it.id == task.categoryId }.title)
+            (taskListTitle.editText as? AutoCompleteTextView)?.setAdapter(
                 ArrayAdapter(
                     requireContext(),
                     R.layout.edit_task_title,
-                    categoryList.map { it.title }
+                    sortedCategories.map { it.title }
                 )
             )
         }
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
-            chosenCategory = categoryList[position]
-            task.categoryId = chosenCategory!!.id
+            category = sortedCategories[position]
+            task.categoryId = category!!.id
         }
-        reminderViewModel.reminders.observe(viewLifecycleOwner) { reminders = it }
-        val editText: TextInputLayout = view.findViewById(R.id.edit_task_edit_text)
-        val editContent: TextInputLayout = view.findViewById(R.id.edit_task_edit_content)
-        val deleteButton: MaterialButton = view.findViewById(R.id.edit_task_delete_button)
-        val backButton: AppCompatImageButton =
-            view.findViewById(R.id.fragment_edit_task_back_button)
-        val doneCheckBox: MaterialCheckBox =
-            view.findViewById(R.id.fragment_edit_task_done_checkbox)
-        val setTimeButton: MaterialButton =
-            view.findViewById(R.id.fragment_edit_task_date_time_button)
-        var dayTime: Long? = task.dateTime
-        var isAllDay = task.isAllDay
+    }
+
+    /* Set task due date or time if present */
+    private fun showDateOrTime() {
         if (task.dateTime != null) {
             setTimeButton.text =
                 if (task.isAllDay) {
@@ -115,23 +139,21 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                     SimpleDateFormat("MMM d HH:mm", Locale.getDefault()).format(task.dateTime)
                 }
         }
-        doneCheckBox.isChecked = task.isDone
-        editText.editText?.setText(task.title)
-        editContent.editText?.setText(task.content)
-        editText.requestFocus()
+    }
 
+    private fun setBackButton() {
         backButton.setOnClickListener {
             /* Set task orderInCategory to top position if category was changed */
-            chosenCategory?.let { task.orderInCategory = -1 }
+            category?.let { task.orderInCategory = -1 }
             /* Create updated task */
             val editedTask = Task(
                 id = task.id,
-                title = editText.editText?.text.toString(),
+                title = editTaskTitle.editText?.text.toString(),
                 categoryId = task.categoryId,
                 createdTime = task.createdTime,
                 timeZone = task.timeZone,
-                content = editContent.editText?.text.toString(),
-                dateTime = dayTime,
+                content = editTaskContent.editText?.text.toString(),
+                dateTime = taskTime,
                 completedTime = if (doneCheckBox.isChecked) System.currentTimeMillis() else null,
                 deletedTime = task.deletedTime,
                 isDone = doneCheckBox.isChecked,
@@ -144,15 +166,18 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             taskViewModel.update(editedTask)
             if (!isAllDay) {
                 cancelRemindersForTask(task)
-                dayTime?.let { time ->
+                taskTime?.let { time ->
                     if (time - Calendar.getInstance().timeInMillis > 0) {
                         val workerId =
-                            scheduleOneTimeNotification(time, editText.editText?.text.toString())
+                            scheduleOneTimeNotification(
+                                time,
+                                editTaskTitle.editText?.text.toString()
+                            )
                         reminderViewModel.insert(
                             Reminder(
                                 taskId = editedTask.id,
                                 workerId = workerId.toString(),
-                                time = dayTime,
+                                time = taskTime,
                             )
                         )
                     }
@@ -163,13 +188,13 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                 cancelRemindersForTask(task)
             }
             /* Navigate to the main screen */
-            view.findNavController().navigate(
-                R.id.action_editTaskFragment_to_homeFragment,
-                bundleOf("categoryId" to task.categoryId)
-            )
+            findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
             it.hideKeyboard()
         }
-        deleteButton.setOnClickListener {
+    }
+
+    private fun setDeleteTaskButton(view: View) {
+        deleteTaskButton.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
             builder.setTitle(getString(R.string.delete_done_task_dialog_title))
             builder.setMessage(getString(R.string.delete_task_dialog_message))
@@ -188,19 +213,21 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             ) { _, _ -> }
             builder.show()
         }
+    }
 
+    private fun setDateTimePickerButton() {
         setTimeButton.setOnClickListener {
             val materialDatePicker = MaterialDatePicker.Builder.datePicker().build()
             materialDatePicker.addOnNegativeButtonClickListener {
-                dayTime = null
+                taskTime = null
                 isAllDay = true
                 setTimeButton.text = requireContext().getString(R.string.edit_task_set_time_text)
             }
             materialDatePicker.addOnPositiveButtonClickListener {
-                dayTime = materialDatePicker.selection
+                taskTime = materialDatePicker.selection
                 isAllDay = true
                 setTimeButton.text =
-                    SimpleDateFormat("MMM d", Locale.getDefault()).format(dayTime)
+                    SimpleDateFormat("MMM d", Locale.getDefault()).format(taskTime)
                 val materialTimePicker = MaterialTimePicker.Builder()
                     .setTimeFormat(TimeFormat.CLOCK_24H)
                     .build()
@@ -209,10 +236,10 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                     val newMinute: Int = materialTimePicker.minute
                     val plus =
                         (newHour * 3600000) + (newMinute * 60000) - TimeZone.getDefault().rawOffset
-                    dayTime = dayTime?.plus(plus)
+                    taskTime = taskTime?.plus(plus)
                     isAllDay = false
                     setTimeButton.text =
-                        SimpleDateFormat("MMM d HH:mm", Locale.getDefault()).format(dayTime)
+                        SimpleDateFormat("MMM d HH:mm", Locale.getDefault()).format(taskTime)
                 }
                 materialTimePicker.show(childFragmentManager, "fragment_time_picker_tag")
             }
@@ -238,7 +265,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
     }
 
-    // Create Notification
+    /* Crete new reminder for task */
     private fun scheduleOneTimeNotification(scheduledTime: Long, title: String): UUID {
         val diff: Long = scheduledTime - Calendar.getInstance().timeInMillis
         val work = OneTimeWorkRequestBuilder<OneTimeScheduleWorker>()

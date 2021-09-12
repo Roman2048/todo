@@ -18,21 +18,6 @@ import net.longday.planner.R
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
-    /**
-     * Go to main screen if the back button what pressed
-     */
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        activity
-            ?.onBackPressedDispatcher
-            ?.addCallback(this, object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    findNavController()
-                        .navigate(R.id.action_settingsFragment_to_homeFragment)
-                }
-            })
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val backButton: ImageButton = view.findViewById(R.id.fragment_settings_back_button)

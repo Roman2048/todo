@@ -1,14 +1,12 @@
 package net.longday.planner.ui
 
-import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.view.inputmethod.InputMethodManager
-import androidx.activity.OnBackPressedCallback
+import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
@@ -18,31 +16,40 @@ import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
 import net.longday.planner.adapter.CategoryAdapter
 import net.longday.planner.data.entity.Category
+import net.longday.planner.databinding.FragmentListManagementBinding
 import net.longday.planner.viewmodel.CategoryViewModel
 
 /**
- * Category management screen
+ * List management screen
  */
 @AndroidEntryPoint
-class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
+class ListManagementFragment : Fragment(R.layout.fragment_list_management) {
+
+    private var _binding: FragmentListManagementBinding? = null
+    private val binding get() = _binding!!
 
     private val categoryViewModel: CategoryViewModel by viewModels()
+    private var categoryList = listOf<Category>()
 
-    /**
-     * Go to main screen if the back button what pressed
-     */
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        activity
-            ?.onBackPressedDispatcher
-            ?.addCallback(this, object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    findNavController()
-                        .navigate(R.id.action_categoryEditorFragment_to_homeFragment)
-                }
-            })
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var addListTextView: MaterialTextView
+    private lateinit var backButton: AppCompatImageButton
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentListManagementBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    /* Handle lists reordering by drag & drop */
     private val itemTouchHelper by lazy {
         val simpleItemTouchCallback =
             object : ItemTouchHelper.SimpleCallback(UP or DOWN or START or END, 0) {
@@ -94,53 +101,35 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val recycler: RecyclerView = view.findViewById(R.id.categories_recycler_view)
-        itemTouchHelper.attachToRecyclerView(recycler)
-        val addCategoryItem: MaterialTextView =
-            view.findViewById(R.id.categories_add_new_category_item)
+        recyclerView = binding.listManagementRecycler
+        addListTextView = binding.listManagementAddList
+        backButton = binding.listManagementBackButton
+        itemTouchHelper.attachToRecyclerView(recyclerView)
         val adapter = CategoryAdapter(mutableListOf())
-        recycler.adapter = adapter
+        recyclerView.adapter = adapter
         categoryViewModel.categories.observe(viewLifecycleOwner) {
+            categoryList = it
             adapter.categories = it.sortedBy { category -> category.position }
             adapter.notifyDataSetChanged()
         }
-        val backButton: AppCompatImageButton = view.findViewById(R.id.category_editor_edit_button)
         backButton.setOnClickListener {
-            view.findNavController().navigate(R.id.action_categoryEditorFragment_to_homeFragment)
+            findNavController().navigate(R.id.action_listManagement_to_home)
         }
-
-        addCategoryItem.setOnClickListener {
-            view.findNavController()
-                .navigate(R.id.action_categoryEditorFragment_to_addCategoryFragment)
-            it.showKeyboard()
+        addListTextView.setOnClickListener {
+            findNavController().navigate(R.id.action_listManagement_to_addCategory)
         }
     }
 
-    private fun View.showKeyboard() {
-        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
-    }
-
+    /* Sort lists after reordering */
     private fun moveItem(from: Int, to: Int, categoryViewModel: CategoryViewModel) {
-        val categories = categoryViewModel.categories.value ?: listOf()
-        val sortedCategories = categories.sortedBy { it.position }
-        val mutableSortedCategories = sortedCategories.toMutableList()
+        val sortedCategories = categoryList.sortedBy { it.position }
         val itemToMove = sortedCategories[from]
+        val mutableSortedCategories = sortedCategories.toMutableList()
         mutableSortedCategories.removeAt(from)
         mutableSortedCategories.add(to, itemToMove)
-        /* После выполнения кода выше должен получится лист с правильным порядоком, но неправильными position */
         mutableSortedCategories.forEachIndexed { index, category ->
             category.position = index
-        }
-        /* Получен лист с исправлеными position */
-        mutableSortedCategories.forEach {
-            categoryViewModel.update(
-                Category(
-                    it.id,
-                    it.title,
-                    it.position,
-                )
-            )
+            categoryViewModel.update(category)
         }
     }
 }

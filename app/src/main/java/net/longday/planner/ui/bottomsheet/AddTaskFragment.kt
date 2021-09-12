@@ -77,7 +77,10 @@ class AddTaskFragment : BottomSheetDialogFragment() {
                     dayTime?.let { time ->
                         if (time - Calendar.getInstance().timeInMillis > 0) {
                             val workerId =
-                                scheduleOneTimeNotification(time, editText.editText?.text.toString())
+                                scheduleOneTimeNotification(
+                                    time,
+                                    editText.editText?.text.toString()
+                                )
                             reminderViewModel.insert(
                                 Reminder(
                                     taskId = newTask.id,
