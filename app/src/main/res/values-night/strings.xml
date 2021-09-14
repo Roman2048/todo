@@ -46,4 +46,5 @@
     <string name="fragment_edit_task_edit_title_hint">Title</string>
     <string name="fragment_edit_task_checkbox_text_active">Status: active</string>
     <string name="fragment_edit_task_checkbox_text_done">Status: done</string>
+    <string name="fragment_category_content_active_task_title">ACTIVE</string>
 </resources>

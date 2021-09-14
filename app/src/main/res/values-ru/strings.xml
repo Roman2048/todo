@@ -48,4 +48,5 @@
     <string name="fragment_edit_task_edit_title_hint">Заголовок</string>
     <string name="fragment_edit_task_checkbox_text_active">Статус: активно</string>
     <string name="fragment_edit_task_checkbox_text_done">Статус: выполнено</string>
+    <string name="fragment_category_content_active_task_title">АКТИВНО</string>
 </resources>

@@ -32,6 +32,8 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
 
     private lateinit var currentCategory: Category
 
+    private var filterByImportance = false
+
     private val itemTouchHelper by lazy {
         val simpleItemTouchCallback =
             object : ItemTouchHelper.SimpleCallback(UP or DOWN or START or END, 0) {
@@ -114,6 +116,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
             } else {
                 binding.emptyImageView.visibility = View.GONE
                 binding.categoryContentImageCard.visibility = View.GONE
+//                binding.categoryContentTaskRecyclerCard.visibility = View.VISIBLE
             }
             if (tasks.none { it.categoryId == category.id && !it.isDone }) {
                 binding.categoryContentTaskRecyclerCard.visibility = View.GONE
@@ -137,10 +140,19 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
                         .sortedBy { it.completedTime }
                         .reversed(), updateTask)
             binding.taskRecycler.adapter =
-                TaskAdapter(
-                    filterTasks(tasks).filter { it.categoryId == category.id && !it.isDone },
-                    updateTask
-                )
+                if (filterByImportance) {
+                    TaskAdapter(
+                        filterTasks(tasks).filter {
+                            it.categoryId == category.id && !it.isDone && it.priority == "HIGH"
+                        },
+                        updateTask
+                    )
+                } else {
+                    TaskAdapter(
+                        filterTasks(tasks).filter { it.categoryId == category.id && !it.isDone },
+                        updateTask
+                    )
+                }
             adapter.notifyDataSetChanged()
             doneAdapter.notifyDataSetChanged()
         }
@@ -152,6 +164,18 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
         }
         binding.fragmentCategoryContentDoneTaskTitleText.setOnClickListener {
             changeDoneTaskRecyclerVisibility()
+        }
+        binding.fragmentCategoryShowActiveTasks.setOnClickListener {
+            changeActiveTaskRecyclerVisibility()
+        }
+        // FIXME: find why button don't work
+        binding.fragmentCategoryFilterByPriorityButton.visibility = View.GONE
+        binding.fragmentCategoryFilterByPriorityButton.setOnClickListener {
+            filterByImportance = !filterByImportance
+            adapter.notifyDataSetChanged()
+        }
+        binding.fragmentCategoryContentActiveTaskTitleText.setOnClickListener {
+            changeActiveTaskRecyclerVisibility()
         }
     }
 
@@ -166,6 +190,21 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
             binding.fragmentCategoryShowDoneTasks
                 .setImageResource(R.drawable.ic_round_keyboard_arrow_left_24)
             binding.fragmentCategoryDeleteDoneButton.visibility = View.GONE
+        }
+    }
+
+    private fun changeActiveTaskRecyclerVisibility() {
+        if (binding.taskRecycler.visibility == View.GONE) {
+            binding.taskRecycler.visibility = View.VISIBLE
+            binding.fragmentCategoryShowActiveTasks
+                .setImageResource(R.drawable.ic_round_keyboard_arrow_down_24)
+            // FIXME: find why button don't work (change to VISIBLE)
+            binding.fragmentCategoryFilterByPriorityButton.visibility = View.GONE
+        } else {
+            binding.taskRecycler.visibility = View.GONE
+            binding.fragmentCategoryShowActiveTasks
+                .setImageResource(R.drawable.ic_round_keyboard_arrow_left_24)
+            binding.fragmentCategoryFilterByPriorityButton.visibility = View.GONE
         }
     }
 
