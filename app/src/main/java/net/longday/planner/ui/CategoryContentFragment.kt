@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -29,6 +30,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
     private val binding get() = _binding!!
 
     private val taskViewModel: TaskViewModel by viewModels()
+    private lateinit var allTasks: List<Task>
 
     private lateinit var currentCategory: Category
 
@@ -111,6 +113,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
         val category: Category = arguments?.get("category") as Category
         currentCategory = category
         taskViewModel.tasks.observe(viewLifecycleOwner) { tasks ->
+            allTasks = tasks
             if (tasks.none { it.categoryId == category.id }) {
                 binding.emptyImageView.visibility = View.VISIBLE
             } else {
@@ -140,19 +143,10 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
                         .sortedBy { it.completedTime }
                         .reversed(), updateTask)
             binding.taskRecycler.adapter =
-                if (filterByImportance) {
-                    TaskAdapter(
-                        filterTasks(tasks).filter {
-                            it.categoryId == category.id && !it.isDone && it.priority == "HIGH"
-                        },
-                        updateTask
-                    )
-                } else {
-                    TaskAdapter(
-                        filterTasks(tasks).filter { it.categoryId == category.id && !it.isDone },
-                        updateTask
-                    )
-                }
+                TaskAdapter(
+                    filterTasks(tasks).filter { it.categoryId == category.id && !it.isDone },
+                    updateTask
+                )
             adapter.notifyDataSetChanged()
             doneAdapter.notifyDataSetChanged()
         }
@@ -169,10 +163,34 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
             changeActiveTaskRecyclerVisibility()
         }
         // FIXME: find why button don't work
-        binding.fragmentCategoryFilterByPriorityButton.visibility = View.GONE
+//        binding.fragmentCategoryFilterByPriorityButton.visibility = View.GONE
         binding.fragmentCategoryFilterByPriorityButton.setOnClickListener {
             filterByImportance = !filterByImportance
-            adapter.notifyDataSetChanged()
+            binding.taskRecycler.adapter = if (filterByImportance) {
+                binding.fragmentCategoryFilterByPriorityButton.setColorFilter(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        android.R.color.holo_red_dark
+                    ), android.graphics.PorterDuff.Mode.SRC_IN
+                )
+                TaskAdapter(
+                    filterTasks(allTasks).filter {
+                        it.categoryId == category.id && !it.isDone && it.priority == "HIGH"
+                    },
+                    updateTask
+                )
+            } else {
+                binding.fragmentCategoryFilterByPriorityButton.setColorFilter(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.primaryLightColor
+                    ), android.graphics.PorterDuff.Mode.SRC_IN
+                )
+                TaskAdapter(
+                    filterTasks(allTasks).filter { it.categoryId == category.id && !it.isDone },
+                    updateTask
+                )
+            }
         }
         binding.fragmentCategoryContentActiveTaskTitleText.setOnClickListener {
             changeActiveTaskRecyclerVisibility()
@@ -199,7 +217,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
             binding.fragmentCategoryShowActiveTasks
                 .setImageResource(R.drawable.ic_round_keyboard_arrow_down_24)
             // FIXME: find why button don't work (change to VISIBLE)
-            binding.fragmentCategoryFilterByPriorityButton.visibility = View.GONE
+            binding.fragmentCategoryFilterByPriorityButton.visibility = View.VISIBLE
         } else {
             binding.taskRecycler.visibility = View.GONE
             binding.fragmentCategoryShowActiveTasks

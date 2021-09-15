@@ -86,13 +86,30 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:background="@null"
             android:contentDescription="@string/new_task_set_time_content_description"
             android:text="@string/edit_task_set_time_text"
             app:icon="@drawable/ic_round_access_time_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edit_task_edit_text" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/fragment_edit_task_switch_priority"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_edit_task_date_time_button"
+            app:layout_constraintEnd_toStartOf="@id/fragment_edit_task_switch_label"
+            app:layout_constraintTop_toTopOf="@id/fragment_edit_task_date_time_button" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/fragment_edit_task_switch_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/edit_task_priority_label"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_edit_task_date_time_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/fragment_edit_task_date_time_button" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/edit_task_edit_content"

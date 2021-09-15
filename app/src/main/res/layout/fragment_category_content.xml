@@ -74,7 +74,8 @@
                         android:contentDescription="@string/categories_image_button"
                         android:minWidth="48dp"
                         android:minHeight="48dp"
-                        android:src="@drawable/ic_round_edit_note_24" />
+                        android:src="@drawable/ic_round_priority_high_24"
+                        android:tint="@color/primaryLightColor" />
 
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/fragment_category_show_active_tasks"

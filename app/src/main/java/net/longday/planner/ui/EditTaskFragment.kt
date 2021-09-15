@@ -20,6 +20,7 @@ import androidx.work.workDataOf
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -55,6 +56,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
     private lateinit var backButton: AppCompatImageButton
     private lateinit var doneCheckBox: MaterialCheckBox
     private lateinit var setTimeButton: MaterialButton
+    private lateinit var prioritySwitch: SwitchMaterial
 
     private var sortedCategories = listOf<Category>()
     private var tasks = listOf<Task>()
@@ -84,6 +86,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         task = arguments?.get("task") as Task
         taskTime = task.dateTime
         isAllDay = task.isAllDay
+        prioritySwitch.isChecked = task.priority != null
         taskViewModel.tasks.observe(viewLifecycleOwner) { tasks = it }
         reminderViewModel.reminders.observe(viewLifecycleOwner) { reminders = it }
         handleChooseCategoryTextInput()
@@ -94,6 +97,13 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         setBackButton()
         setDeleteTaskButton(view)
         setDateTimePickerButton()
+        prioritySwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                task.priority = "HIGH"
+            } else {
+                task.priority = null
+            }
+        }
     }
 
     private fun bindViews() {
@@ -105,6 +115,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         backButton = binding.fragmentEditTaskBackButton
         doneCheckBox = binding.fragmentEditTaskDoneCheckbox
         setTimeButton = binding.fragmentEditTaskDateTimeButton
+        prioritySwitch = binding.fragmentEditTaskSwitchPriority
     }
 
     private fun handleChooseCategoryTextInput() {
@@ -161,6 +172,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                 isScheduled = task.isScheduled,
                 orderInCategory = if (doneCheckBox.isChecked) -1 else task.orderInCategory,
                 isAllDay = isAllDay,
+                priority = if (prioritySwitch.isChecked) "HIGH" else null,
             )
             /* Update task in database */
             taskViewModel.update(editedTask)
