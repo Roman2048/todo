@@ -1,11 +1,13 @@
 package net.longday.planner.ui.bottomsheet
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.work.OneTimeWorkRequestBuilder
@@ -38,6 +40,8 @@ class AddTaskFragment : BottomSheetDialogFragment() {
 
     private var tasks = listOf<Task>()
 
+    private lateinit var priorityButton: AppCompatImageButton
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -45,6 +49,8 @@ class AddTaskFragment : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        priorityButton = view.findViewById(R.id.add_task_fragment_set_priority)
+        var priority = false
         taskViewModel.tasks.observe(viewLifecycleOwner) { tasks = it }
         super.onViewCreated(view, savedInstanceState)
         val editText: TextInputLayout = view.findViewById(R.id.fragment_add_task_text_input)
@@ -79,6 +85,7 @@ class AddTaskFragment : BottomSheetDialogFragment() {
                     content = "",
                     dateTime = dayTime,
                     isAllDay = isAllDay,
+                    priority = if (priority) "HIGH" else null
                 )
                 taskViewModel.insert(newTask)
 
@@ -130,6 +137,19 @@ class AddTaskFragment : BottomSheetDialogFragment() {
                 timePicker.show(childFragmentManager, "fragment_time_picker_tag")
             }
             datePicker.show(childFragmentManager, "fragment_date_picker_tag")
+        }
+        priorityButton.setOnClickListener {
+            priority = !priority
+            if (priority) {
+                priorityButton.setColorFilter(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        android.R.color.holo_red_dark
+                    ), android.graphics.PorterDuff.Mode.SRC_IN
+                )
+            } else {
+                priorityButton.colorFilter = null
+            }
         }
     }
 

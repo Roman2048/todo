@@ -45,6 +45,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_add_task_text_input" />
 
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/add_task_fragment_set_priority"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:contentDescription="@string/new_task_set_time_content_description"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:src="@drawable/ic_round_priority_high_24"
+            app:layout_constraintStart_toEndOf="@id/add_task_fragment_time_text_view"
+            app:layout_constraintTop_toBottomOf="@id/fragment_add_task_text_input" />
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/add_task_fragment_time_text_view"
             android:layout_width="wrap_content"

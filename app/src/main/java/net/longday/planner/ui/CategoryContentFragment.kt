@@ -180,12 +180,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
                     updateTask
                 )
             } else {
-                binding.fragmentCategoryFilterByPriorityButton.setColorFilter(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.primaryLightColor
-                    ), android.graphics.PorterDuff.Mode.SRC_IN
-                )
+                binding.fragmentCategoryFilterByPriorityButton.colorFilter = null
                 TaskAdapter(
                     filterTasks(allTasks).filter { it.categoryId == category.id && !it.isDone },
                     updateTask
