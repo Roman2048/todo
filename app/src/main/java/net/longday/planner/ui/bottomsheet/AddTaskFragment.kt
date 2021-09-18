@@ -144,7 +144,7 @@ class AddTaskFragment : BottomSheetDialogFragment() {
                 priorityButton.setColorFilter(
                     ContextCompat.getColor(
                         requireContext(),
-                        android.R.color.holo_red_dark
+                        android.R.color.holo_green_dark
                     ), android.graphics.PorterDuff.Mode.SRC_IN
                 )
             } else {

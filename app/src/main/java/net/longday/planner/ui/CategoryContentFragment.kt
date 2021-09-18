@@ -1,6 +1,8 @@
 package net.longday.planner.ui
 
+import android.graphics.PorterDuff
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +37,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
     private lateinit var currentCategory: Category
 
     private var filterByImportance = false
+    private var filterByUrgency = false
 
     private val itemTouchHelper by lazy {
         val simpleItemTouchCallback =
@@ -46,15 +49,19 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
                     viewHolder: RecyclerView.ViewHolder,
                     target: RecyclerView.ViewHolder
                 ): Boolean {
-                    val adapter = recyclerView.adapter as TaskAdapter
-                    val innerFrom = viewHolder.adapterPosition
-                    val innerTo = target.adapterPosition
-                    if (dragFromPosition == -1) {
-                        dragFromPosition = viewHolder.adapterPosition
+                    if (!filterByImportance && !filterByUrgency) {
+                        val adapter = recyclerView.adapter as TaskAdapter
+                        val innerFrom = viewHolder.adapterPosition
+                        val innerTo = target.adapterPosition
+                        if (dragFromPosition == -1) {
+                            dragFromPosition = viewHolder.adapterPosition
+                        }
+                        dragToPosition = target.adapterPosition
+                        adapter.notifyItemMoved(innerFrom, innerTo)
+                        return true
+                    } else {
+                        return false
                     }
-                    dragToPosition = target.adapterPosition
-                    adapter.notifyItemMoved(innerFrom, innerTo)
-                    return true
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
@@ -112,6 +119,10 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
         binding.doneTaskRecycler.adapter = doneAdapter
         val category: Category = arguments?.get("category") as Category
         currentCategory = category
+        binding.doneTaskRecycler.visibility = View.GONE
+        binding.fragmentCategoryShowDoneTasks
+            .setImageResource(R.drawable.ic_round_keyboard_arrow_left_24)
+        binding.fragmentCategoryDeleteDoneButton.visibility = View.GONE
         taskViewModel.tasks.observe(viewLifecycleOwner) { tasks ->
             allTasks = tasks
             if (tasks.none { it.categoryId == category.id }) {
@@ -134,8 +145,20 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
                 binding.fragmentCategoryDeleteDoneButton.visibility = View.GONE
             } else {
                 binding.categoryContentDoneTaskRecyclerCard.visibility = View.VISIBLE
-                binding.fragmentCategoryDeleteDoneButton.visibility = View.VISIBLE
+//                binding.fragmentCategoryDeleteDoneButton.visibility = View.VISIBLE
             }
+            /* If there is no important tasks, disable priority switch */
+            binding.fragmentCategoryFilterByPriorityButton.isEnabled =
+                !tasks.none { it.categoryId == category.id && !it.isDone && it.priority != null }
+            /* If there is no urgency tasks, disable urgency switch */
+            binding.fragmentCategoryFilterByUrgencyButton.isEnabled =
+                !tasks.none {
+                    it.categoryId == category.id && !it.isDone && (
+                            DateUtils.isToday(it.dateTime ?: 0)
+                                    || DateUtils
+                                .isToday(it.dateTime?.minus(86_400_000) ?: 0)
+                            )
+                }
             binding.doneTaskRecycler.adapter =
                 DoneTaskAdapter(
                     tasks
@@ -162,33 +185,114 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
         binding.fragmentCategoryShowActiveTasks.setOnClickListener {
             changeActiveTaskRecyclerVisibility()
         }
+        binding.fragmentCategoryContentActiveTaskTitleText.setOnClickListener {
+            changeActiveTaskRecyclerVisibility()
+        }
         // FIXME: find why button don't work
 //        binding.fragmentCategoryFilterByPriorityButton.visibility = View.GONE
         binding.fragmentCategoryFilterByPriorityButton.setOnClickListener {
             filterByImportance = !filterByImportance
-            binding.taskRecycler.adapter = if (filterByImportance) {
-                binding.fragmentCategoryFilterByPriorityButton.setColorFilter(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        android.R.color.holo_red_dark
-                    ), android.graphics.PorterDuff.Mode.SRC_IN
-                )
-                TaskAdapter(
-                    filterTasks(allTasks).filter {
-                        it.categoryId == category.id && !it.isDone && it.priority == "HIGH"
-                    },
-                    updateTask
-                )
-            } else {
-                binding.fragmentCategoryFilterByPriorityButton.colorFilter = null
-                TaskAdapter(
-                    filterTasks(allTasks).filter { it.categoryId == category.id && !it.isDone },
-                    updateTask
-                )
-            }
+            binding.taskRecycler.adapter = setTaskRecyclerAdapterByFilters(category, updateTask)
         }
-        binding.fragmentCategoryContentActiveTaskTitleText.setOnClickListener {
-            changeActiveTaskRecyclerVisibility()
+        /* Urgency filter */
+        binding.fragmentCategoryFilterByUrgencyButton.setOnClickListener {
+            filterByUrgency = !filterByUrgency
+            binding.taskRecycler.adapter = setTaskRecyclerAdapterByFilters(category, updateTask)
+        }
+    }
+
+    /**
+     * Filter tasks by priority (yes/no) or / and urgency (yes/no)
+     */
+    private fun setTaskRecyclerAdapterByFilters(
+        category: Category,
+        updateTask: (task: Task) -> Unit
+    ): RecyclerView.Adapter<*>? = when {
+        filterByImportance && filterByUrgency -> {
+            itemTouchHelper.attachToRecyclerView(null)
+            binding.fragmentCategoryFilterByPriorityButton.setColorFilter(
+                ContextCompat.getColor(
+                    requireContext(),
+                    android.R.color.holo_green_dark
+                ), PorterDuff.Mode.SRC_IN
+            )
+            binding.fragmentCategoryFilterByUrgencyButton.setColorFilter(
+                ContextCompat.getColor(
+                    requireContext(),
+                    android.R.color.holo_green_dark
+                ), PorterDuff.Mode.SRC_IN
+            )
+            TaskAdapter(
+                filterTasks(allTasks).filter {
+                    it.categoryId == category.id
+                            && !it.isDone
+                            && it.priority == "HIGH"
+                            && (
+                            DateUtils.isToday(it.dateTime ?: 0)
+                                    || DateUtils
+                                .isToday(it.dateTime?.minus(86_400_000) ?: 0)
+                            )
+                },
+                updateTask
+            )
+        }
+        !filterByImportance && !filterByUrgency -> {
+            itemTouchHelper.attachToRecyclerView(binding.taskRecycler)
+            binding.fragmentCategoryFilterByPriorityButton.colorFilter = null
+            binding.fragmentCategoryFilterByUrgencyButton.colorFilter = null
+            TaskAdapter(
+                filterTasks(allTasks).filter { it.categoryId == category.id && !it.isDone },
+                updateTask
+            )
+        }
+        filterByImportance && !filterByUrgency -> {
+            // выключить перетаскивание
+            itemTouchHelper.attachToRecyclerView(null)
+            binding.fragmentCategoryFilterByUrgencyButton.colorFilter = null
+            binding.fragmentCategoryFilterByPriorityButton.setColorFilter(
+                ContextCompat.getColor(
+                    requireContext(),
+                    android.R.color.holo_green_dark
+                ), PorterDuff.Mode.SRC_IN
+            )
+            TaskAdapter(
+                filterTasks(allTasks).filter {
+                    it.categoryId == category.id && !it.isDone && it.priority == "HIGH"
+                },
+                updateTask
+            )
+        }
+        !filterByImportance && filterByUrgency -> {
+            itemTouchHelper.attachToRecyclerView(null)
+            binding.fragmentCategoryFilterByPriorityButton.colorFilter = null
+            binding.fragmentCategoryFilterByUrgencyButton.setColorFilter(
+                ContextCompat.getColor(
+                    requireContext(),
+                    android.R.color.holo_green_dark
+                ), PorterDuff.Mode.SRC_IN
+            )
+            // If the task time is today or tomorrow, show it as urgency task
+            TaskAdapter(
+                filterTasks(allTasks).filter {
+                    it.categoryId == category.id
+                            && !it.isDone
+                            && (
+                            DateUtils.isToday(it.dateTime ?: 0)
+                                    || DateUtils
+                                .isToday(it.dateTime?.minus(86_400_000) ?: 0)
+                            )
+                },
+                updateTask
+            )
+        }
+        else -> {
+            itemTouchHelper.attachToRecyclerView(binding.taskRecycler)
+            binding.fragmentCategoryFilterByPriorityButton.colorFilter = null
+            binding.fragmentCategoryFilterByUrgencyButton.colorFilter = null
+            TaskAdapter(
+                filterTasks(allTasks).filter { it.categoryId == category.id && !it.isDone },
+                updateTask
+            )
         }
     }
 
@@ -211,13 +315,14 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
             binding.taskRecycler.visibility = View.VISIBLE
             binding.fragmentCategoryShowActiveTasks
                 .setImageResource(R.drawable.ic_round_keyboard_arrow_down_24)
-            // FIXME: find why button don't work (change to VISIBLE)
             binding.fragmentCategoryFilterByPriorityButton.visibility = View.VISIBLE
+            binding.fragmentCategoryFilterByUrgencyButton.visibility = View.VISIBLE
         } else {
             binding.taskRecycler.visibility = View.GONE
             binding.fragmentCategoryShowActiveTasks
                 .setImageResource(R.drawable.ic_round_keyboard_arrow_left_24)
             binding.fragmentCategoryFilterByPriorityButton.visibility = View.GONE
+            binding.fragmentCategoryFilterByUrgencyButton.visibility = View.GONE
         }
     }
 

@@ -77,6 +77,17 @@
                         android:src="@drawable/ic_round_priority_high_24" />
 
                     <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/fragment_category_filter_by_urgency_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:contentDescription="@string/categories_image_button"
+                        android:minWidth="48dp"
+                        android:minHeight="48dp"
+                        android:src="@drawable/ic_round_access_time_24" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/fragment_category_show_active_tasks"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
