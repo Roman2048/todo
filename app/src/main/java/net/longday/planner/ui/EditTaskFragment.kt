@@ -57,6 +57,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
     private lateinit var doneCheckBox: MaterialCheckBox
     private lateinit var setTimeButton: MaterialButton
     private lateinit var prioritySwitch: SwitchMaterial
+    private lateinit var resetTimeButton: AppCompatImageButton
 
     private var sortedCategories = listOf<Category>()
     private var tasks = listOf<Task>()
@@ -104,6 +105,15 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                 task.priority = null
             }
         }
+        if (taskTime == null) {
+            resetTimeButton.visibility = View.GONE
+        }
+        resetTimeButton.setOnClickListener {
+            taskTime = null
+            isAllDay = true
+            setTimeButton.text = requireContext().getString(R.string.edit_task_set_time_text)
+            resetTimeButton.visibility = View.GONE
+        }
     }
 
     private fun bindViews() {
@@ -116,6 +126,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         doneCheckBox = binding.fragmentEditTaskDoneCheckbox
         setTimeButton = binding.fragmentEditTaskDateTimeButton
         prioritySwitch = binding.fragmentEditTaskSwitchPriority
+        resetTimeButton = binding.fragmentEditTaskResetTimeButton
     }
 
     private fun handleChooseCategoryTextInput() {
@@ -231,11 +242,10 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         setTimeButton.setOnClickListener {
             val materialDatePicker = MaterialDatePicker.Builder.datePicker().build()
             materialDatePicker.addOnNegativeButtonClickListener {
-                taskTime = null
-                isAllDay = true
-                setTimeButton.text = requireContext().getString(R.string.edit_task_set_time_text)
+                it.postDelayed({ it.showKeyboard() }, 100)
             }
             materialDatePicker.addOnPositiveButtonClickListener {
+                resetTimeButton.visibility = View.VISIBLE
                 taskTime = materialDatePicker.selection
                 isAllDay = true
                 setTimeButton.text =
@@ -243,7 +253,11 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                 val materialTimePicker = MaterialTimePicker.Builder()
                     .setTimeFormat(TimeFormat.CLOCK_24H)
                     .build()
+                materialTimePicker.addOnNegativeButtonClickListener {
+                    it.postDelayed({ it.showKeyboard() }, 100)
+                }
                 materialTimePicker.addOnPositiveButtonClickListener {
+                    it.postDelayed({ it.showKeyboard() }, 100)
                     val newHour: Int = materialTimePicker.hour
                     val newMinute: Int = materialTimePicker.minute
                     val plus =
@@ -270,6 +284,11 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                     .cancelWorkById(UUID.fromString(reminder.workerId))
                 reminderViewModel.delete(reminder)
             }
+    }
+
+    private fun View.showKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
     }
 
     private fun View.hideKeyboard() {

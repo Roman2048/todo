@@ -1,11 +1,13 @@
 package net.longday.planner.ui.bottomsheet
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -41,6 +43,7 @@ class AddTaskFragment : BottomSheetDialogFragment() {
     private var tasks = listOf<Task>()
 
     private lateinit var priorityButton: AppCompatImageButton
+    private lateinit var resetTimeButton: AppCompatImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -50,6 +53,7 @@ class AddTaskFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         priorityButton = view.findViewById(R.id.add_task_fragment_set_priority)
+        resetTimeButton = view.findViewById(R.id.fragment_add_task_reset_time_button)
         var priority = false
         taskViewModel.tasks.observe(viewLifecycleOwner) { tasks = it }
         super.onViewCreated(view, savedInstanceState)
@@ -116,7 +120,11 @@ class AddTaskFragment : BottomSheetDialogFragment() {
         /* Date time pickers */
         dateTimePicker.setOnClickListener {
             val datePicker = MaterialDatePicker.Builder.datePicker().build()
+            datePicker.addOnNegativeButtonClickListener {
+                view.showKeyboard()
+            }
             datePicker.addOnPositiveButtonClickListener {
+                resetTimeButton.visibility = View.VISIBLE
                 dayTime = datePicker.selection
                 isAllDay = true
                 timeTextView.text =
@@ -124,7 +132,11 @@ class AddTaskFragment : BottomSheetDialogFragment() {
                 val timePicker = MaterialTimePicker.Builder()
                     .setTimeFormat(TimeFormat.CLOCK_24H)
                     .build()
+                timePicker.addOnNegativeButtonClickListener {
+                    view.showKeyboard()
+                }
                 timePicker.addOnPositiveButtonClickListener {
+                    view.showKeyboard()
                     val newHour: Int = timePicker.hour
                     val newMinute: Int = timePicker.minute
                     val plus =
@@ -151,10 +163,24 @@ class AddTaskFragment : BottomSheetDialogFragment() {
                 priorityButton.colorFilter = null
             }
         }
+        if (dayTime == null) {
+            resetTimeButton.visibility = View.GONE
+        }
+        resetTimeButton.setOnClickListener {
+            dayTime = null
+            isAllDay = true
+            timeTextView.text = ""
+            resetTimeButton.visibility = View.GONE
+        }
     }
 
     override fun getTheme(): Int {
         return R.style.BottomSheetStyle
+    }
+
+    private fun View.showKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
     }
 
     // Create Notification

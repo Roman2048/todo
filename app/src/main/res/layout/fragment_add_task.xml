@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp">
+        android:layout_margin="8dp">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fragment_add_task_text_input"
@@ -27,43 +26,81 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="3000"
                 android:inputType="textCapSentences|textMultiLine"
+                android:maxLength="3000"
                 android:maxLines="2" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/new_task_set_time"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/fragment_add_task_date_time_button_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:contentDescription="@string/new_task_set_time_content_description"
-            android:minWidth="48dp"
-            android:minHeight="48dp"
-            android:src="@drawable/ic_round_more_time_24"
+            android:layout_marginTop="8dp"
+            android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragment_add_task_text_input" />
+            app:layout_constraintTop_toBottomOf="@id/fragment_add_task_text_input"
+            card_view:cardCornerRadius="12dp">
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/add_task_fragment_set_priority"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/new_task_set_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:contentDescription="@string/new_task_set_time_content_description"
+                    android:minWidth="48dp"
+                    android:minHeight="48dp"
+                    android:src="@drawable/ic_round_more_time_24" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/add_task_fragment_time_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/fragment_add_task_reset_time_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:contentDescription="@string/back"
+                    android:minWidth="48dp"
+                    android:minHeight="48dp"
+                    android:src="@drawable/ic_round_clear_24"
+                    android:visibility="gone" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/fragment_add_task_priority_button_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:contentDescription="@string/new_task_set_time_content_description"
-            android:minWidth="48dp"
-            android:minHeight="48dp"
-            android:src="@drawable/ic_round_priority_high_24"
-            app:layout_constraintStart_toEndOf="@id/add_task_fragment_time_text_view"
-            app:layout_constraintTop_toBottomOf="@id/fragment_add_task_text_input" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="2dp"
+            android:visibility="visible"
+            app:layout_constraintStart_toEndOf="@id/fragment_add_task_date_time_button_card"
+            app:layout_constraintTop_toBottomOf="@id/fragment_add_task_text_input"
+            card_view:cardCornerRadius="12dp">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/add_task_fragment_time_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/new_task_set_time"
-            app:layout_constraintStart_toEndOf="@id/new_task_set_time"
-            app:layout_constraintTop_toTopOf="@id/new_task_set_time" />
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/add_task_fragment_set_priority"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:contentDescription="@string/new_task_set_time_content_description"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:src="@drawable/ic_round_priority_high_24" />
+
+        </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
