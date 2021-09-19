@@ -12,7 +12,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
@@ -211,7 +210,10 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                 cancelRemindersForTask(task)
             }
             /* Navigate to the main screen */
-            findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
+            try {
+                findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
+            } catch (e: IllegalArgumentException) {
+            }
             it.hideKeyboard()
         }
     }
@@ -228,7 +230,10 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                 task.isDeleted = true
                 taskViewModel.update(task)
                 cancelRemindersForTask(task)
-                view.findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
+                try {
+                    findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
+                } catch (e: IllegalArgumentException) {
+                }
                 it.hideKeyboard()
             }
             builder.setNegativeButton(

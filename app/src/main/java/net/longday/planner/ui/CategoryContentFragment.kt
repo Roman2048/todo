@@ -188,8 +188,6 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
         binding.fragmentCategoryContentActiveTaskTitleText.setOnClickListener {
             changeActiveTaskRecyclerVisibility()
         }
-        // FIXME: find why button don't work
-//        binding.fragmentCategoryFilterByPriorityButton.visibility = View.GONE
         binding.fragmentCategoryFilterByPriorityButton.setOnClickListener {
             filterByImportance = !filterByImportance
             binding.taskRecycler.adapter = setTaskRecyclerAdapterByFilters(category, updateTask)

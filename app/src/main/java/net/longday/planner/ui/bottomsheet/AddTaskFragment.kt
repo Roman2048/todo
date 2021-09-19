@@ -86,9 +86,6 @@ class AddTaskFragment : BottomSheetDialogFragment() {
         }
         editText.requestFocus()
         handleChooseCategoryTextInput()
-        val navController =
-            activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment)
-                ?.findNavController()
         var dayTime: Long? = null
         var isAllDay = true
         /* Save button */
@@ -129,7 +126,10 @@ class AddTaskFragment : BottomSheetDialogFragment() {
             }
             editText.editText?.setText("")
             dayTime = null
-            navController?.navigate(R.id.action_addTaskFragment_to_homeFragment)
+            try {
+                findNavController().navigate(R.id.action_addTaskFragment_to_homeFragment)
+            } catch (e: IllegalArgumentException) {
+            }
         }
         /* Date time pickers */
         dateTimePicker.setOnClickListener {

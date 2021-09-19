@@ -44,17 +44,18 @@ class AddCategoryFragment : BottomSheetDialogFragment() {
         }
         val editText: TextInputLayout = view.findViewById(R.id.fragment_add_category_text_input)
         editText.requestFocus()
-        val navController = activity
-            ?.supportFragmentManager
-            ?.findFragmentById(R.id.nav_host_fragment)
-            ?.findNavController()
+        /* Save new task */
         editText.setEndIconOnClickListener {
             val newCategory = Category(
                 UUID.randomUUID().toString(),
                 editText.editText?.text.toString(),
             )
             categoryViewModel.insert(newCategory)
-            navController?.navigate(R.id.action_addCategoryFragment_to_categoryEditorFragment)
+            try {
+                findNavController()
+                    .navigate(R.id.action_addCategoryFragment_to_categoryEditorFragment)
+            } catch (e: IllegalArgumentException) {
+            }
             it.hideKeyboard()
         }
     }

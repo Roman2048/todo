@@ -51,9 +51,6 @@ class EditCategoryFragment : BottomSheetDialogFragment() {
             if (it.size <= 1) binding.fragmentEditCategoryDeleteButton.isEnabled = false
         }
         editText.editText?.setText(category?.title)
-        val navController =
-            activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment)
-                ?.findNavController()
         editText.setEndIconOnClickListener {
             categoryViewModel.update(
                 Category(
@@ -62,7 +59,11 @@ class EditCategoryFragment : BottomSheetDialogFragment() {
                     category?.position ?: -1,
                 )
             )
-            navController?.navigate(R.id.action_editCategoryFragment_to_categoryEditorFragment)
+            try {
+                findNavController()
+                    .navigate(R.id.action_editCategoryFragment_to_categoryEditorFragment)
+            } catch (e: IllegalArgumentException) {
+            }
             it.hideKeyboard()
         }
         binding.fragmentEditCategoryDeleteButton.setOnClickListener {
@@ -79,7 +80,11 @@ class EditCategoryFragment : BottomSheetDialogFragment() {
                         category?.position ?: -1,
                     )
                 )
-                navController?.navigate(R.id.action_editCategoryFragment_to_categoryEditorFragment)
+                try {
+                    findNavController()
+                        .navigate(R.id.action_editCategoryFragment_to_categoryEditorFragment)
+                } catch (e: IllegalArgumentException) {
+                }
                 it.hideKeyboard()
             }
             builder.setNegativeButton(

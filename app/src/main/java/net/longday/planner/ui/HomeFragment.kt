@@ -15,7 +15,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -99,13 +99,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             when (intent.action) {
                 Intent.ACTION_SEND -> {
                     if (intent.type == "text/plain") {
-                        view.findNavController().navigate(
-                            R.id.action_homeFragment_to_addTaskFragment,
-                            bundleOf(
-                                Pair("category", chosenCategory ?: sortedCategories[0]),
-                                Pair("intent", intent)
+                        try {
+                            findNavController().navigate(
+                                R.id.action_homeFragment_to_addTaskFragment,
+                                bundleOf(
+                                    Pair("category", chosenCategory ?: sortedCategories[0]),
+                                    Pair("intent", intent)
+                                )
                             )
-                        )
+                        } catch (e: IllegalArgumentException) {
+                        }
                     }
                 }
             }
@@ -133,20 +136,29 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             viewPager.post { viewPager.currentItem = it.selected }
         }
 
-        /* Create new task fab */
+        /* Create new task fab */ //IllegalArgumentException
         binding.fab.setOnClickListener {
-            view.findNavController().navigate(
-                R.id.action_homeFragment_to_addTaskFragment,
-                bundleOf("category" to chosenCategory)
-            )
+            try {
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_addTaskFragment,
+                    bundleOf("category" to chosenCategory)
+                )
+            } catch (e: IllegalArgumentException) {
+            }
         }
 
         binding.categoriesButton.setOnClickListener {
-            view.findNavController().navigate(R.id.action_homeFragment_to_categoryEditorFragment)
+            try {
+                findNavController().navigate(R.id.action_homeFragment_to_categoryEditorFragment)
+            } catch (e: IllegalArgumentException) {
+            }
         }
 
         binding.bottomAppBar.setNavigationOnClickListener {
-            view.findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
+            try {
+                findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
+            } catch (e: IllegalArgumentException) {
+            }
         }
     }
 

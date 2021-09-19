@@ -32,10 +32,13 @@ class CategoryAdapter(
         val category = categories[position]
         holder.textView.text = categories[position].title
         holder.textView.setOnClickListener {
-            it.findNavController().navigate(
-                R.id.action_listManagement_to_editCategory,
-                bundleOf("category" to category)
-            )
+            try {
+                it.findNavController().navigate(
+                    R.id.action_listManagement_to_editCategory,
+                    bundleOf("category" to category)
+                )
+            } catch (e: IllegalArgumentException) {
+            }
             it.showKeyboard()
         }
     }

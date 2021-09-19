@@ -46,10 +46,13 @@ class DoneTaskAdapter(
             updateTask(task)
         }
         holder.textView.setOnClickListener {
-            it.findNavController().navigate(
-                R.id.action_homeFragment_to_editTaskFragment,
-                bundleOf("task" to task)
-            )
+            try {
+                it.findNavController().navigate(
+                    R.id.action_homeFragment_to_editTaskFragment,
+                    bundleOf("task" to task)
+                )
+            } catch (e: IllegalArgumentException) {
+            }
             it.showKeyboard()
         }
     }

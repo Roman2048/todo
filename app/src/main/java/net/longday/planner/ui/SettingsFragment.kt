@@ -8,9 +8,7 @@ import android.os.PowerManager
 import android.provider.Settings
 import android.view.View
 import android.widget.ImageButton
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
@@ -35,8 +33,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         val privacyPolicy: MaterialTextView =
             view.findViewById(R.id.fragment_settings_privacy_policy)
         backButton.setOnClickListener {
-            view.findNavController()
-                .navigate(R.id.action_settingsFragment_to_homeFragment)
+            try {
+                findNavController().navigate(R.id.action_settingsFragment_to_homeFragment)
+            } catch (e: IllegalArgumentException) {
+            }
+
         }
         privacyPolicy.setOnClickListener {
             startActivity(
