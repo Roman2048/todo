@@ -2,12 +2,13 @@ package net.longday.planner.ui.bottomsheet
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -26,6 +27,7 @@ import net.longday.planner.R
 import net.longday.planner.data.entity.Category
 import net.longday.planner.data.entity.Reminder
 import net.longday.planner.data.entity.Task
+import net.longday.planner.viewmodel.CategoryViewModel
 import net.longday.planner.viewmodel.ReminderViewModel
 import net.longday.planner.viewmodel.TaskViewModel
 import net.longday.planner.work.OneTimeScheduleWorker
@@ -39,11 +41,17 @@ class AddTaskFragment : BottomSheetDialogFragment() {
     private val taskViewModel: TaskViewModel by viewModels()
 
     private val reminderViewModel: ReminderViewModel by viewModels()
+    private val categoryViewModel: CategoryViewModel by viewModels()
 
     private var tasks = listOf<Task>()
 
     private lateinit var priorityButton: AppCompatImageButton
     private lateinit var resetTimeButton: AppCompatImageButton
+    private lateinit var chooseCategoryTextInput: TextInputLayout
+    private lateinit var chooseCategoryAutoComplete: AutoCompleteTextView
+
+    private var sortedCategories = listOf<Category>()
+    private var category: Category? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -54,6 +62,9 @@ class AddTaskFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         priorityButton = view.findViewById(R.id.add_task_fragment_set_priority)
         resetTimeButton = view.findViewById(R.id.fragment_add_task_reset_time_button)
+        chooseCategoryTextInput = view.findViewById(R.id.fragment_add_task_choose_category)
+        chooseCategoryAutoComplete =
+            view.findViewById(R.id.fragment_add_task_choose_category_auto_complete)
         var priority = false
         taskViewModel.tasks.observe(viewLifecycleOwner) { tasks = it }
         super.onViewCreated(view, savedInstanceState)
@@ -61,10 +72,12 @@ class AddTaskFragment : BottomSheetDialogFragment() {
         val dateTimePicker: AppCompatImageButton = view.findViewById(R.id.new_task_set_time)
         val timeTextView: MaterialTextView =
             view.findViewById(R.id.add_task_fragment_time_text_view)
-        val category: Category? = arguments?.get("category") as Category?
+        category = arguments?.get("category") as Category?
         val intent: Intent? = arguments?.get("intent") as Intent?
         intent.let {
             if (intent != null) {
+                chooseCategoryTextInput.visibility = View.VISIBLE
+                chooseCategoryTextInput.editText?.setText(category?.title ?: "")
                 intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
                     editText.editText?.setText(it)
                 }
@@ -72,6 +85,7 @@ class AddTaskFragment : BottomSheetDialogFragment() {
             }
         }
         editText.requestFocus()
+        handleChooseCategoryTextInput()
         val navController =
             activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment)
                 ?.findNavController()
@@ -207,5 +221,25 @@ class AddTaskFragment : BottomSheetDialogFragment() {
                     category
                 )
             }
+    }
+
+    private fun handleChooseCategoryTextInput() {
+        /* Fill autoComplete with values */
+        categoryViewModel.categories.observe(viewLifecycleOwner) { categories ->
+            sortedCategories = categories.sortedBy { it.position }
+            if (sortedCategories.isEmpty()) {
+                chooseCategoryTextInput.isEnabled = false
+            }
+            (chooseCategoryTextInput.editText as? AutoCompleteTextView)?.setAdapter(
+                ArrayAdapter(
+                    requireContext(),
+                    R.layout.edit_task_title,
+                    sortedCategories.map { it.title }
+                )
+            )
+        }
+        chooseCategoryAutoComplete.setOnItemClickListener { _, _, position, _ ->
+            category = sortedCategories[position]
+        }
     }
 }
