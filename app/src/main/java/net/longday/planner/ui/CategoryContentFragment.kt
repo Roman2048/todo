@@ -205,7 +205,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
     private fun setTaskRecyclerAdapterByFilters(
         category: Category,
         updateTask: (task: Task) -> Unit
-    ): RecyclerView.Adapter<*>? = when {
+    ): RecyclerView.Adapter<*> = when {
         filterByImportance && filterByUrgency -> {
             itemTouchHelper.attachToRecyclerView(null)
             binding.fragmentCategoryFilterByPriorityButton.setColorFilter(

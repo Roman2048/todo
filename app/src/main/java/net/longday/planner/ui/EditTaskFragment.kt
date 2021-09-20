@@ -95,7 +95,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         editTaskTitle.editText?.setText(task.title)
         editTaskContent.editText?.setText(task.content)
         setBackButton()
-        setDeleteTaskButton(view)
+        setDeleteTaskButton()
         setDateTimePickerButton()
         prioritySwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -218,7 +218,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         }
     }
 
-    private fun setDeleteTaskButton(view: View) {
+    private fun setDeleteTaskButton() {
         deleteTaskButton.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
             builder.setTitle(getString(R.string.delete_done_task_dialog_title))
