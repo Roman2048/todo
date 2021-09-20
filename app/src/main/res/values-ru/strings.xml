@@ -30,7 +30,7 @@
     <string name="home_fragment_tab_layout_description">Выбор списка</string>
     <string name="settings_section_title_about">О ПРИЛОЖЕНИИ</string>
     <string name="settings_about_privacy_policy_text">Политика конфиденциальности</string>
-    <string name="settings_about_version_text">Версия 1.21</string>
+    <string name="settings_about_version_text">Версия 1.23</string>
     <string name="settings_reminders_text_battery_ok">Настройки напоминаний оптимальны</string>
     <string name="settings_reminders_text_need_ignore_optimizations">Рекомендуется изменить настройки батареи для приложения. Это нужно чтобы напоминания работали правильно</string>
     <string name="settings_optimize_button_text">Изменить настройки</string>
