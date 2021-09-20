@@ -4,9 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/layout/edit_task_title.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/layout/fragment_add_category.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/layout/fragment_add_task.xml" value="0.33" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/layout/fragment_categories_list.xml" value="0.2866847826086957" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/layout/fragment_category_content.xml" value="0.33" />
+        <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/layout/fragment_edit_category.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/layout/fragment_edit_task.xml" value="0.33" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
       </map>
