@@ -126,10 +126,11 @@ class AddTaskFragment : BottomSheetDialogFragment() {
             }
             editText.editText?.setText("")
             dayTime = null
-            try {
-                findNavController().navigate(R.id.action_addTaskFragment_to_homeFragment)
-            } catch (e: IllegalArgumentException) {
-            }
+            findNavController().navigateUp()
+//            try {
+//                findNavController().navigate(R.id.action_addTaskFragment_to_homeFragment)
+//            } catch (e: IllegalArgumentException) {
+//            }
         }
         /* Date time pickers */
         dateTimePicker.setOnClickListener {

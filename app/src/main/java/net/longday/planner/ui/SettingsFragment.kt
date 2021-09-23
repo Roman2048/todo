@@ -32,13 +32,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
         val privacyPolicy: MaterialTextView =
             view.findViewById(R.id.fragment_settings_privacy_policy)
-        backButton.setOnClickListener {
-            try {
-                findNavController().navigate(R.id.action_settingsFragment_to_homeFragment)
-            } catch (e: IllegalArgumentException) {
-            }
-
-        }
+        backButton.setOnClickListener { findNavController().navigateUp() }
         privacyPolicy.setOnClickListener {
             startActivity(
                 Intent(
