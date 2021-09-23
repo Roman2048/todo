@@ -298,7 +298,8 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
 
     private fun View.hideKeyboard() {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+//        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+        imm.hideSoftInputFromWindow(this.windowToken, 0)
     }
 
     /* Crete new reminder for task */
