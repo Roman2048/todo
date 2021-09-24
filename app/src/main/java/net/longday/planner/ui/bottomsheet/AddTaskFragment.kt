@@ -74,10 +74,11 @@ class AddTaskFragment : BottomSheetDialogFragment() {
             view.findViewById(R.id.add_task_fragment_time_text_view)
         category = arguments?.get("category") as Category?
         val intent: Intent? = arguments?.get("intent") as Intent?
+        chooseCategoryTextInput.editText?.setText(category?.title ?: "")
         intent.let {
             if (intent != null) {
                 chooseCategoryTextInput.visibility = View.VISIBLE
-                chooseCategoryTextInput.editText?.setText(category?.title ?: "")
+//                chooseCategoryTextInput.editText?.setText(category?.title ?: "")
                 intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
                     editText.editText?.setText(it)
                 }
@@ -241,6 +242,8 @@ class AddTaskFragment : BottomSheetDialogFragment() {
         }
         chooseCategoryAutoComplete.setOnItemClickListener { _, _, position, _ ->
             category = sortedCategories[position]
+            // Unselect input after choosing category
+            chooseCategoryTextInput.clearFocus()
         }
     }
 }

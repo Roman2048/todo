@@ -1,9 +1,11 @@
 package net.longday.planner.data.entity
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.io.Serializable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity(tableName = "tasks")
 data class Task(
     @PrimaryKey val id: String,
@@ -27,4 +29,4 @@ data class Task(
     var endTime: String? = null, // not yet
     var icon: String? = null, // not yet
     var priority: String? = null, // not yet
-) : Serializable
+) : Parcelable
