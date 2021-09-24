@@ -51,12 +51,13 @@ class AddCategoryFragment : BottomSheetDialogFragment() {
                 editText.editText?.text.toString(),
             )
             categoryViewModel.insert(newCategory)
-            try {
-                findNavController()
-                    .navigate(R.id.action_addCategoryFragment_to_categoryEditorFragment)
-            } catch (e: IllegalArgumentException) {
-            }
-            it.hideKeyboard()
+            findNavController().popBackStack()
+//            try {
+//                findNavController()
+//                    .navigate(R.id.action_addCategoryFragment_to_categoryEditorFragment)
+//            } catch (e: IllegalArgumentException) {
+//            }
+//            it.hideKeyboard()
         }
     }
 

@@ -59,12 +59,13 @@ class EditCategoryFragment : BottomSheetDialogFragment() {
                     category?.position ?: -1,
                 )
             )
-            try {
-                findNavController()
-                    .navigate(R.id.action_editCategoryFragment_to_categoryEditorFragment)
-            } catch (e: IllegalArgumentException) {
-            }
-            it.hideKeyboard()
+            findNavController().popBackStack()
+//            try {
+//                findNavController()
+//                    .navigate(R.id.action_editCategoryFragment_to_categoryEditorFragment)
+//            } catch (e: IllegalArgumentException) {
+//            }
+//            it.hideKeyboard()
         }
         binding.fragmentEditCategoryDeleteButton.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
@@ -80,12 +81,13 @@ class EditCategoryFragment : BottomSheetDialogFragment() {
                         category?.position ?: -1,
                     )
                 )
-                try {
-                    findNavController()
-                        .navigate(R.id.action_editCategoryFragment_to_categoryEditorFragment)
-                } catch (e: IllegalArgumentException) {
-                }
-                it.hideKeyboard()
+                findNavController().popBackStack()
+//                try {
+//                    findNavController()
+//                        .navigate(R.id.action_editCategoryFragment_to_categoryEditorFragment)
+//                } catch (e: IllegalArgumentException) {
+//                }
+//                it.hideKeyboard()
             }
             builder.setNegativeButton(
                 getString(R.string.delete_done_task_dialog_cancel_button_text)

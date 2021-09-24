@@ -113,10 +113,11 @@ class ListManagementFragment : Fragment(R.layout.fragment_list_management) {
             adapter.notifyDataSetChanged()
         }
         backButton.setOnClickListener {
-            try {
-                findNavController().navigate(R.id.action_listManagement_to_home)
-            } catch (e: IllegalArgumentException) {
-            }
+            findNavController().popBackStack()
+//            try {
+//                findNavController().navigate(R.id.action_global_homeFragment)
+//            } catch (e: IllegalArgumentException) {
+//            }
         }
         addListTextView.setOnClickListener {
             try {
