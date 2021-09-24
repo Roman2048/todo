@@ -12,7 +12,9 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_categoryEditorFragment"
-            app:destination="@id/listManagementFragment" />
+            app:destination="@id/listManagementFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:launchSingleTop="false" />
         <action
             android:id="@+id/action_homeFragment_to_addTaskFragment"
             app:destination="@id/addTaskFragment" />
@@ -29,9 +31,6 @@
         android:label="fragment_category_editor"
         tools:layout="@layout/fragment_list_management">
         <action
-            android:id="@+id/action_listManagement_to_home"
-            app:destination="@id/homeFragment" />
-        <action
             android:id="@+id/action_listManagement_to_addCategory"
             app:destination="@id/addCategoryFragment" />
         <action
@@ -42,20 +41,12 @@
         android:id="@+id/addTaskFragment"
         android:name="net.longday.planner.ui.bottomsheet.AddTaskFragment"
         android:label="fragment_add_task"
-        tools:layout="@layout/fragment_add_task">
-        <action
-            android:id="@+id/action_addTaskFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-    </dialog>
+        tools:layout="@layout/fragment_add_task" />
     <fragment
         android:id="@+id/editTaskFragment"
         android:name="net.longday.planner.ui.EditTaskFragment"
         android:label="fragment_edit_task"
-        tools:layout="@layout/fragment_edit_task">
-        <action
-            android:id="@+id/action_editTaskFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_edit_task" />
     <dialog
         android:id="@+id/addCategoryFragment"
         android:name="net.longday.planner.ui.bottomsheet.AddCategoryFragment"
@@ -78,9 +69,8 @@
         android:id="@+id/settingsFragment"
         android:name="net.longday.planner.ui.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings">
-        <action
-            android:id="@+id/action_settingsFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-    </fragment><action android:id="@+id/action_global_homeFragment" app:destination="@id/homeFragment"/>
+        tools:layout="@layout/fragment_settings" />
+    <action
+        android:id="@+id/action_global_homeFragment"
+        app:destination="@id/homeFragment" />
 </navigation>

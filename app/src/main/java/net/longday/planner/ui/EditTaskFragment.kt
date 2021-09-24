@@ -210,11 +210,12 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                 cancelRemindersForTask(task)
             }
             /* Navigate to the main screen */
-            try {
-                findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
-            } catch (e: IllegalArgumentException) {
-            }
-            it.hideKeyboard()
+            findNavController().popBackStack()
+//            try {
+//                findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
+//            } catch (e: IllegalArgumentException) {
+//            }
+//            it.hideKeyboard()
         }
     }
 
@@ -230,11 +231,13 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                 task.isDeleted = true
                 taskViewModel.update(task)
                 cancelRemindersForTask(task)
-                try {
-                    findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
-                } catch (e: IllegalArgumentException) {
-                }
+
+                findNavController().popBackStack()
                 it.hideKeyboard()
+//                try {
+//                    findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
+//                } catch (e: IllegalArgumentException) {
+//                }
             }
             builder.setNegativeButton(
                 getString(R.string.delete_done_task_dialog_cancel_button_text)

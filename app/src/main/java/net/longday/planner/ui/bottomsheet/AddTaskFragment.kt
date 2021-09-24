@@ -126,7 +126,7 @@ class AddTaskFragment : BottomSheetDialogFragment() {
             }
             editText.editText?.setText("")
             dayTime = null
-            findNavController().navigateUp()
+            findNavController().popBackStack()
 //            try {
 //                findNavController().navigate(R.id.action_addTaskFragment_to_homeFragment)
 //            } catch (e: IllegalArgumentException) {

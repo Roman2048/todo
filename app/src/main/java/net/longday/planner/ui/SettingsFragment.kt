@@ -32,7 +32,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
         val privacyPolicy: MaterialTextView =
             view.findViewById(R.id.fragment_settings_privacy_policy)
-        backButton.setOnClickListener { findNavController().navigateUp() }
+        backButton.setOnClickListener { findNavController().popBackStack() }
         privacyPolicy.setOnClickListener {
             startActivity(
                 Intent(
