@@ -13,7 +13,6 @@
         <action
             android:id="@+id/action_homeFragment_to_categoryEditorFragment"
             app:destination="@id/listManagementFragment"
-            app:enterAnim="@android:anim/fade_in"
             app:launchSingleTop="false" />
         <action
             android:id="@+id/action_homeFragment_to_addTaskFragment"
