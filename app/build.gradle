@@ -20,8 +20,8 @@ android {
         applicationId "net.longday.planner"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 3
-        versionName "1.23"
+        versionCode 4
+        versionName "1.25"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
