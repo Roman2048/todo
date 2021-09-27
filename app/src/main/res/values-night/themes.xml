@@ -4,29 +4,13 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <!-- Primary brand color. -->
-<!--        <item name="colorPrimary">@color/primaryColor</item>-->
-<!--        <item name="colorPrimaryDark">@color/primaryDarkColor</item>-->
+        <!--        <item name="colorPrimary">@color/primaryColor</item>-->
+        <!--        <item name="colorPrimaryDark">@color/primaryDarkColor</item>-->
         <!-- Secondary brand color. -->
-<!--        <item name="colorSecondary">@color/secondaryColor</item>-->
-<!--        <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>-->
+        <!--        <item name="colorSecondary">@color/secondaryColor</item>-->
+        <!--        <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>-->
     </style>
 
-    <style name="BottomSheetStyle" parent="Theme.MaterialComponents.BottomSheetDialog">
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowSoftInputMode">adjustResize|stateVisible</item>
-        <item name="bottomSheetStyle">@style/CustomBottomSheet</item>
-    </style>
-
-    <style name="CustomBottomSheet" parent="Widget.MaterialComponents.BottomSheet">
-        <item name="shapeAppearanceOverlay">@style/CustomShapeAppearanceBottomSheetDialog</item>
-    </style>
-
-    <style name="CustomShapeAppearanceBottomSheetDialog" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeTopRight">12dp</item>
-        <item name="cornerSizeTopLeft">12dp</item>
-        <item name="cornerSizeBottomRight">0dp</item>
-        <item name="cornerSizeBottomLeft">0dp</item>
-    </style>
+    <style name="AddTaskBottomSheetStyle" parent="Theme.MaterialComponents.BottomSheetDialog" />
 
 </resources>

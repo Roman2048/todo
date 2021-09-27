@@ -2,6 +2,7 @@ package net.longday.planner.ui
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.content.res.Configuration
@@ -11,6 +12,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -204,5 +206,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     )
                 )
         }
+    }
+
+    private fun View.showKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
     }
 }
