@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -115,6 +116,8 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
         val updateTask: (task: Task) -> Unit = { taskViewModel.update(it) }
         val adapter = TaskAdapter(listOf(), updateTask)
         val doneAdapter = DoneTaskAdapter(listOf(), updateTask)
+        ViewCompat.setNestedScrollingEnabled(binding.taskRecycler, false);
+        ViewCompat.setNestedScrollingEnabled(binding.doneTaskRecycler, false);
         binding.taskRecycler.adapter = adapter
         binding.doneTaskRecycler.adapter = doneAdapter
         val category: Category = arguments?.get("category") as Category
