@@ -1,10 +1,8 @@
 package net.longday.planner.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
@@ -39,14 +37,8 @@ class CategoryAdapter(
                 )
             } catch (e: IllegalArgumentException) {
             }
-            it.showKeyboard()
         }
     }
 
     override fun getItemCount() = categories.size
-
-    private fun View.showKeyboard() {
-        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
-    }
 }
