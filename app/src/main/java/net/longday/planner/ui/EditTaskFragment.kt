@@ -1,11 +1,14 @@
 package net.longday.planner.ui
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.webkit.URLUtil
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AlertDialog
@@ -57,6 +60,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
     private lateinit var setTimeButton: MaterialButton
     private lateinit var prioritySwitch: SwitchMaterial
     private lateinit var resetTimeButton: AppCompatImageButton
+    private lateinit var shareButton: MaterialButton
 
     private var sortedCategories = listOf<Category>()
     private var tasks = listOf<Task>()
@@ -97,6 +101,15 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         setBackButton()
         setDeleteTaskButton()
         setDateTimePickerButton()
+        shareButton.setOnClickListener {
+                startActivity(
+                    Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(Intent.EXTRA_TEXT, task.title)
+                        type = "text/plain"
+                    }
+                )
+        }
         prioritySwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 task.priority = "HIGH"
@@ -126,6 +139,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         setTimeButton = binding.fragmentEditTaskDateTimeButton
         prioritySwitch = binding.fragmentEditTaskSwitchPriority
         resetTimeButton = binding.fragmentEditTaskResetTimeButton
+        shareButton = binding.editTaskShareButton
     }
 
     private fun handleChooseCategoryTextInput() {

@@ -1,25 +1,65 @@
 package net.longday.planner.ui
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.os.PowerManager
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textview.MaterialTextView
+import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
+import net.longday.planner.data.entity.Task
+import net.longday.planner.viewmodel.TaskViewModel
+import java.io.File
+import java.io.IOException
 
+@AndroidEntryPoint
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
+
+    private val taskViewModel: TaskViewModel by viewModels()
+
+    private var tasks = listOf<Task>()
+    private val fileName = "LD_Planner_export.txt"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val backButton: ImageButton = view.findViewById(R.id.fragment_settings_back_button)
+        val exportTextView: MaterialTextView = view.findViewById(R.id.fragment_settings_export_text)
         val optimizeButton: MaterialButton = view.findViewById(R.id.settings_optimize_button)
+        taskViewModel.tasks.observe(viewLifecycleOwner) {
+            tasks = it
+        }
+        exportTextView.setOnClickListener {
+            if(ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                val f = requireContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
+                try {
+                    f?.createNewFile()
+                    f?.appendText(tasks.toString())
+                    Snackbar.make(it, "Exported to \"$fileName\"",  BaseTransientBottomBar.LENGTH_SHORT).show()
+                } catch (e: IOException) {
+                    println(e.localizedMessage)
+                    Snackbar.make(it, "Can't create file",  BaseTransientBottomBar.LENGTH_SHORT).show()
+                }
+            } else {
+                Log.e("LOG", "PERMISSION_GRANTED == false")
+                Snackbar.make(it, "Can't export, need permission",  BaseTransientBottomBar.LENGTH_SHORT).show()
+                requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 42)
+            }
+        }
         val remindersText: MaterialTextView =
             view.findViewById(R.id.fragment_settings_reminders_text)
         if (!isIgnoringBatteryOptimizations()) {
@@ -83,4 +123,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             optimizeButton.visibility = View.GONE
         }
     }
+
+    private fun requestPermission(permission: String, requestCode: Int) {
+        ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission), requestCode)
+    }
+
 }

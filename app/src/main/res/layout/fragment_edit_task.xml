@@ -76,6 +76,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autoLink="web"
                 android:inputType="textCapSentences|textMultiLine"
                 android:maxLength="3000"
                 android:maxLines="5" />
@@ -150,7 +151,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             android:hint="@string/fragment_edit_task_content_hint"
-            app:layout_constraintBottom_toTopOf="@+id/edit_task_delete_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_edit_task_date_time_button_card">
 
@@ -164,6 +164,16 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/edit_task_share_button"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/edit_task_share_button_text"
+            app:icon="@drawable/ic_round_share_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_task_edit_content" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/edit_task_delete_button"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
@@ -171,7 +181,7 @@
             android:text="@string/fragment_edit_category_delete_button_text"
             app:icon="@drawable/ic_round_delete_outline_24"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edit_task_edit_content" />
+            app:layout_constraintTop_toBottomOf="@id/edit_task_share_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
