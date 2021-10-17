@@ -53,6 +53,13 @@
             app:fabCradleRoundedCornerRadius="8dp"
             app:navigationIcon="@drawable/ic_round_settings_24">
 
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/home_fragment_focus_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@null"
+                android:src="@drawable/ic_round_center_focus_strong_24" />
+
         </com.google.android.material.bottomappbar.BottomAppBar>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -2,13 +2,11 @@ package net.longday.planner.ui
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.webkit.URLUtil
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AlertDialog
@@ -61,6 +59,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
     private lateinit var prioritySwitch: SwitchMaterial
     private lateinit var resetTimeButton: AppCompatImageButton
     private lateinit var shareButton: MaterialButton
+    private lateinit var focusSwitch: SwitchMaterial
 
     private var sortedCategories = listOf<Category>()
     private var tasks = listOf<Task>()
@@ -96,6 +95,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         handleChooseCategoryTextInput()
         showDateOrTime()
         doneCheckBox.isChecked = task.isDone
+        focusSwitch.isChecked = task.isFocused
         editTaskTitle.editText?.setText(task.title)
         editTaskContent.editText?.setText(task.content)
         setBackButton()
@@ -126,6 +126,9 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             setTimeButton.text = requireContext().getString(R.string.edit_task_set_time_text)
             resetTimeButton.visibility = View.GONE
         }
+        focusSwitch.setOnClickListener {
+            task.isFocused = focusSwitch.isChecked
+        }
     }
 
     private fun bindViews() {
@@ -140,6 +143,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         prioritySwitch = binding.fragmentEditTaskSwitchPriority
         resetTimeButton = binding.fragmentEditTaskResetTimeButton
         shareButton = binding.editTaskShareButton
+        focusSwitch = binding.editTaskFocusButton
     }
 
     private fun handleChooseCategoryTextInput() {
@@ -197,6 +201,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                 orderInCategory = if (doneCheckBox.isChecked) -1 else task.orderInCategory,
                 isAllDay = isAllDay,
                 priority = if (prioritySwitch.isChecked) "HIGH" else null,
+                isFocused = task.isFocused,
             )
             /* Update task in database */
             taskViewModel.update(editedTask)

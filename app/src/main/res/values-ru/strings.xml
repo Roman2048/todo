@@ -52,4 +52,7 @@
     <string name="edit_task_priority_label">Важно</string>
     <string name="fragment_add_task_choose_list_hint_text">Добавить в список</string>
     <string name="edit_task_share_button_text">Поделиться</string>
+    <string name="settings_fragment_export_error">Ошибка при создании файла</string>
+    <string name="settings_fragment_export_success">Сохранено в Download</string>
+    <string name="settings_fragment_permisson_error">Нет разрешения для экспорта</string>
 </resources>

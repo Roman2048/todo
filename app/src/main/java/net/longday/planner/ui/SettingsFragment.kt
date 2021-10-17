@@ -45,18 +45,16 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
         exportTextView.setOnClickListener {
             if(ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                val f = requireContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
+                val f = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName)
                 try {
-                    f?.createNewFile()
-                    f?.appendText(tasks.toString())
-                    Snackbar.make(it, "Exported to \"$fileName\"",  BaseTransientBottomBar.LENGTH_SHORT).show()
+                    f.appendText(export(tasks))
+                    Snackbar.make(it, "${getString(R.string.settings_fragment_export_success)}\\\"$fileName\"",  BaseTransientBottomBar.LENGTH_SHORT).show()
                 } catch (e: IOException) {
                     println(e.localizedMessage)
-                    Snackbar.make(it, "Can't create file",  BaseTransientBottomBar.LENGTH_SHORT).show()
+                    Snackbar.make(it, getString(R.string.settings_fragment_export_error),  BaseTransientBottomBar.LENGTH_SHORT).show()
                 }
             } else {
-                Log.e("LOG", "PERMISSION_GRANTED == false")
-                Snackbar.make(it, "Can't export, need permission",  BaseTransientBottomBar.LENGTH_SHORT).show()
+                Snackbar.make(it, getString(R.string.settings_fragment_permisson_error),  BaseTransientBottomBar.LENGTH_SHORT).show()
                 requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 42)
             }
         }
@@ -128,4 +126,14 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission), requestCode)
     }
 
+    private fun export(tasks: List<Task>): String {
+        val sb = StringBuilder()
+        for (t in tasks) {
+            sb.append("TITLE: ${t.title}\n")
+            if (t.content != null && t.content!!.isNotEmpty()) sb.append("CONTENT: ${t.content}\n")
+            sb.append("COMPLETED: ${t.isDone}\n")
+            sb.append("\n")
+        }
+        return sb.toString()
+    }
 }

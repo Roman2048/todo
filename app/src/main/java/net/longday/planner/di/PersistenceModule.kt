@@ -4,6 +4,7 @@ import android.app.Application
 
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
 import dagger.Provides
@@ -17,6 +18,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object PersistenceModule {
+
+    private val MIGRATION_1_2 = object : Migration(1, 2) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE tasks ADD COLUMN isFocused INTEGER NOT NULL default 0")
+        }
+    }
 
     @Provides
     @Singleton
@@ -47,6 +54,7 @@ object PersistenceModule {
                     }.start()
                 }
             })
+            .addMigrations(MIGRATION_1_2)
 //            .fallbackToDestructiveMigration()
 //            .setQueryCallback({ sqlQuery, bindArgs ->
 //                println("SQL Query: $sqlQuery SQL Args: $bindArgs")
@@ -68,4 +76,5 @@ object PersistenceModule {
     @Provides
     @Singleton
     fun provideReminderDao(plannerDatabase: PlannerDatabase) = plannerDatabase.reminderDao()
+
 }

@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -48,8 +49,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val tabViewModel: TabViewModel by viewModels()
 
     private lateinit var viewPager: ViewPager2
-
     private lateinit var tabLayout: TabLayout
+    private lateinit var focusButton: AppCompatImageButton
+
 
     private var sortedCategories = listOf<Category>()
 
@@ -85,6 +87,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewPager = binding.categoryViewPager
         tabLayout = binding.tabLayout
+        focusButton = binding.homeFragmentFocusButton
+        focusButton.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_focusFragment) }
         createNotificationChannel()
         syncNavigationBarColorWithUiNightMode()
         val pagerAdapter = ViewPagerAdapter(this, sortedCategories)

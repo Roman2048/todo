@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_homeFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_focusFragment"
+            app:destination="@id/focusFragment" />
     </fragment>
     <fragment
         android:id="@+id/listManagementFragment"
@@ -45,7 +48,11 @@
         android:id="@+id/editTaskFragment"
         android:name="net.longday.planner.ui.EditTaskFragment"
         android:label="fragment_edit_task"
-        tools:layout="@layout/fragment_edit_task" />
+        tools:layout="@layout/fragment_edit_task" >
+        <action
+            android:id="@+id/action_editTaskFragment_to_focusFragment"
+            app:destination="@id/focusFragment" />
+    </fragment>
     <dialog
         android:id="@+id/addCategoryFragment"
         android:name="net.longday.planner.ui.bottomsheet.AddCategoryFragment"
@@ -72,4 +79,12 @@
     <action
         android:id="@+id/action_global_homeFragment"
         app:destination="@id/homeFragment" />
+    <fragment
+        android:id="@+id/focusFragment"
+        android:name="net.longday.planner.ui.FocusFragment"
+        android:label="FocusFragment" >
+        <action
+            android:id="@+id/action_focusFragment_to_editTaskFragment"
+            app:destination="@id/editTaskFragment" />
+    </fragment>
 </navigation>

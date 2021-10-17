@@ -29,4 +29,5 @@ data class Task(
     var endTime: String? = null, // not yet
     var icon: String? = null, // not yet
     var priority: String? = null, // not yet
+    var isFocused: Boolean = false,
 ) : Parcelable
