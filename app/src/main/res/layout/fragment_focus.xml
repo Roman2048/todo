@@ -1,31 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/focus_fragment_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/fragment_focus_back_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@null"
+        android:src="@drawable/ic_round_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Today"
-            android:textAppearance="?attr/textAppearanceHeadline6" />
-    </com.google.android.material.appbar.MaterialToolbar>
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment_focus_screen_header"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="@id/fragment_focus_back_button"
+        app:layout_constraintStart_toEndOf="@id/fragment_focus_back_button"
+        app:layout_constraintTop_toTopOf="@id/fragment_focus_back_button" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/focus_fragment_recycler"
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/fragment_focus_clear_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@null"
+        android:src="@drawable/ic_round_clear_all_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="4dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/focus_fragment_toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/fragment_focus_back_button"
+        card_view:cardCornerRadius="12dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/focus_fragment_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

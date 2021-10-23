@@ -16,7 +16,7 @@ class OneTimeScheduleWorker(
     override fun doWork(): Result {
         val builder = NotificationCompat.Builder(context, "planner_nc_1000")
 //            .setVibrate(longArrayOf(700L))
-            .setSmallIcon(R.drawable.ic_icon_mini_1)
+            .setSmallIcon(R.drawable.ic_round_alarm_24)
             .setContentTitle(context.getString(R.string.notification_title))
             .setContentText(inputData.getString("content"))
             .setPriority(NotificationCompat.PRIORITY_HIGH)

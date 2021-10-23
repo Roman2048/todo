@@ -10,7 +10,7 @@
         android:id="@+id/reminder_image_main"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/ic_pen"
+        android:src="@drawable/ic_round_clear_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

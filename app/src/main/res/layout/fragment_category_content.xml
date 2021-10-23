@@ -20,17 +20,16 @@
             android:layout_marginBottom="2dp"
             card_view:cardCornerRadius="12dp">
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/empty_image_view"
-                android:layout_width="wrap_content"
-                android:layout_height="84dp"
-                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="8dp"
+                android:layout_weight="99"
                 android:layout_margin="4dp"
-                android:paddingVertical="4dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_pen"
-                android:visibility="gone"
-                tools:srcCompat="@drawable/ic_pen" />
+                android:gravity="center"
+                android:text="@string/fragment_category_content_empty_placeholder_text"
+                android:textSize="18sp" />
 
         </com.google.android.material.card.MaterialCardView>
 
