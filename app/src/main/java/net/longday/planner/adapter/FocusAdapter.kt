@@ -15,6 +15,7 @@ import java.util.*
 
 class FocusAdapter(
     private val openTaskDetails: (task: Task) -> Unit,
+    private val updateTask: (task: Task) -> Unit,
 ) : ListAdapter<Task, FocusAdapter.FocusViewHolder>(TaskDiff()) {
 
     class FocusViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -34,6 +35,11 @@ class FocusAdapter(
         holder.textView.text = task.title
         holder.textTime.text = getTime(task)
         holder.textCheckbox.isChecked = task.isDone
+        holder.textCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            task.isDone = isChecked
+            task.completedTime = System.currentTimeMillis()
+            updateTask(task)
+        }
         holder.textView.setOnClickListener {
             openTaskDetails.invoke(task)
         }

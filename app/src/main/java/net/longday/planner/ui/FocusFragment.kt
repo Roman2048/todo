@@ -29,10 +29,11 @@ class FocusFragment : Fragment(R.layout.fragment_focus) {
         bindViews(view)
         setBackButton()
         setClearButton()
+        val updateTask: (task: Task) -> Unit = { taskViewModel.update(it) }
         val openTaskDetails: (task: Task) -> Unit = {
             findNavController().navigate(R.id.editTaskFragment, bundleOf("task" to it))
         }
-        val adapter = FocusAdapter(openTaskDetails)
+        val adapter = FocusAdapter(openTaskDetails, updateTask)
         recyclerView.adapter = adapter
         taskViewModel.tasks.observe(viewLifecycleOwner) {
             focusedTasks = it.filter { task -> task.isFocused }
