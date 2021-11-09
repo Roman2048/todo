@@ -58,4 +58,6 @@
     <string name="fragment_focus_screen_header">Today</string>
     <string name="fragment_edit_task_focus_text">Focus</string>
     <string name="fragment_category_content_empty_placeholder_text">The task list is empty</string>
+    <string name="export">Export</string>
+    <string name="export_data">Export data</string>
 </resources>

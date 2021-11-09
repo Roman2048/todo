@@ -83,6 +83,7 @@ class AddTaskFragment : DialogFragment(R.layout.fragment_add_task) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         fixLayoutDefaults()
         bindViews()
         editText.requestFocus()
