@@ -22,6 +22,7 @@ import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.textview.MaterialTextView
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,6 +61,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
     private lateinit var resetTimeButton: AppCompatImageButton
     private lateinit var shareButton: MaterialButton
     private lateinit var focusSwitch: SwitchMaterial
+    private lateinit var createdTextView: MaterialTextView
 
     private var sortedCategories = listOf<Category>()
     private var tasks = listOf<Task>()
@@ -129,6 +131,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         focusSwitch.setOnClickListener {
             task.isFocused = focusSwitch.isChecked
         }
+        createdTextView.text = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault()).format(task.createdTime)
     }
 
     private fun bindViews() {
@@ -144,6 +147,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         resetTimeButton = binding.fragmentEditTaskResetTimeButton
         shareButton = binding.editTaskShareButton
         focusSwitch = binding.editTaskFocusButton
+        createdTextView = binding.editTaskCreatedTime
     }
 
     private fun handleChooseCategoryTextInput() {

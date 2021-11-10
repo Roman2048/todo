@@ -60,4 +60,5 @@
     <string name="fragment_category_content_empty_placeholder_text">Этот список задач пуст</string>
     <string name="export">Экспорт</string>
     <string name="export_data">Выгрузить данные в файл</string>
+    <string name="created">Создано:</string>
 </resources>

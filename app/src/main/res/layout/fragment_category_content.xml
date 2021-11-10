@@ -18,7 +18,9 @@
             android:layout_marginHorizontal="8dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="2dp"
-            card_view:cardCornerRadius="12dp">
+            android:visibility="invisible"
+            card_view:cardCornerRadius="12dp"
+            tools:visibility="visible">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/empty_image_view"
