@@ -59,6 +59,7 @@ class AddTaskFragment : DialogFragment(R.layout.fragment_add_task) {
     private lateinit var editText: TextInputLayout
     private lateinit var dateTimePicker: AppCompatImageButton
     private lateinit var timeTextView: MaterialTextView
+    private lateinit var saveButton: AppCompatImageButton
 
     private var tasks = listOf<Task>()
     private var sortedCategories = listOf<Category>()
@@ -96,8 +97,32 @@ class AddTaskFragment : DialogFragment(R.layout.fragment_add_task) {
         handleChooseCategoryTextInput()
         setResetTimeButton()
         setDateTimePickerButton()
-        setEditTextSaveButton()
         setPriorityButton()
+        setSaveButton()
+    }
+
+    private fun setSaveButton() {
+        saveButton.setOnClickListener {
+            if (category?.id != "") {
+                val newTask = Task(
+                    id = UUID.randomUUID().toString(),
+                    title = editText.editText?.text.toString(),
+                    categoryId = category?.id ?: "",
+                    createdTime = System.currentTimeMillis(),
+                    timeZone = TimeZone.getDefault().id,
+                    content = "",
+                    dateTime = dayTime,
+                    isAllDay = isAllDay,
+                    priority = if (priority) "HIGH" else null
+                )
+                taskViewModel.insert(newTask)
+                refreshOrder(category!!)
+                createNotification(newTask)
+            }
+            editText.editText?.setText("")
+            dayTime = null
+            findNavController().popBackStack()
+        }
     }
 
     private fun fixLayoutDefaults() {
@@ -113,6 +138,7 @@ class AddTaskFragment : DialogFragment(R.layout.fragment_add_task) {
         editText = binding.fragmentAddTaskTextInput
         dateTimePicker = binding.newTaskSetTime
         timeTextView = binding.addTaskFragmentTimeTextView
+        saveButton = binding.addTaskSaveButton
     }
 
     private fun hideResetButtonIfNoDayTime() {
@@ -191,33 +217,6 @@ class AddTaskFragment : DialogFragment(R.layout.fragment_add_task) {
                 timePicker.show(childFragmentManager, "fragment_time_picker_tag")
             }
             datePicker.show(childFragmentManager, "fragment_date_picker_tag")
-        }
-    }
-
-    /**
-     * Set save task button
-     */
-    private fun setEditTextSaveButton() {
-        editText.setEndIconOnClickListener {
-            if (category?.id != "") {
-                val newTask = Task(
-                    id = UUID.randomUUID().toString(),
-                    title = editText.editText?.text.toString(),
-                    categoryId = category?.id ?: "",
-                    createdTime = System.currentTimeMillis(),
-                    timeZone = TimeZone.getDefault().id,
-                    content = "",
-                    dateTime = dayTime,
-                    isAllDay = isAllDay,
-                    priority = if (priority) "HIGH" else null
-                )
-                taskViewModel.insert(newTask)
-                refreshOrder(category!!)
-                createNotification(newTask)
-            }
-            editText.editText?.setText("")
-            dayTime = null
-            findNavController().popBackStack()
         }
     }
 

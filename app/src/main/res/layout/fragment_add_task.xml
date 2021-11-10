@@ -35,14 +35,25 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/add_task_save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:contentDescription="@string/add_task"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:src="@drawable/ic_round_save_32"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_add_task_choose_category"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/fragment_add_task_choose_category" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fragment_add_task_text_input"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/fragment_add_task_text_input_hint"
-            app:endIconContentDescription="@string/fragment_add_task_save_button_text"
-            app:endIconDrawable="@drawable/ic_round_send_24"
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textCapSentences|textMultiLine"
                 android:maxLength="3000"
-                android:maxLines="2" />
+                android:maxLines="5" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
