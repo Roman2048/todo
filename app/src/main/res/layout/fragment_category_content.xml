@@ -24,9 +24,9 @@
                 android:id="@+id/empty_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="4dp"
                 android:layout_marginHorizontal="8dp"
                 android:layout_weight="99"
-                android:layout_margin="4dp"
                 android:gravity="center"
                 android:text="@string/fragment_category_content_empty_placeholder_text"
                 android:textSize="18sp" />
@@ -41,7 +41,8 @@
             android:layout_marginTop="4dp"
             android:layout_marginBottom="2dp"
             android:visibility="invisible"
-            card_view:cardCornerRadius="12dp">
+            card_view:cardCornerRadius="12dp"
+            tools:visibility="visible">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -61,8 +62,7 @@
                         android:layout_marginHorizontal="8dp"
                         android:layout_weight="99"
                         android:gravity="center_vertical"
-                        android:text="@string/fragment_category_content_active_task_title"
-                        android:textSize="18sp" />
+                        android:text="@string/fragment_category_content_active_task_title" />
 
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/fragment_category_filter_by_priority_button"
@@ -72,7 +72,7 @@
                         android:background="@null"
                         android:contentDescription="@string/categories_image_button"
                         android:minWidth="48dp"
-                        android:minHeight="48dp"
+                        android:minHeight="40dp"
                         android:src="@drawable/ic_round_priority_high_24" />
 
                     <androidx.appcompat.widget.AppCompatImageButton
@@ -83,7 +83,7 @@
                         android:background="@null"
                         android:contentDescription="@string/categories_image_button"
                         android:minWidth="48dp"
-                        android:minHeight="48dp"
+                        android:minHeight="40dp"
                         android:src="@drawable/ic_round_access_time_24" />
 
                     <androidx.appcompat.widget.AppCompatImageButton
@@ -94,7 +94,7 @@
                         android:background="@null"
                         android:contentDescription="@string/categories_image_button"
                         android:minWidth="48dp"
-                        android:minHeight="48dp"
+                        android:minHeight="40dp"
                         android:src="@drawable/ic_round_keyboard_arrow_down_24" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -120,7 +120,8 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="2dp"
             android:visibility="invisible"
-            card_view:cardCornerRadius="12dp">
+            card_view:cardCornerRadius="12dp"
+            tools:visibility="visible">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -140,8 +141,7 @@
                         android:layout_marginHorizontal="8dp"
                         android:layout_weight="99"
                         android:gravity="center_vertical"
-                        android:text="@string/completed"
-                        android:textSize="18sp" />
+                        android:text="@string/completed" />
 
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/fragment_category_delete_done_button"
@@ -151,7 +151,7 @@
                         android:background="@null"
                         android:contentDescription="@string/categories_image_button"
                         android:minWidth="48dp"
-                        android:minHeight="48dp"
+                        android:minHeight="40dp"
                         android:src="@drawable/ic_round_delete_outline_24" />
 
                     <androidx.appcompat.widget.AppCompatImageButton
@@ -162,7 +162,7 @@
                         android:background="@null"
                         android:contentDescription="@string/categories_image_button"
                         android:minWidth="48dp"
-                        android:minHeight="48dp"
+                        android:minHeight="40dp"
                         android:src="@drawable/ic_round_keyboard_arrow_down_24" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
