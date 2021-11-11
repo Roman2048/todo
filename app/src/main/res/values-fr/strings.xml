@@ -54,7 +54,7 @@
     <string name="edit_task_share_button_text">Share</string>
     <string name="settings_fragment_export_error">Can\'t create file</string>
     <string name="settings_fragment_export_success">Exported to Download</string>
-    <string name="settings_fragment_permisson_error">Can\'t export, need permission</string>
+    <string name="settings_fragment_permission_error">Can\'t export, need permission</string>
     <string name="fragment_focus_screen_header">Today</string>
     <string name="fragment_edit_task_focus_text">Focus</string>
     <string name="fragment_category_content_empty_placeholder_text">The task list is empty</string>

@@ -116,8 +116,8 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
         val updateTask: (task: Task) -> Unit = { taskViewModel.update(it) }
         val adapter = TaskAdapter(listOf(), updateTask)
         val doneAdapter = DoneTaskAdapter(listOf(), updateTask)
-        ViewCompat.setNestedScrollingEnabled(binding.taskRecycler, false);
-        ViewCompat.setNestedScrollingEnabled(binding.doneTaskRecycler, false);
+        ViewCompat.setNestedScrollingEnabled(binding.taskRecycler, false)
+        ViewCompat.setNestedScrollingEnabled(binding.doneTaskRecycler, false)
         binding.taskRecycler.adapter = adapter
         binding.doneTaskRecycler.adapter = doneAdapter
         val category: Category = arguments?.get("category") as Category

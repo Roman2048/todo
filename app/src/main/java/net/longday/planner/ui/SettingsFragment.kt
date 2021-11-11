@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.PowerManager
 import android.provider.Settings
-import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import androidx.core.app.ActivityCompat
@@ -54,7 +53,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                     Snackbar.make(it, getString(R.string.settings_fragment_export_error),  BaseTransientBottomBar.LENGTH_SHORT).show()
                 }
             } else {
-                Snackbar.make(it, getString(R.string.settings_fragment_permisson_error),  BaseTransientBottomBar.LENGTH_SHORT).show()
+                Snackbar.make(it, getString(R.string.settings_fragment_permission_error),  BaseTransientBottomBar.LENGTH_SHORT).show()
                 requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 42)
             }
         }
