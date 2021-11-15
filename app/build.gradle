@@ -47,6 +47,9 @@ android {
 }
 
 dependencies {
+    /* SplashScreen API */
+    implementation 'androidx.core:core-splashscreen:1.0.0-alpha02'
+
     /* Billing */
     def billing_version = "4.0.0"
     implementation "com.android.billingclient:billing-ktx:$billing_version"
