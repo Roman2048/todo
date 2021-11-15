@@ -22,7 +22,7 @@
         android:id="@+id/categories_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@null"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/categories_image_button"
         android:minWidth="48dp"
         android:minHeight="48dp"
@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="4dp"
-        android:layout_marginBottom="56dp"
+        android:layout_marginBottom="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tab_layout" />
 
@@ -47,31 +47,29 @@
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottom_app_bar"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             app:fabAlignmentMode="end"
-            app:fabCradleMargin="6dp"
-            app:fabCradleRoundedCornerRadius="8dp"
-            app:navigationIcon="@drawable/ic_round_settings_24">
+            app:navigationIcon="@drawable/ic_round_menu_24">
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/home_fragment_focus_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="@null"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_round_center_focus_strong_24"
                 android:visibility="gone"
                 tools:visibility="visible" />
 
-        </com.google.android.material.bottomappbar.BottomAppBar>
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_round_add_box_48" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/add_task_fb_description"
-            android:src="@drawable/ic_round_add_24"
-            app:layout_anchor="@id/bottom_app_bar" />
+        </com.google.android.material.bottomappbar.BottomAppBar>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
