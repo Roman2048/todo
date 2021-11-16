@@ -1,19 +1,15 @@
 <resources>
 
-    <style name="Theme.Planner" parent="Theme.SplashScreen">
+    <style name="Theme.Planner" parent="Theme.MaterialComponents">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-        <!-- Primary brand color. -->
-        <!--        <item name="colorPrimary">@color/primaryColor</item>-->
-        <!--        <item name="colorPrimaryDark">@color/primaryDarkColor</item>-->
-        <!-- Secondary brand color. -->
-        <!--        <item name="colorSecondary">@color/secondaryColor</item>-->
-        <!--        <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>-->
+    </style>
+
+    <style name="Theme.PlannerSplashScreen" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/primaryColor</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_baseline_add_task_24</item>
         <item name="windowSplashScreenAnimationDuration">200</item>
-
-        <item name="postSplashScreenTheme">@style/Theme.MaterialComponents</item>
+        <item name="postSplashScreenTheme">@style/Theme.Planner</item>
     </style>
 
     <style name="AddTaskBottomSheetStyle" parent="Theme.MaterialComponents.BottomSheetDialog" />
