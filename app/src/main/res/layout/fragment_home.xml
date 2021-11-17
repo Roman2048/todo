@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_round_add_box_48" />
+                android:src="@drawable/ic_round_add_circle_48" />
 
         </com.google.android.material.bottomappbar.BottomAppBar>
 

@@ -87,7 +87,6 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         bindViews()
-        editTaskTitle.requestFocus()
         task = arguments?.get("task") as Task
         taskTime = task.dateTime
         isAllDay = task.isAllDay

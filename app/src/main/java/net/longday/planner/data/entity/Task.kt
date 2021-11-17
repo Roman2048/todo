@@ -30,4 +30,6 @@ data class Task(
     var icon: String? = null, // not yet
     var priority: String? = null, // not yet
     var isFocused: Boolean = false,
+//    var isCanceled: Boolean = false,
+//    var cancelReason: String? = null,
 ) : Parcelable

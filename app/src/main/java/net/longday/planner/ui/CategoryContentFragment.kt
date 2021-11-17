@@ -42,7 +42,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
 
     private val itemTouchHelper by lazy {
         val simpleItemTouchCallback =
-            object : ItemTouchHelper.SimpleCallback(UP or DOWN or START or END, 0) {
+            object : ItemTouchHelper.SimpleCallback(UP or DOWN, 0) {
                 private var dragFromPosition = -1
                 private var dragToPosition = -1
                 override fun onMove(

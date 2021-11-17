@@ -51,17 +51,11 @@ class TaskAdapter(
                 )
             } catch (e: IllegalArgumentException) {
             }
-            it.showKeyboard()
         }
     }
 
     override fun getItemCount(): Int {
         return tasks.size
-    }
-
-    private fun View.showKeyboard() {
-        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
     }
 
     // TODO: if date is tomorrow, show "tomorrow"

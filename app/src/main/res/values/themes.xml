@@ -7,7 +7,7 @@
 
     <style name="Theme.PlannerSplashScreen" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/primaryColor</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_baseline_add_task_24</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_ld_planner_splash_icon</item>
         <item name="windowSplashScreenAnimationDuration">200</item>
         <item name="postSplashScreenTheme">@style/Theme.Planner</item>
     </style>
