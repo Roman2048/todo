@@ -101,8 +101,8 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             binding.editTaskCancelTime.visibility = View.VISIBLE
             binding.editTaskCancelTime.text =
                 SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault()).format(task.cancelTime)
-            binding.editTaskInfoCancelReasonTitle.visibility = View.VISIBLE
-            if (!task.cancelReason.isNullOrEmpty()) {
+            if (!task.cancelReason.isNullOrBlank()) {
+                binding.editTaskInfoCancelReasonTitle.visibility = View.VISIBLE
                 binding.editTaskCancelReasonText.visibility = View.VISIBLE
                 binding.editTaskCancelReasonText.text = task.cancelReason
             }
