@@ -65,4 +65,6 @@
     <string name="delete_canceled_tasks_button_text">Удалить все отменённые задачи?</string>
     <string name="canceled_tasks_card_header">ОТМЕНЕНО</string>
     <string name="mark_active">Сделать активной</string>
+    <string name="cancel_task_text_input_hint">Причина (необязательно)</string>
+    <string name="cancel_task_ok_button_text">ОК</string>
 </resources>

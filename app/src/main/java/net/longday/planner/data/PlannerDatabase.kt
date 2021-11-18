@@ -13,7 +13,7 @@ import net.longday.planner.data.entity.Task
 
 @Database(
     entities = [Task::class, Category::class, Tab::class, Reminder::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class PlannerDatabase : RoomDatabase() {

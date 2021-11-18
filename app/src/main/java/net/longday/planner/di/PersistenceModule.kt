@@ -25,6 +25,14 @@ object PersistenceModule {
         }
     }
 
+    private val MIGRATION_2_3 = object : Migration(2, 3) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE tasks ADD COLUMN isCanceled INTEGER NOT NULL default 0")
+            database.execSQL("ALTER TABLE tasks ADD COLUMN cancelReason TEXT")
+            database.execSQL("ALTER TABLE tasks ADD COLUMN cancelTime TEXT")
+        }
+    }
+
     @Provides
     @Singleton
     fun provideDatabase(application: Application) =
@@ -55,6 +63,7 @@ object PersistenceModule {
                 }
             })
             .addMigrations(MIGRATION_1_2)
+            .addMigrations(MIGRATION_2_3)
 //            .fallbackToDestructiveMigration()
 //            .setQueryCallback({ sqlQuery, bindArgs ->
 //                println("SQL Query: $sqlQuery SQL Args: $bindArgs")

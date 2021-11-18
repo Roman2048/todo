@@ -78,4 +78,6 @@
     <string name="delete_canceled_tasks_button_text">Delete all canceled tasks?</string>
     <string name="canceled_tasks_card_header">CANCELED</string>
     <string name="mark_active">Mark active</string>
+    <string name="cancel_task_text_input_hint">Reason (optional)</string>
+    <string name="cancel_task_ok_button_text">OK</string>
 </resources>
