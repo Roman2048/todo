@@ -67,4 +67,6 @@
     <string name="mark_active">Сделать активной</string>
     <string name="cancel_task_text_input_hint">Причина (необязательно)</string>
     <string name="cancel_task_ok_button_text">ОК</string>
+    <string name="canceled">Отменено:</string>
+    <string name="cancel_reason">Причина отмены:</string>
 </resources>

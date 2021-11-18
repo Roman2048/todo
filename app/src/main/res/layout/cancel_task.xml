@@ -19,21 +19,30 @@
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:weightSum="10">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="3" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/cancel_task_back_button"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="80dp"
                 android:text="@string/back" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="3" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/cancel_task_ok_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
                 android:text="@string/cancel_task_ok_button_text" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

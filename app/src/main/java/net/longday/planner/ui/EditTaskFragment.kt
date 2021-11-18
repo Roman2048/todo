@@ -97,6 +97,18 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         if (task.isCanceled) {
             binding.fragmentEditTaskDoneCheckbox.isEnabled = false
             binding.editTaskCancelButton.text = getString(R.string.mark_active)
+            binding.editTaskInfoCanceledTitle.visibility = View.VISIBLE
+            binding.editTaskCancelTime.visibility = View.VISIBLE
+            binding.editTaskCancelTime.text =
+                SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault()).format(task.cancelTime)
+            binding.editTaskInfoCancelReasonTitle.visibility = View.VISIBLE
+            binding.editTaskCancelReasonText.visibility = View.VISIBLE
+            binding.editTaskCancelReasonText.text = task.cancelReason
+        } else {
+            binding.editTaskInfoCanceledTitle.visibility = View.GONE
+            binding.editTaskCancelTime.visibility = View.GONE
+            binding.editTaskInfoCancelReasonTitle.visibility = View.GONE
+            binding.editTaskCancelReasonText.visibility = View.GONE
         }
         taskViewModel.tasks.observe(viewLifecycleOwner) { tasks = it }
         reminderViewModel.reminders.observe(viewLifecycleOwner) { reminders = it }
@@ -140,35 +152,43 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         createdTextView.text =
             SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault()).format(task.createdTime)
         setCancelButton()
+        doneCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            cancelButton.isEnabled = !isChecked
+        }
     }
 
     private fun setCancelButton() {
         cancelButton.setOnClickListener {
-            val dialog = AlertDialog.Builder(requireContext())
-                .setView(R.layout.cancel_task)
-                .create()
-            dialog.show()
-            val textInput =
-                dialog.findViewById<TextInputEditText>(R.id.cancel_task_reason_text_input)
-            val okButton = dialog.findViewById<MaterialButton>(R.id.cancel_task_ok_button)
-            val backButton = dialog.findViewById<MaterialButton>(R.id.cancel_task_back_button)
-            okButton?.setOnClickListener {
-                if (task.isCanceled) {
-                    task.isCanceled = false
-                    task.cancelReason = null
-                    task.cancelTime = null
-                    taskViewModel.update(task)
-                } else {
+            if (task.isCanceled) {
+                task.isCanceled = false
+                task.cancelReason = null
+                task.cancelTime = null
+                taskViewModel.update(task)
+                cancelButton.text = getString(R.string.cancel)
+                doneCheckBox.isEnabled = true
+            } else {
+                val dialog = AlertDialog.Builder(requireContext())
+                    .setView(R.layout.cancel_task)
+                    .create()
+                dialog.show()
+                val textInput =
+                    dialog.findViewById<TextInputEditText>(R.id.cancel_task_reason_text_input)
+                val okButton = dialog.findViewById<MaterialButton>(R.id.cancel_task_ok_button)
+                val backButton = dialog.findViewById<MaterialButton>(R.id.cancel_task_back_button)
+                okButton?.setOnClickListener {
+                    task.isDone = false
+                    doneCheckBox.isChecked = false
+                    doneCheckBox.isEnabled = false
                     task.isCanceled = true
                     task.cancelReason = textInput?.text.toString()
-                    task.cancelTime = System.currentTimeMillis().toString()
+                    task.cancelTime = System.currentTimeMillis()
                     taskViewModel.update(task)
+                    dialog.cancel()
+                    cancelButton.text = getString(R.string.mark_active)
                 }
-                dialog.cancel()
-                findNavController().navigate(R.id.homeFragment)
-            }
-            backButton?.setOnClickListener {
-                dialog.cancel()
+                backButton?.setOnClickListener {
+                    dialog.cancel()
+                }
             }
         }
     }
@@ -226,6 +246,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
 
     private fun setBackButton() {
         backButton.setOnClickListener {
+            if (doneCheckBox.isChecked && task.isCanceled) task.isDone = false
             /* Set task orderInCategory to top position if category was changed */
             category?.let { task.orderInCategory = -1 }
             /* Create updated task */

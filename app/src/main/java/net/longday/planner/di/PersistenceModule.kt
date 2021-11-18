@@ -19,28 +19,24 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object PersistenceModule {
 
-    private val MIGRATION_1_2 = object : Migration(1, 2) {
-        override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("ALTER TABLE tasks ADD COLUMN isFocused INTEGER NOT NULL default 0")
-        }
-    }
-
-    private val MIGRATION_2_3 = object : Migration(2, 3) {
-        override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("ALTER TABLE tasks ADD COLUMN isCanceled INTEGER NOT NULL default 0")
-            database.execSQL("ALTER TABLE tasks ADD COLUMN cancelReason TEXT")
-            database.execSQL("ALTER TABLE tasks ADD COLUMN cancelTime TEXT")
-        }
-    }
+//    private val MIGRATION_1_2 = object : Migration(1, 2) {
+//        override fun migrate(database: SupportSQLiteDatabase) {
+//            database.execSQL("ALTER TABLE tasks ADD COLUMN isFocused INTEGER NOT NULL default 0")
+//        }
+//    }
+//
+//    private val MIGRATION_2_3 = object : Migration(2, 3) {
+//        override fun migrate(database: SupportSQLiteDatabase) {
+//            database.execSQL("ALTER TABLE tasks ADD COLUMN isCanceled INTEGER NOT NULL default 0")
+//            database.execSQL("ALTER TABLE tasks ADD COLUMN cancelReason TEXT")
+//            database.execSQL("ALTER TABLE tasks ADD COLUMN cancelTime INTEGER")
+//        }
+//    }
 
     @Provides
     @Singleton
     fun provideDatabase(application: Application) =
-        Room.databaseBuilder(
-            application,
-            PlannerDatabase::class.java,
-            "planner"
-        )
+        Room.databaseBuilder(application, PlannerDatabase::class.java, "planner")
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
@@ -62,8 +58,8 @@ object PersistenceModule {
                     }.start()
                 }
             })
-            .addMigrations(MIGRATION_1_2)
-            .addMigrations(MIGRATION_2_3)
+//            .addMigrations(MIGRATION_1_2)
+//            .addMigrations(MIGRATION_2_3)
 //            .fallbackToDestructiveMigration()
 //            .setQueryCallback({ sqlQuery, bindArgs ->
 //                println("SQL Query: $sqlQuery SQL Args: $bindArgs")

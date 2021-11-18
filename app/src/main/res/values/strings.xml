@@ -80,4 +80,6 @@
     <string name="mark_active">Mark active</string>
     <string name="cancel_task_text_input_hint">Reason (optional)</string>
     <string name="cancel_task_ok_button_text">OK</string>
+    <string name="canceled">Canceled:</string>
+    <string name="cancel_reason">Cancel reason:</string>
 </resources>

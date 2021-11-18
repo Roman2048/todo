@@ -247,6 +247,54 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/edit_task_info_canceled_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/canceled"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/edit_task_cancel_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:visibility="gone"
+                        tools:text="13.01.2022 at 13:20"
+                        tools:visibility="visible" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/edit_task_info_cancel_reason_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cancel_reason"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/edit_task_cancel_reason_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:visibility="gone"
+                        tools:text="Not enough time"
+                        tools:visibility="visible" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </com.google.android.material.card.MaterialCardView>
