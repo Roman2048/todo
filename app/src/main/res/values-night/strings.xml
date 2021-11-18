@@ -59,4 +59,8 @@
     <string name="export">Export</string>
     <string name="export_data">Export data</string>
     <string name="created">Created:</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete_canceled_tasks_button_text">Delete all canceled tasks?</string>
+    <string name="canceled_tasks_card_header">CANCELED</string>
+    <string name="mark_active">Mark active</string>
 </resources>

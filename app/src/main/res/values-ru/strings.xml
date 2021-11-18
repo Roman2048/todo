@@ -61,4 +61,8 @@
     <string name="export">ЭКСПОРТ</string>
     <string name="export_data">Выгрузить данные в файл</string>
     <string name="created">Создано:</string>
+    <string name="cancel">Отменить</string>
+    <string name="delete_canceled_tasks_button_text">Удалить все отменённые задачи?</string>
+    <string name="canceled_tasks_card_header">ОТМЕНЕНО</string>
+    <string name="mark_active">Сделать активной</string>
 </resources>

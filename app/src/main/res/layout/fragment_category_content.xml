@@ -108,7 +108,7 @@
                     android:layout_marginHorizontal="8dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:context=".ui.CategoryContentFragment"
-                    tools:itemCount="20" />
+                    tools:itemCount="5" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -176,7 +176,75 @@
                     android:layout_marginHorizontal="8dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:context=".ui.CategoryContentFragment"
-                    tools:itemCount="20" />
+                    tools:itemCount="5" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/category_content_canceled_task_recycler_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="2dp"
+            android:visibility="invisible"
+            card_view:cardCornerRadius="12dp"
+            tools:visibility="visible">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="100">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/fragment_category_content_canceled_task_title_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="8dp"
+                        android:layout_weight="99"
+                        android:gravity="center_vertical"
+                        android:text="@string/canceled_tasks_card_header" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/fragment_category_delete_canceled_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/categories_image_button"
+                        android:minWidth="48dp"
+                        android:minHeight="40dp"
+                        android:src="@drawable/ic_round_delete_outline_24" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/fragment_category_show_canceled_tasks"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/categories_image_button"
+                        android:minWidth="48dp"
+                        android:minHeight="40dp"
+                        android:src="@drawable/ic_round_keyboard_arrow_down_24" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/canceled_task_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:context=".ui.CategoryContentFragment"
+                    tools:itemCount="5" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

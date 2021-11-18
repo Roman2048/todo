@@ -14,8 +14,10 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
+import net.longday.planner.adapter.CanceledTaskAdapter
 import net.longday.planner.adapter.DoneTaskAdapter
 import net.longday.planner.adapter.TaskAdapter
 import net.longday.planner.data.entity.Category
@@ -32,13 +34,19 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
     private var _binding: FragmentCategoryContentBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var canceledTaskCard: MaterialCardView
+
     private val taskViewModel: TaskViewModel by viewModels()
-    private lateinit var allTasks: List<Task>
+    private var allTasks: List<Task> = listOf()
+    private var todoTasks: List<Task> = listOf()
+    private var doneTasks: List<Task> = listOf()
+    private var canceledTasks: List<Task> = listOf()
 
     private lateinit var currentCategory: Category
 
     private var filterByImportance = false
     private var filterByUrgency = false
+    private var isCanceledTasksCollapsed = true
 
     private val itemTouchHelper by lazy {
         val simpleItemTouchCallback =
@@ -103,23 +111,21 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     /**
      * Get category form the bundle, filter tasks by the bundle, send to adapter
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        bindViews()
         itemTouchHelper.attachToRecyclerView(binding.taskRecycler)
         val updateTask: (task: Task) -> Unit = { taskViewModel.update(it) }
         val adapter = TaskAdapter(listOf(), updateTask)
         val doneAdapter = DoneTaskAdapter(listOf(), updateTask)
+        val canceledAdapter = CanceledTaskAdapter(listOf(), updateTask)
         ViewCompat.setNestedScrollingEnabled(binding.taskRecycler, false)
         ViewCompat.setNestedScrollingEnabled(binding.doneTaskRecycler, false)
         binding.taskRecycler.adapter = adapter
         binding.doneTaskRecycler.adapter = doneAdapter
+        binding.canceledTaskRecycler.adapter = canceledAdapter
         val category: Category = arguments?.get("category") as Category
         currentCategory = category
         binding.doneTaskRecycler.visibility = View.GONE
@@ -127,15 +133,26 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
             .setImageResource(R.drawable.ic_round_keyboard_arrow_left_24)
         binding.fragmentCategoryDeleteDoneButton.visibility = View.GONE
         taskViewModel.tasks.observe(viewLifecycleOwner) { tasks ->
-            allTasks = tasks
-            if (tasks.none { it.categoryId == category.id }) {
+            allTasks = tasks.filter { it.categoryId == category.id }
+            todoTasks = allTasks.filter { !it.isDone && !it.isCanceled }
+            doneTasks = allTasks.filter { it.isDone }
+            canceledTasks = allTasks.filter { it.isCanceled }
+            // Canceled tasks
+            if (canceledTasks.none()) {
+                canceledTaskCard.visibility = View.GONE
+            } else {
+                canceledTaskCard.visibility = View.VISIBLE
+                setCanceledTasksVisibilityByCollapseState()
+            }
+            // To-do tasks
+            if (allTasks.none()) {
                 binding.emptyImageView.visibility = View.VISIBLE
             } else {
                 binding.emptyImageView.visibility = View.GONE
                 binding.categoryContentImageCard.visibility = View.GONE
 //                binding.categoryContentTaskRecyclerCard.visibility = View.VISIBLE
             }
-            if (tasks.none { it.categoryId == category.id && !it.isDone }) {
+            if (todoTasks.none()) {
                 binding.categoryContentTaskRecyclerCard.visibility = View.GONE
                 binding.emptyImageView.visibility = View.VISIBLE
                 binding.categoryContentImageCard.visibility = View.VISIBLE
@@ -143,7 +160,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
                 binding.categoryContentTaskRecyclerCard.visibility = View.VISIBLE
             }
             // Set gone visibility for done task card to remove margin
-            if (tasks.none { it.categoryId == category.id && it.isDone }) {
+            if (doneTasks.none()) {
                 binding.categoryContentDoneTaskRecyclerCard.visibility = View.GONE
                 binding.fragmentCategoryDeleteDoneButton.visibility = View.GONE
             } else {
@@ -152,27 +169,21 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
             }
             /* If there is no important tasks, disable priority switch */
             binding.fragmentCategoryFilterByPriorityButton.isEnabled =
-                !tasks.none { it.categoryId == category.id && !it.isDone && it.priority != null }
+                !allTasks.none { it.categoryId == category.id && !it.isDone && it.priority != null }
             /* If there is no urgency tasks, disable urgency switch */
             binding.fragmentCategoryFilterByUrgencyButton.isEnabled =
-                !tasks.none {
+                !allTasks.none {
                     it.categoryId == category.id && !it.isDone && (
                             DateUtils.isToday(it.dateTime ?: 0)
                                     || DateUtils
                                 .isToday(it.dateTime?.minus(86_400_000) ?: 0)
                             )
                 }
+            binding.taskRecycler.adapter = TaskAdapter(sortTasksByOrder(todoTasks), updateTask)
             binding.doneTaskRecycler.adapter =
-                DoneTaskAdapter(
-                    tasks
-                        .filter { it.categoryId == category.id && it.isDone }
-                        .sortedBy { it.completedTime }
-                        .reversed(), updateTask)
-            binding.taskRecycler.adapter =
-                TaskAdapter(
-                    filterTasks(tasks).filter { it.categoryId == category.id && !it.isDone },
-                    updateTask
-                )
+                DoneTaskAdapter(doneTasks.sortedBy { it.completedTime }.reversed(), updateTask)
+            binding.canceledTaskRecycler.adapter =
+                CanceledTaskAdapter(sortTasksByOrder(canceledTasks), updateTask)
             adapter.notifyDataSetChanged()
             doneAdapter.notifyDataSetChanged()
         }
@@ -200,6 +211,56 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
             filterByUrgency = !filterByUrgency
             binding.taskRecycler.adapter = setTaskRecyclerAdapterByFilters(category, updateTask)
         }
+        binding.fragmentCategoryShowCanceledTasks.setOnClickListener {
+            isCanceledTasksCollapsed = !isCanceledTasksCollapsed
+            setCanceledTasksVisibilityByCollapseState()
+        }
+        binding.fragmentCategoryContentCanceledTaskTitleText.setOnClickListener {
+            isCanceledTasksCollapsed = !isCanceledTasksCollapsed
+            setCanceledTasksVisibilityByCollapseState()
+        }
+        binding.fragmentCategoryDeleteCanceledButton.setOnClickListener {
+            showDeleteCanceledTasksDialog()
+        }
+    }
+
+    private fun showDeleteCanceledTasksDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(getString(R.string.delete_done_task_dialog_title))
+        builder.setMessage(getString(R.string.delete_canceled_tasks_button_text))
+        builder.setPositiveButton(
+            getString(R.string.fragment_edit_category_delete_button_text)
+        ) { _, _ ->
+            canceledTasks.forEach {
+                it.isDeleted = true
+                taskViewModel.update(it)
+            }
+        }
+        builder.setNegativeButton(
+            getString(R.string.delete_done_task_dialog_cancel_button_text)
+        ) { _, _ -> }
+        builder.show()
+    }
+
+    private fun setCanceledTasksVisibilityByCollapseState() {
+        if (isCanceledTasksCollapsed) {
+            binding.canceledTaskRecycler.visibility = View.GONE
+            binding.fragmentCategoryShowCanceledTasks.setImageResource(R.drawable.ic_round_keyboard_arrow_left_24)
+            binding.fragmentCategoryDeleteCanceledButton.visibility = View.GONE
+        } else {
+            binding.canceledTaskRecycler.visibility = View.VISIBLE
+            binding.fragmentCategoryShowCanceledTasks.setImageResource(R.drawable.ic_round_keyboard_arrow_down_24)
+            binding.fragmentCategoryDeleteCanceledButton.visibility = View.VISIBLE
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun bindViews() {
+        canceledTaskCard = binding.categoryContentCanceledTaskRecyclerCard
     }
 
     /**
@@ -224,7 +285,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
                 ), PorterDuff.Mode.SRC_IN
             )
             TaskAdapter(
-                filterTasks(allTasks).filter {
+                sortTasksByOrder(allTasks).filter {
                     it.categoryId == category.id
                             && !it.isDone
                             && it.priority == "HIGH"
@@ -242,7 +303,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
             binding.fragmentCategoryFilterByPriorityButton.colorFilter = null
             binding.fragmentCategoryFilterByUrgencyButton.colorFilter = null
             TaskAdapter(
-                filterTasks(allTasks).filter { it.categoryId == category.id && !it.isDone },
+                sortTasksByOrder(allTasks).filter { it.categoryId == category.id && !it.isDone },
                 updateTask
             )
         }
@@ -257,7 +318,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
                 ), PorterDuff.Mode.SRC_IN
             )
             TaskAdapter(
-                filterTasks(allTasks).filter {
+                sortTasksByOrder(allTasks).filter {
                     it.categoryId == category.id && !it.isDone && it.priority == "HIGH"
                 },
                 updateTask
@@ -274,7 +335,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
             )
             // If the task time is today or tomorrow, show it as urgency task
             TaskAdapter(
-                filterTasks(allTasks).filter {
+                sortTasksByOrder(allTasks).filter {
                     it.categoryId == category.id
                             && !it.isDone
                             && (
@@ -291,23 +352,9 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
             binding.fragmentCategoryFilterByPriorityButton.colorFilter = null
             binding.fragmentCategoryFilterByUrgencyButton.colorFilter = null
             TaskAdapter(
-                filterTasks(allTasks).filter { it.categoryId == category.id && !it.isDone },
+                sortTasksByOrder(allTasks).filter { it.categoryId == category.id && !it.isDone },
                 updateTask
             )
-        }
-    }
-
-    private fun changeDoneTaskRecyclerVisibility() {
-        if (binding.doneTaskRecycler.visibility == View.GONE) {
-            binding.doneTaskRecycler.visibility = View.VISIBLE
-            binding.fragmentCategoryShowDoneTasks
-                .setImageResource(R.drawable.ic_round_keyboard_arrow_down_24)
-            binding.fragmentCategoryDeleteDoneButton.visibility = View.VISIBLE
-        } else {
-            binding.doneTaskRecycler.visibility = View.GONE
-            binding.fragmentCategoryShowDoneTasks
-                .setImageResource(R.drawable.ic_round_keyboard_arrow_left_24)
-            binding.fragmentCategoryDeleteDoneButton.visibility = View.GONE
         }
     }
 
@@ -327,7 +374,21 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
         }
     }
 
-    private fun filterTasks(tasks: List<Task>): List<Task> {
+    private fun changeDoneTaskRecyclerVisibility() {
+        if (binding.doneTaskRecycler.visibility == View.GONE) {
+            binding.doneTaskRecycler.visibility = View.VISIBLE
+            binding.fragmentCategoryShowDoneTasks
+                .setImageResource(R.drawable.ic_round_keyboard_arrow_down_24)
+            binding.fragmentCategoryDeleteDoneButton.visibility = View.VISIBLE
+        } else {
+            binding.doneTaskRecycler.visibility = View.GONE
+            binding.fragmentCategoryShowDoneTasks
+                .setImageResource(R.drawable.ic_round_keyboard_arrow_left_24)
+            binding.fragmentCategoryDeleteDoneButton.visibility = View.GONE
+        }
+    }
+
+    private fun sortTasksByOrder(tasks: List<Task>): List<Task> {
         return tasks.sortedBy { it.orderInCategory }
     }
 

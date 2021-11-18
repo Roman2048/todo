@@ -21,6 +21,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -62,6 +63,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
     private lateinit var shareButton: MaterialButton
     private lateinit var focusSwitch: SwitchMaterial
     private lateinit var createdTextView: MaterialTextView
+    private lateinit var cancelButton: MaterialButton
 
     private var sortedCategories = listOf<Category>()
     private var tasks = listOf<Task>()
@@ -91,6 +93,11 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         taskTime = task.dateTime
         isAllDay = task.isAllDay
         prioritySwitch.isChecked = task.priority != null
+        if (task.isDone) cancelButton.isEnabled = false
+        if (task.isCanceled) {
+            binding.fragmentEditTaskDoneCheckbox.isEnabled = false
+            binding.editTaskCancelButton.text = getString(R.string.mark_active)
+        }
         taskViewModel.tasks.observe(viewLifecycleOwner) { tasks = it }
         reminderViewModel.reminders.observe(viewLifecycleOwner) { reminders = it }
         handleChooseCategoryTextInput()
@@ -103,13 +110,13 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         setDeleteTaskButton()
         setDateTimePickerButton()
         shareButton.setOnClickListener {
-                startActivity(
-                    Intent().apply {
-                        action = Intent.ACTION_SEND
-                        putExtra(Intent.EXTRA_TEXT, task.title)
-                        type = "text/plain"
-                    }
-                )
+            startActivity(
+                Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, task.title)
+                    type = "text/plain"
+                }
+            )
         }
         prioritySwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -130,7 +137,40 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         focusSwitch.setOnClickListener {
             task.isFocused = focusSwitch.isChecked
         }
-        createdTextView.text = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault()).format(task.createdTime)
+        createdTextView.text =
+            SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault()).format(task.createdTime)
+        setCancelButton()
+    }
+
+    private fun setCancelButton() {
+        cancelButton.setOnClickListener {
+            val dialog = AlertDialog.Builder(requireContext())
+                .setView(R.layout.cancel_task)
+                .create()
+            dialog.show()
+            val textInput =
+                dialog.findViewById<TextInputEditText>(R.id.cancel_task_reason_text_input)
+            val okButton = dialog.findViewById<MaterialButton>(R.id.cancel_task_ok_button)
+            val backButton = dialog.findViewById<MaterialButton>(R.id.cancel_task_back_button)
+            okButton?.setOnClickListener {
+                if (task.isCanceled) {
+                    task.isCanceled = false
+                    task.cancelReason = null
+                    task.cancelTime = null
+                    taskViewModel.update(task)
+                } else {
+                    task.isCanceled = true
+                    task.cancelReason = textInput?.text.toString()
+                    task.cancelTime = System.currentTimeMillis().toString()
+                    taskViewModel.update(task)
+                }
+                dialog.cancel()
+                findNavController().navigate(R.id.homeFragment)
+            }
+            backButton?.setOnClickListener {
+                dialog.cancel()
+            }
+        }
     }
 
     private fun bindViews() {
@@ -147,6 +187,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         shareButton = binding.editTaskShareButton
         focusSwitch = binding.editTaskFocusButton
         createdTextView = binding.editTaskCreatedTime
+        cancelButton = binding.editTaskCancelButton
     }
 
     private fun handleChooseCategoryTextInput() {
@@ -188,24 +229,16 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             /* Set task orderInCategory to top position if category was changed */
             category?.let { task.orderInCategory = -1 }
             /* Create updated task */
-            val editedTask = Task(
-                id = task.id,
-                title = editTaskTitle.editText?.text.toString(),
-                categoryId = task.categoryId,
-                createdTime = task.createdTime,
-                timeZone = task.timeZone,
-                content = editTaskContent.editText?.text.toString(),
-                dateTime = taskTime,
-                completedTime = if (doneCheckBox.isChecked) System.currentTimeMillis() else null,
-                deletedTime = task.deletedTime,
-                isDone = doneCheckBox.isChecked,
-                isDeleted = task.isDeleted,
-                isScheduled = task.isScheduled,
-                orderInCategory = if (doneCheckBox.isChecked) -1 else task.orderInCategory,
-                isAllDay = isAllDay,
-                priority = if (prioritySwitch.isChecked) "HIGH" else null,
-                isFocused = task.isFocused,
-            )
+            val editedTask = task
+            editedTask.title = editTaskTitle.editText?.text.toString()
+            editedTask.content = editTaskContent.editText?.text.toString()
+            editedTask.dateTime = taskTime
+            editedTask.completedTime =
+                if (doneCheckBox.isChecked) System.currentTimeMillis() else null
+            editedTask.isDone = doneCheckBox.isChecked
+            editedTask.orderInCategory = if (doneCheckBox.isChecked) -1 else task.orderInCategory
+            editedTask.isAllDay = isAllDay
+            editedTask.priority = if (prioritySwitch.isChecked) "HIGH" else null
             /* Update task in database */
             taskViewModel.update(editedTask)
             if (!isAllDay) {
