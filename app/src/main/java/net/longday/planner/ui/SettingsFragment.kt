@@ -19,6 +19,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textview.MaterialTextView
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
 import net.longday.planner.data.entity.Task
@@ -43,17 +44,36 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             tasks = it
         }
         exportTextView.setOnClickListener {
-            if(ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                val f = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName)
+            if (ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                val f = File(
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                    fileName
+                )
                 try {
                     f.appendText(export(tasks))
-                    Snackbar.make(it, "${getString(R.string.settings_fragment_export_success)}\\\"$fileName\"",  BaseTransientBottomBar.LENGTH_SHORT).show()
+                    Snackbar.make(
+                        it,
+                        "${getString(R.string.settings_fragment_export_success)}\\\"$fileName\"",
+                        BaseTransientBottomBar.LENGTH_SHORT
+                    ).show()
                 } catch (e: IOException) {
                     println(e.localizedMessage)
-                    Snackbar.make(it, getString(R.string.settings_fragment_export_error),  BaseTransientBottomBar.LENGTH_SHORT).show()
+                    Snackbar.make(
+                        it,
+                        getString(R.string.settings_fragment_export_error),
+                        BaseTransientBottomBar.LENGTH_SHORT
+                    ).show()
                 }
             } else {
-                Snackbar.make(it, getString(R.string.settings_fragment_permission_error),  BaseTransientBottomBar.LENGTH_SHORT).show()
+                Snackbar.make(
+                    it,
+                    getString(R.string.settings_fragment_permission_error),
+                    BaseTransientBottomBar.LENGTH_SHORT
+                ).show()
                 requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 42)
             }
         }
@@ -125,14 +145,5 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission), requestCode)
     }
 
-    private fun export(tasks: List<Task>): String {
-        val sb = StringBuilder()
-        for (t in tasks) {
-            sb.append("TITLE: ${t.title}\n")
-            if (t.content != null && t.content!!.isNotEmpty()) sb.append("CONTENT: ${t.content}\n")
-            sb.append("COMPLETED: ${t.isDone}\n")
-            sb.append("\n")
-        }
-        return sb.toString()
-    }
+    private fun export(tasks: List<Task>) = Gson().toJson(tasks)
 }
