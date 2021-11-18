@@ -58,7 +58,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                     Snackbar.make(
                         it,
                         "${getString(R.string.settings_fragment_export_success)}\\\"$fileName\"",
-                        BaseTransientBottomBar.LENGTH_SHORT
+                        BaseTransientBottomBar.LENGTH_LONG
                     ).show()
                 } catch (e: IOException) {
                     println(e.localizedMessage)
