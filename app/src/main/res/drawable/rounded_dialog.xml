@@ -4,5 +4,4 @@
     <solid android:color="@color/add_task_fragment_background"/>
     <corners android:topLeftRadius="12dp"
         android:topRightRadius="12dp"/>
-
 </shape>

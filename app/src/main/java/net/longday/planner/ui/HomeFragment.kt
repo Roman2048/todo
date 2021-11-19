@@ -2,7 +2,6 @@ package net.longday.planner.ui
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.content.res.Configuration
@@ -12,7 +11,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.os.bundleOf
@@ -131,7 +129,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 /* Save current category. Used in bundle when navigate to AddTaskFragment */
                 chosenCategory = sortedCategories[tab?.position ?: 0]
             }
-
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })

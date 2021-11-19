@@ -14,9 +14,11 @@
         app:layout_constraintEnd_toStartOf="@id/categories_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:tabBackground="@drawable/tab_selector"
         app:tabIndicatorColor="#00FFFFFF"
         app:tabIndicatorGravity="top"
-        app:tabMode="scrollable" />
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="#FFFFFF" />
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/categories_button"
