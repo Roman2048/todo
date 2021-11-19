@@ -50,7 +50,7 @@
     <string name="fragment_edit_task_checkbox_text_done">Статус: выполнено</string>
     <string name="fragment_category_content_active_task_title">АКТИВНО</string>
     <string name="edit_task_priority_label">Важно</string>
-    <string name="fragment_add_task_choose_list_hint_text">Добавить в список</string>
+    <string name="fragment_add_task_choose_list_hint_text">В список</string>
     <string name="edit_task_share_button_text">Поделиться</string>
     <string name="settings_fragment_export_error">Ошибка при создании файла</string>
     <string name="settings_fragment_export_success">Сохранено в Download</string>

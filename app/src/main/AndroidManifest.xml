@@ -30,6 +30,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PlannerSplashScreen">
         <activity
+            android:launchMode="singleInstancePerTask"
             android:name=".PlannerActivity"
             android:exported="true">
             <intent-filter>

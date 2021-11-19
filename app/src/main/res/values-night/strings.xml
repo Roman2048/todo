@@ -48,7 +48,7 @@
     <string name="fragment_edit_task_checkbox_text_done">Status: done</string>
     <string name="fragment_category_content_active_task_title">ACTIVE</string>
     <string name="edit_task_priority_label">Priority</string>
-    <string name="fragment_add_task_choose_list_hint_text">Add to list</string>
+    <string name="fragment_add_task_choose_list_hint_text">To list</string>
     <string name="edit_task_share_button_text">Share</string>
     <string name="settings_fragment_export_error">Can\'t create file</string>
     <string name="settings_fragment_export_success">Exported to Download</string>
