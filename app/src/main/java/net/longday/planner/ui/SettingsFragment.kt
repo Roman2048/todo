@@ -160,6 +160,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         tasks.forEach {
             exportedTasks.add(it.export(categories))
         }
-        return Gson().toJson(exportedTasks)
+        return Gson().newBuilder().setPrettyPrinting().create().toJson(exportedTasks)
     }
 }

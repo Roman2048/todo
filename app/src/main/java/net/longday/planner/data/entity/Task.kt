@@ -20,6 +20,16 @@ data class Task(
     var isDone: Boolean = false,
     var isDeleted: Boolean = false,
     var isScheduled: Boolean = false,
+    var scheduledType: String? = null, // day, week, month, year
+    var scheduledTime: Long? = null, // time
+    var scheduledEvery: Long? = null, // every 1..365 days, every 1..11 month, every 1..99 years
+    var scheduledDayStartWith: Long? = null, // day to start scheduled task
+    var scheduledDaysOfWeek: String? = null, // days in week when scheduled task is active (MON, FRI)
+    var scheduledMonthByDay: String? = null, // Monthly, day in month
+    var scheduledMonthStartWithMonth: String? = null, // Monthly, month to start
+    var scheduledMonthByNumberInWeek: String? = null, // Monthly, week number in month (1..4, LAST)
+    var scheduledMonthByNumberInWeekDayTitle: String? = null, // Monthly, day in week (FRI)
+    var scheduledYearByDay: String? = null, // Yearly, day in year
     var orderInCategory: Int = -1,
     var orderInTask: Int = -1, // not yet
     var isAllDay: Boolean = true,
