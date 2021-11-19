@@ -22,7 +22,11 @@ import com.google.android.material.textview.MaterialTextView
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
+import net.longday.planner.data.entity.Category
+import net.longday.planner.data.entity.ExportedTask
 import net.longday.planner.data.entity.Task
+import net.longday.planner.data.entity.export
+import net.longday.planner.viewmodel.CategoryViewModel
 import net.longday.planner.viewmodel.TaskViewModel
 import java.io.File
 import java.io.IOException
@@ -31,8 +35,11 @@ import java.io.IOException
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private val taskViewModel: TaskViewModel by viewModels()
+    private val categoryViewModel: CategoryViewModel by viewModels()
 
     private var tasks = listOf<Task>()
+    private var categories = listOf<Category>()
+
     private val fileName = "LD_Planner_export.txt"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,6 +49,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         val optimizeButton: MaterialButton = view.findViewById(R.id.settings_optimize_button)
         taskViewModel.tasks.observe(viewLifecycleOwner) {
             tasks = it
+        }
+        categoryViewModel.categories.observe(viewLifecycleOwner) {
+            categories = it
         }
         exportTextView.setOnClickListener {
             if (ActivityCompat.checkSelfPermission(
@@ -54,7 +64,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                     fileName
                 )
                 try {
-                    f.appendText(export(tasks))
+                    f.appendText(export(tasks, categories))
                     Snackbar.make(
                         it,
                         "${getString(R.string.settings_fragment_export_success)}\\\"$fileName\"",
@@ -145,5 +155,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission), requestCode)
     }
 
-    private fun export(tasks: List<Task>) = Gson().toJson(tasks)
+    private fun export(tasks: List<Task>, categories: List<Category>): String {
+        val exportedTasks = mutableListOf<ExportedTask>()
+        tasks.forEach {
+            exportedTasks.add(it.export(categories))
+        }
+        return Gson().toJson(exportedTasks)
+    }
 }
