@@ -57,7 +57,7 @@
     <string name="settings_fragment_permission_error">Нет разрешения для экспорта</string>
     <string name="fragment_focus_screen_header">Сегодня</string>
     <string name="fragment_edit_task_focus_text">Сфокусироваться</string>
-    <string name="fragment_category_content_empty_placeholder_text">Этот список задач пуст</string>
+    <string name="fragment_category_content_empty_placeholder_text">Этот список пуст</string>
     <string name="export">ЭКСПОРТ</string>
     <string name="export_data">Выгрузить данные в файл</string>
     <string name="created">Создано:</string>

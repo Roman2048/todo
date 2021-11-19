@@ -149,13 +149,13 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
                 binding.emptyImageView.visibility = View.VISIBLE
             } else {
                 binding.emptyImageView.visibility = View.GONE
-                binding.categoryContentImageCard.visibility = View.GONE
+
 //                binding.categoryContentTaskRecyclerCard.visibility = View.VISIBLE
             }
             if (todoTasks.none()) {
                 binding.categoryContentTaskRecyclerCard.visibility = View.GONE
                 binding.emptyImageView.visibility = View.VISIBLE
-                binding.categoryContentImageCard.visibility = View.VISIBLE
+
             } else {
                 binding.categoryContentTaskRecyclerCard.visibility = View.VISIBLE
             }

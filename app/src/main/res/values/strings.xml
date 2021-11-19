@@ -70,7 +70,7 @@
     <string name="settings_fragment_permission_error">Can\'t export, need permission</string>
     <string name="fragment_focus_screen_header">Today</string>
     <string name="fragment_edit_task_focus_text">Focus</string>
-    <string name="fragment_category_content_empty_placeholder_text">The task list is empty</string>
+    <string name="fragment_category_content_empty_placeholder_text">The list is empty</string>
     <string name="export">EXPORT</string>
     <string name="export_data">Export data to file</string>
     <string name="created">Created:</string>
