@@ -9,7 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class PlannerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val splashScreen = installSplashScreen()
+        installSplashScreen()
         setContentView(R.layout.activity_planner)
     }
 }

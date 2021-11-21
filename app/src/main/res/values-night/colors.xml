@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="add_task_fragment_background">@color/primaryColor</color>
+    <color name="main_green">#388E3C</color>
 </resources>

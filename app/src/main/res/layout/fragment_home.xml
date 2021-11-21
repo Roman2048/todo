@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+<!--        app:tabBackground="@drawable/tab_selector"-->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="0dp"
@@ -14,9 +14,10 @@
         app:layout_constraintEnd_toStartOf="@id/categories_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tabBackground="@drawable/tab_selector"
-        app:tabIndicatorColor="#00FFFFFF"
-        app:tabIndicatorGravity="top"
+        app:tabIndicatorColor="@color/main_green"
+        app:tabIndicator="@drawable/tab_selected"
+        app:tabIndicatorGravity="stretch"
+        app:tabIndicatorAnimationMode="elastic"
         app:tabMode="scrollable"
         app:tabSelectedTextColor="#FFFFFF" />
 
@@ -59,6 +60,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/fragment_edit_task_focus_text"
                 android:src="@drawable/ic_round_center_focus_strong_24"
                 android:visibility="gone"
                 tools:visibility="visible" />
@@ -69,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/add_task"
                 android:src="@drawable/ic_round_add_circle_48" />
 
         </com.google.android.material.bottomappbar.BottomAppBar>
