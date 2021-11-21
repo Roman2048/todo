@@ -121,14 +121,12 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
         bindViews()
         itemTouchHelper.attachToRecyclerView(binding.taskRecycler)
         val updateTask: (task: Task) -> Unit = { taskViewModel.update(it) }
-        val adapter = TaskAdapter(listOf(), updateTask)
-        val doneAdapter = DoneTaskAdapter(listOf(), updateTask)
-        val canceledAdapter = CanceledTaskAdapter(listOf(), updateTask)
+        var taskAdapter: TaskAdapter
+        var doneTaskAdapter: DoneTaskAdapter
+        var canceledTaskAdapter: CanceledTaskAdapter
         ViewCompat.setNestedScrollingEnabled(binding.taskRecycler, false)
         ViewCompat.setNestedScrollingEnabled(binding.doneTaskRecycler, false)
-        binding.taskRecycler.adapter = adapter
-        binding.doneTaskRecycler.adapter = doneAdapter
-        binding.canceledTaskRecycler.adapter = canceledAdapter
+        ViewCompat.setNestedScrollingEnabled(binding.canceledTaskRecycler, false)
         val category: Category = arguments?.get("category") as Category
         currentCategory = category
         binding.doneTaskRecycler.visibility = GONE
@@ -172,13 +170,17 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
                                 .isToday(it.dateTime?.minus(86_400_000) ?: 0)
                             )
                 }
-            binding.taskRecycler.adapter = TaskAdapter(sortTasksByOrder(todoTasks), updateTask)
-            binding.doneTaskRecycler.adapter =
-                DoneTaskAdapter(doneTasks.sortedBy { it.completedTime }.reversed(), updateTask)
-            binding.canceledTaskRecycler.adapter =
-                CanceledTaskAdapter(sortTasksByOrder(canceledTasks), updateTask)
-            adapter.notifyDataSetChanged()
-            doneAdapter.notifyDataSetChanged()
+            taskAdapter = TaskAdapter(sortTasksByOrder(todoTasks), updateTask)
+            binding.taskRecycler.adapter = taskAdapter
+            doneTaskAdapter = DoneTaskAdapter(
+                doneTasks.sortedBy { it.completedTime }.reversed(), updateTask
+            )
+            binding.doneTaskRecycler.adapter = doneTaskAdapter
+            canceledTaskAdapter = CanceledTaskAdapter(sortTasksByOrder(canceledTasks), updateTask)
+            binding.canceledTaskRecycler.adapter = canceledTaskAdapter
+            taskAdapter.notifyDataSetChanged()
+            doneTaskAdapter.notifyDataSetChanged()
+            canceledTaskAdapter.notifyDataSetChanged()
             isUpdating = false
         }
 
