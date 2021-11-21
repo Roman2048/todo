@@ -69,4 +69,5 @@
     <string name="cancel_task_ok_button_text">ОК</string>
     <string name="canceled">Отменено:</string>
     <string name="cancel_reason">Причина отмены:</string>
+    <string name="add_task_add_details_input_hint">Добавить описание</string>
 </resources>

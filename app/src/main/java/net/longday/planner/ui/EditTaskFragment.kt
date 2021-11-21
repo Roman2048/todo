@@ -293,7 +293,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
 //                findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
 //            } catch (e: IllegalArgumentException) {
 //            }
-//            it.hideKeyboard()
+            it.hideKeyboard()
         }
     }
 
@@ -327,9 +327,6 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
     private fun setDateTimePickerButton() {
         setTimeButton.setOnClickListener {
             val materialDatePicker = MaterialDatePicker.Builder.datePicker().build()
-            materialDatePicker.addOnNegativeButtonClickListener {
-                it.postDelayed({ it.showKeyboard() }, 100)
-            }
             materialDatePicker.addOnPositiveButtonClickListener {
                 resetTimeButton.visibility = View.VISIBLE
                 taskTime = materialDatePicker.selection
@@ -339,11 +336,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                 val materialTimePicker = MaterialTimePicker.Builder()
                     .setTimeFormat(TimeFormat.CLOCK_24H)
                     .build()
-                materialTimePicker.addOnNegativeButtonClickListener {
-                    it.postDelayed({ it.showKeyboard() }, 100)
-                }
                 materialTimePicker.addOnPositiveButtonClickListener {
-                    it.postDelayed({ it.showKeyboard() }, 100)
                     val newHour: Int = materialTimePicker.hour
                     val newMinute: Int = materialTimePicker.minute
                     val plus =

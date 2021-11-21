@@ -82,4 +82,5 @@
     <string name="cancel_task_ok_button_text">OK</string>
     <string name="canceled">Canceled:</string>
     <string name="cancel_reason">Cancel reason:</string>
+    <string name="add_task_add_details_input_hint">Add details</string>
 </resources>

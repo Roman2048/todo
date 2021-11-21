@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
@@ -60,6 +62,7 @@ class AddTaskFragment : DialogFragment(R.layout.fragment_add_task) {
     private lateinit var dateTimePicker: AppCompatImageButton
     private lateinit var timeTextView: MaterialTextView
     private lateinit var saveButton: AppCompatImageButton
+    private lateinit var addContentButton: AppCompatImageButton
 
     private var tasks = listOf<Task>()
     private var sortedCategories = listOf<Category>()
@@ -68,6 +71,7 @@ class AddTaskFragment : DialogFragment(R.layout.fragment_add_task) {
     private var dayTime: Long? = null
     private var isAllDay = true
     private var intent: Intent? = null
+    private var isContentInputVisible = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,8 +87,16 @@ class AddTaskFragment : DialogFragment(R.layout.fragment_add_task) {
         _binding = null
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean("isContentInputVisible", isContentInputVisible)
+        super.onSaveInstanceState(outState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        isContentInputVisible = savedInstanceState?.getBoolean("isContentInputVisible") ?: false
+        binding.addTaskContentTextInputLayout.visibility =
+            if (isContentInputVisible) VISIBLE else GONE
         fixLayoutDefaults()
         bindViews()
         editText.requestFocus()
@@ -99,6 +111,16 @@ class AddTaskFragment : DialogFragment(R.layout.fragment_add_task) {
         setDateTimePickerButton()
         setPriorityButton()
         setSaveButton()
+        setAddContentButton()
+    }
+
+    private fun setAddContentButton() {
+        addContentButton.setOnClickListener {
+            binding.addTaskContentTextInputLayout.visibility =
+                if (isContentInputVisible) GONE else VISIBLE
+            isContentInputVisible = !isContentInputVisible
+            binding.addTaskContentTextInputLayoutEditText.text = null
+        }
     }
 
     private fun setSaveButton() {
@@ -110,7 +132,7 @@ class AddTaskFragment : DialogFragment(R.layout.fragment_add_task) {
                     categoryId = category?.id ?: "",
                     createdTime = System.currentTimeMillis(),
                     timeZone = TimeZone.getDefault().id,
-                    content = "",
+                    content = binding.addTaskContentTextInputLayoutEditText.text.toString(),
                     dateTime = dayTime,
                     isAllDay = isAllDay,
                     priority = if (priority) "HIGH" else null
@@ -139,6 +161,7 @@ class AddTaskFragment : DialogFragment(R.layout.fragment_add_task) {
         dateTimePicker = binding.newTaskSetTime
         timeTextView = binding.addTaskFragmentTimeTextView
         saveButton = binding.addTaskSaveButton
+        addContentButton = binding.newTaskAddContentButton
     }
 
     private fun hideResetButtonIfNoDayTime() {
