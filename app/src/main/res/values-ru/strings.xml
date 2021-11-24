@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="add_subtask_button_text">Подзадача</string>
     <string name="add_task">Добавить задачу</string>
     <string name="add_category">Добавить список</string>
     <string name="back">Назад</string>
@@ -70,4 +71,5 @@
     <string name="canceled">Отменено:</string>
     <string name="cancel_reason">Причина отмены:</string>
     <string name="add_task_add_details_input_hint">Добавить описание</string>
+    <string name="subtasks">Подзадачи</string>
 </resources>

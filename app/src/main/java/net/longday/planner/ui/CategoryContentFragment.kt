@@ -136,7 +136,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
 
         taskViewModel.tasks.observe(viewLifecycleOwner) { tasks ->
             if (isUpdating) return@observe
-            allTasks = tasks.filter { it.categoryId == category.id }
+            allTasks = tasks.filter { it.categoryId == category.id && it.parentTaskId == null }
             todoTasks = allTasks.filter { !it.isDone && !it.isCanceled }
             doneTasks = allTasks.filter { it.isDone }
             canceledTasks = allTasks.filter { it.isCanceled }

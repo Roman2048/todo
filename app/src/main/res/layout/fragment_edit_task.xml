@@ -164,6 +164,35 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/edit_task_subtask_layout_title_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edit_task_edit_content"
+                android:text="@string/subtasks"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/edit_task_subtask_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edit_task_subtask_layout_title_text_view"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/edit_task_add_subtask_button"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_subtask_button_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_task_subtask_recycler" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/edit_task_share_button"
             style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -172,7 +201,7 @@
             android:text="@string/edit_task_share_button_text"
             app:icon="@drawable/ic_round_share_24"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edit_task_edit_content" />
+            app:layout_constraintTop_toBottomOf="@id/edit_task_add_subtask_button" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/edit_task_focus_button"

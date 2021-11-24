@@ -1,4 +1,5 @@
 <resources>
+    <string name="add_subtask_button_text">Add subtask</string>
     <string name="add_task">Add task</string>
     <string name="add_category">Add list</string>
     <string name="back">Back</string>
@@ -83,4 +84,5 @@
     <string name="canceled">Canceled:</string>
     <string name="cancel_reason">Cancel reason:</string>
     <string name="add_task_add_details_input_hint">Add details</string>
+    <string name="subtasks">Subtasks</string>
 </resources>

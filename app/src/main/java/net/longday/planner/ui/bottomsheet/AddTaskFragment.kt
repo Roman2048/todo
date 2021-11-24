@@ -72,6 +72,7 @@ class AddTaskFragment : DialogFragment(R.layout.fragment_add_task) {
     private var isAllDay = true
     private var intent: Intent? = null
     private var isContentInputVisible = false
+    private var parentTask: Task? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -103,6 +104,7 @@ class AddTaskFragment : DialogFragment(R.layout.fragment_add_task) {
         view.postDelayed({ view.showKeyboard() }, 100)
         taskViewModel.tasks.observe(viewLifecycleOwner) { tasks = it }
         category = arguments?.get("category") as Category?
+        parentTask = arguments?.get("task") as Task?
         chooseCategoryTextInput.editText?.setText(category?.title ?: "")
         hideResetButtonIfNoDayTime()
         handlePlainTextIntent()
@@ -129,16 +131,17 @@ class AddTaskFragment : DialogFragment(R.layout.fragment_add_task) {
                 val newTask = Task(
                     id = UUID.randomUUID().toString(),
                     title = editText.editText?.text.toString(),
-                    categoryId = category?.id ?: "",
+                    categoryId = category?.id ?: parentTask?.categoryId ?: "",
                     createdTime = System.currentTimeMillis(),
                     timeZone = TimeZone.getDefault().id,
                     content = binding.addTaskContentTextInputLayoutEditText.text.toString(),
                     dateTime = dayTime,
                     isAllDay = isAllDay,
-                    priority = if (priority) "HIGH" else null
+                    priority = if (priority) "HIGH" else null,
+                    parentTaskId = parentTask?.id
                 )
                 taskViewModel.insert(newTask)
-                refreshOrder(category!!)
+                category?.let { category -> refreshOrder(category) }
                 createNotification(newTask)
             }
             editText.editText?.setText("")

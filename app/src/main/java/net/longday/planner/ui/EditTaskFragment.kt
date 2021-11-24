@@ -11,9 +11,11 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
@@ -28,6 +30,7 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
+import net.longday.planner.adapter.SubtaskAdapter
 import net.longday.planner.data.entity.Category
 import net.longday.planner.data.entity.Reminder
 import net.longday.planner.data.entity.Task
@@ -64,6 +67,8 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
     private lateinit var focusSwitch: SwitchMaterial
     private lateinit var createdTextView: MaterialTextView
     private lateinit var cancelButton: MaterialButton
+    private lateinit var subtaskRecycler: RecyclerView
+    private lateinit var addSubtaskButton: MaterialButton
 
     private var sortedCategories = listOf<Category>()
     private var tasks = listOf<Task>()
@@ -90,6 +95,22 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         bindViews()
         task = arguments?.get("task") as Task
+        val openTaskDetails: (task: Task) -> Unit = {
+            findNavController().navigate(R.id.editTaskFragment, bundleOf("task" to it))
+        }
+        val updateTask: (task: Task) -> Unit = { taskViewModel.update(it) }
+        val subtaskAdapter = SubtaskAdapter(openTaskDetails, updateTask)
+        subtaskRecycler.adapter = subtaskAdapter
+        addSubtaskButton.setOnClickListener {
+            try {
+                findNavController().navigate(
+                    R.id.addTaskFragment,
+                    bundleOf("category" to category, "task" to task)
+                )
+            } catch (e: IllegalArgumentException) {
+                println(e)
+            }
+        }
         taskTime = task.dateTime
         isAllDay = task.isAllDay
         prioritySwitch.isChecked = task.priority != null
@@ -112,7 +133,11 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             binding.editTaskInfoCancelReasonTitle.visibility = View.GONE
             binding.editTaskCancelReasonText.visibility = View.GONE
         }
-        taskViewModel.tasks.observe(viewLifecycleOwner) { tasks = it }
+        taskViewModel.tasks.observe(viewLifecycleOwner) {
+            tasks = it
+            val subtasks = tasks.filter { currentTask -> currentTask.parentTaskId == task.id }
+            subtaskAdapter.submitList(subtasks)
+        }
         reminderViewModel.reminders.observe(viewLifecycleOwner) { reminders = it }
         handleChooseCategoryTextInput()
         showDateOrTime()
@@ -210,6 +235,8 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         focusSwitch = binding.editTaskFocusButton
         createdTextView = binding.editTaskCreatedTime
         cancelButton = binding.editTaskCancelButton
+        subtaskRecycler = binding.editTaskSubtaskRecycler
+        addSubtaskButton = binding.editTaskAddSubtaskButton
     }
 
     private fun handleChooseCategoryTextInput() {
