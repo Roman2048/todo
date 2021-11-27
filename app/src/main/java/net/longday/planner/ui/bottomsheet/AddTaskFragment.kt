@@ -173,6 +173,9 @@ class AddTaskFragment : DialogFragment(R.layout.fragment_add_task) {
         }
     }
 
+    /**
+     * Set new task title if user send text to the app
+     */
     private fun handlePlainTextIntent() {
         intent = arguments?.get("intent") as Intent?
         editText.editText?.setText(intent?.getStringExtra(Intent.EXTRA_TEXT) ?: "")
