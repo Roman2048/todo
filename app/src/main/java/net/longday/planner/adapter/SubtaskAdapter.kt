@@ -16,12 +16,17 @@ import java.util.*
 class SubtaskAdapter(
     private val openTaskDetails: (task: Task) -> Unit,
     private val updateTask: (task: Task) -> Unit,
+    private val addSubTask: () -> Unit,
 ) : ListAdapter<Task, SubtaskAdapter.SubtaskViewHolder>(TaskDiff()) {
 
     class SubtaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val title: MaterialTextView = view.findViewById(R.id.task_item_text)
-        val time: MaterialTextView = view.findViewById(R.id.task_item_time)
-        val checkBox: MaterialCheckBox = view.findViewById(R.id.task_item_checkbox)
+        val title: MaterialTextView = view.findViewById(R.id.subtask_item_text)
+        val time: MaterialTextView = view.findViewById(R.id.subtask_item_time)
+        val checkBox: MaterialCheckBox = view.findViewById(R.id.subtask_item_checkbox)
+    }
+
+    override fun getItemCount(): Int {
+        return currentList.size + 1
     }
 
     class TaskDiff : DiffUtil.ItemCallback<Task>() {
@@ -41,17 +46,27 @@ class SubtaskAdapter(
     }
 
     override fun onBindViewHolder(holder: SubtaskViewHolder, position: Int) {
-        val task = getItem(position)
-        holder.title.text = task.title
-        holder.time.text = getTime(task)
-        holder.checkBox.isChecked = task.isDone
-        holder.checkBox.setOnCheckedChangeListener { _, isChecked ->
-            task.isDone = isChecked
-            task.completedTime = System.currentTimeMillis()
-            updateTask(task)
-        }
-        holder.title.setOnClickListener {
-            openTaskDetails.invoke(task)
+        if (position == currentList.size) {
+            holder.title.text =
+                holder.title.context.getString(R.string.subtask_recycler_add_subtask_button_text)
+            holder.checkBox.setBackgroundResource(R.drawable.ic_round_add_24)
+            holder.checkBox.buttonDrawable = null
+            holder.title.setOnClickListener {
+                addSubTask.invoke()
+            }
+        } else {
+            val task = getItem(position)
+            holder.title.text = task.title
+            holder.time.text = getTime(task)
+            holder.checkBox.isChecked = task.isDone
+            holder.checkBox.setOnCheckedChangeListener { _, isChecked ->
+                task.isDone = isChecked
+                task.completedTime = System.currentTimeMillis()
+                updateTask(task)
+            }
+            holder.title.setOnClickListener {
+                openTaskDetails.invoke(task)
+            }
         }
     }
 

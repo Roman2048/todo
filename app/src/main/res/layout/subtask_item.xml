@@ -3,40 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="4dp">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/task_item_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/subtask_item_checkbox"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/task_item_text"
+        android:id="@+id/subtask_item_text"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="32dp"
         android:ellipsize="end"
         android:gravity="start|center"
-        android:maxLines="2"
-        android:textSize="17sp"
-        app:layout_constraintBottom_toBottomOf="@id/task_item_checkbox"
-        app:layout_constraintEnd_toStartOf="@id/task_item_time"
-        app:layout_constraintStart_toEndOf="@id/task_item_checkbox"
-        app:layout_constraintTop_toTopOf="@id/task_item_checkbox"
-        tools:text="Поздравить сына" />
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+        app:layout_constraintEnd_toStartOf="@id/subtask_item_time"
+        app:layout_constraintStart_toEndOf="@id/subtask_item_checkbox"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Есть огромная семья, и тропинка и лесок, в поле каждый колоск" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/task_item_time"
+        android:id="@+id/subtask_item_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@id/task_item_checkbox"
+        app:layout_constraintBottom_toBottomOf="@id/subtask_item_checkbox"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/task_item_text"
-        app:layout_constraintTop_toTopOf="@id/task_item_checkbox"
+        app:layout_constraintStart_toEndOf="@id/subtask_item_text"
+        app:layout_constraintTop_toTopOf="@id/subtask_item_checkbox"
         tools:text="Jul 12" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

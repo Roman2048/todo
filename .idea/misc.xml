@@ -6,16 +6,19 @@
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/ic_baseline_add_task_24.xml" value="0.2345" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.2345" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/ic_ld_planner_splash_icon.xml" value="0.2345" />
+        <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/ic_round_access_time_24.xml" value="0.1615" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/ic_round_add_24.xml" value="0.2665" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/ic_round_add_box_24.xml" value="0.2265" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/ic_round_add_box_48.xml" value="0.2345" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/ic_round_add_circle_48.xml" value="0.2345" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/ic_round_cancel_24.xml" value="0.1615" />
+        <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/ic_round_clear_24.xml" value="0.1995" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/ic_round_edit_note_24.xml" value="0.1615" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/ic_round_notes_24.xml" value="0.1615" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/ic_round_notes_48.xml" value="0.1615" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/ic_round_save_24.xml" value="0.1265" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/ic_round_save_32.xml" value="0.1615" />
+        <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/ic_round_subdirectory_arrow_right_24.xml" value="0.1615" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/rounded_dialog.xml" value="0.1" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/rounded_dialog_dark.xml" value="0.1" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/drawable/tab_selected.xml" value="0.2045" />
@@ -37,7 +40,7 @@
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/layout/fragment_list_management.xml" value="0.2595108695652174" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/layout/fragment_rnd_add_task.xml" value="0.33" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/layout/fragment_settings.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/layout/subtask_item.xml" value="0.19166666666666668" />
+        <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/layout/subtask_item.xml" value="0.33" />
         <entry key="..\:/Users/RoMasha/AndroidStudioProjects/Planner/app/src/main/res/layout/task_item.xml" value="0.19166666666666668" />
       </map>
     </option>

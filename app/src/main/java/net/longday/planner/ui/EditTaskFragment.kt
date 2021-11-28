@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -55,12 +56,12 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
 
     private lateinit var taskListTitle: TextInputLayout
     private lateinit var autoCompleteTextView: AutoCompleteTextView
-    private lateinit var editTaskTitle: TextInputLayout
-    private lateinit var editTaskContent: TextInputLayout
+    private lateinit var editTaskTitle: AppCompatEditText
+    private lateinit var editTaskContent: AppCompatEditText
     private lateinit var deleteTaskButton: MaterialButton
     private lateinit var backButton: AppCompatImageButton
     private lateinit var doneCheckBox: MaterialCheckBox
-    private lateinit var setTimeButton: MaterialButton
+    private lateinit var setTimeButton: MaterialTextView
     private lateinit var prioritySwitch: SwitchMaterial
     private lateinit var resetTimeButton: AppCompatImageButton
     private lateinit var shareButton: MaterialButton
@@ -68,7 +69,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
     private lateinit var createdTextView: MaterialTextView
     private lateinit var cancelButton: MaterialButton
     private lateinit var subtaskRecycler: RecyclerView
-    private lateinit var addSubtaskButton: MaterialButton
+
 
     private var sortedCategories = listOf<Category>()
     private var tasks = listOf<Task>()
@@ -99,9 +100,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             findNavController().navigate(R.id.editTaskFragment, bundleOf("task" to it))
         }
         val updateTask: (task: Task) -> Unit = { taskViewModel.update(it) }
-        val subtaskAdapter = SubtaskAdapter(openTaskDetails, updateTask)
-        subtaskRecycler.adapter = subtaskAdapter
-        addSubtaskButton.setOnClickListener {
+        val addSubTask: () -> Unit = {
             try {
                 findNavController().navigate(
                     R.id.addTaskFragment,
@@ -111,6 +110,8 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                 println(e)
             }
         }
+        val subtaskAdapter = SubtaskAdapter(openTaskDetails, updateTask, addSubTask)
+        subtaskRecycler.adapter = subtaskAdapter
         taskTime = task.dateTime
         isAllDay = task.isAllDay
         prioritySwitch.isChecked = task.priority != null
@@ -143,8 +144,8 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         showDateOrTime()
         doneCheckBox.isChecked = task.isDone
         focusSwitch.isChecked = task.isFocused
-        editTaskTitle.editText?.setText(task.title)
-        editTaskContent.editText?.setText(task.content)
+        editTaskTitle.setText(task.title)
+        editTaskContent.setText(task.content)
         setBackButton()
         setDeleteTaskButton()
         setDateTimePickerButton()
@@ -223,20 +224,19 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
     private fun bindViews() {
         taskListTitle = binding.fragmentEditTaskTopLabel
         autoCompleteTextView = binding.fragmentEditTaskTopLabelAutoComplete
-        editTaskTitle = binding.editTaskEditText
-        editTaskContent = binding.editTaskEditContent
+        editTaskTitle = binding.taskDetailsTitleEditText
+        editTaskContent = binding.taskDetailsDetailsEditText
         deleteTaskButton = binding.editTaskDeleteButton
         backButton = binding.fragmentEditTaskBackButton
         doneCheckBox = binding.fragmentEditTaskDoneCheckbox
-        setTimeButton = binding.fragmentEditTaskDateTimeButton
+        setTimeButton = binding.taskDetailsAddDateAndTimeTextView
         prioritySwitch = binding.fragmentEditTaskSwitchPriority
-        resetTimeButton = binding.fragmentEditTaskResetTimeButton
+        resetTimeButton = binding.taskDetailsResetDateAndTimeImageButton
         shareButton = binding.editTaskShareButton
         focusSwitch = binding.editTaskFocusButton
         createdTextView = binding.editTaskCreatedTime
         cancelButton = binding.editTaskCancelButton
         subtaskRecycler = binding.editTaskSubtaskRecycler
-        addSubtaskButton = binding.editTaskAddSubtaskButton
     }
 
     private fun handleChooseCategoryTextInput() {
@@ -246,7 +246,8 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             if (sortedCategories.isEmpty()) {
                 taskListTitle.isEnabled = false
             }
-            taskListTitle.editText?.setText(categories.first { it.id == task.categoryId }.title)
+            category = categories.first { it.id == task.categoryId }
+            taskListTitle.editText?.setText(category?.title ?: "")
             (taskListTitle.editText as? AutoCompleteTextView)?.setAdapter(
                 ArrayAdapter(
                     requireContext(),
@@ -280,8 +281,8 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             category?.let { task.orderInCategory = -1 }
             /* Create updated task */
             val editedTask = task
-            editedTask.title = editTaskTitle.editText?.text.toString()
-            editedTask.content = editTaskContent.editText?.text.toString()
+            editedTask.title = editTaskTitle.text.toString()
+            editedTask.content = editTaskContent.text.toString()
             editedTask.dateTime = taskTime
             editedTask.completedTime =
                 if (doneCheckBox.isChecked) System.currentTimeMillis() else null
@@ -298,7 +299,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                         val workerId =
                             scheduleOneTimeNotification(
                                 time,
-                                editTaskTitle.editText?.text.toString()
+                                editTaskTitle.text.toString()
                             )
                         reminderViewModel.insert(
                             Reminder(

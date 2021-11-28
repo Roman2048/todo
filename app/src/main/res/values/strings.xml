@@ -40,7 +40,7 @@
     <string name="notification_channel_name">Reminders</string>
     <string name="notification_title">LD Planner:</string>
     <string name="add_task_fb_description">Add task</string>
-    <string name="edit_task_set_time_text">Set time</string>
+    <string name="edit_task_set_time_text">Add date and time</string>
     <string name="home_fragment_tab_layout_description">Choose list</string>
     <string name="settings_section_title_about">ABOUT</string>
     <string name="settings_about_privacy_policy_text">Privacy Policy</string>
@@ -85,4 +85,7 @@
     <string name="cancel_reason">Cancel reason:</string>
     <string name="add_task_add_details_input_hint">Add details</string>
     <string name="subtasks">Subtasks</string>
+    <string name="task_details_details_edit_text_hint">Add details</string>
+    <string name="task_details_subtask_recycler_add_subtask_button_text">Add subtask</string>
+    <string name="subtask_recycler_add_subtask_button_text">Add subtask</string>
 </resources>

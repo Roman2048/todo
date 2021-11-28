@@ -27,7 +27,7 @@
     <string name="notification_channel_name">Напоминания</string>
     <string name="notification_title">LD Planner:</string>
     <string name="add_task_fb_description">Добавить задачу</string>
-    <string name="edit_task_set_time_text">Установить время</string>
+    <string name="edit_task_set_time_text">Добавить дату и время</string>
     <string name="home_fragment_tab_layout_description">Выбор списка</string>
     <string name="settings_section_title_about">О ПРИЛОЖЕНИИ</string>
     <string name="settings_about_privacy_policy_text">Политика конфиденциальности</string>
@@ -72,4 +72,7 @@
     <string name="cancel_reason">Причина отмены:</string>
     <string name="add_task_add_details_input_hint">Добавить описание</string>
     <string name="subtasks">Подзадачи</string>
+    <string name="task_details_details_edit_text_hint">Добавить описание</string>
+    <string name="task_details_subtask_recycler_add_subtask_button_text">Add subtask</string>
+    <string name="subtask_recycler_add_subtask_button_text">Добавить подзадачу</string>
 </resources>
