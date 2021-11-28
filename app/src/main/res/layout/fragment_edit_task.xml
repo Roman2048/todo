@@ -147,6 +147,8 @@
             android:layout_height="wrap_content"
             android:padding="12dp"
             android:text="@string/edit_task_priority_label"
+            android:drawableStart="@drawable/ic_round_priority_high_24"
+            android:drawablePadding="12dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edit_task_subtask_recycler" />
@@ -166,8 +168,7 @@
             android:id="@+id/task_details_bottom_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edit_task_focus_button">
 

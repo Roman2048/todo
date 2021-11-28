@@ -78,6 +78,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
     private lateinit var task: Task
     private var taskTime: Long? = null
     private var isAllDay = true
+    private var categoryChanged = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -257,6 +258,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             )
         }
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
+            categoryChanged = true
             category = sortedCategories[position]
             task.categoryId = category!!.id
         }
@@ -278,7 +280,10 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         backButton.setOnClickListener {
             if (doneCheckBox.isChecked && task.isCanceled) task.isDone = false
             /* Set task orderInCategory to top position if category was changed */
-            category?.let { task.orderInCategory = -1 }
+            if (categoryChanged) {
+                category?.let { task.orderInCategory = -1 }
+                categoryChanged = false
+            }
             /* Create updated task */
             val editedTask = task
             editedTask.title = editTaskTitle.text.toString()
