@@ -13,9 +13,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.os.bundleOf
+import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
@@ -32,6 +34,7 @@ import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
 import net.longday.planner.adapter.SubtaskAdapter
+import net.longday.planner.adapter.TaskAdapter
 import net.longday.planner.data.entity.Category
 import net.longday.planner.data.entity.Reminder
 import net.longday.planner.data.entity.Task
@@ -94,9 +97,41 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         _binding = null
     }
 
+    private val itemTouchHelper by lazy {
+        val simpleItemTouchCallback =
+            object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    recyclerView.adapter?.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
+                    return true
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
+
+                override fun onSelectedChanged(
+                    viewHolder: RecyclerView.ViewHolder?,
+                    actionState: Int
+                ) {
+                    super.onSelectedChanged(viewHolder, actionState)
+                    when (actionState) {
+
+                    }
+                }
+            }
+        ItemTouchHelper(simpleItemTouchCallback)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         bindViews()
         task = arguments?.get("task") as Task
+        if (task.parentTaskId != null) {
+            binding.taskDetailsSubtasksImageView.visibility = View.GONE
+            subtaskRecycler.visibility = View.GONE
+        }
+        itemTouchHelper.attachToRecyclerView(subtaskRecycler)
         val openTaskDetails: (task: Task) -> Unit = {
             findNavController().navigate(R.id.editTaskFragment, bundleOf("task" to it))
         }
