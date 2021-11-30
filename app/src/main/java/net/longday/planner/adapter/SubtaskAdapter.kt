@@ -47,8 +47,7 @@ class SubtaskAdapter(
 
     override fun onBindViewHolder(holder: SubtaskViewHolder, position: Int) {
         if (position == currentList.size) {
-            holder.title.text =
-                holder.title.context.getString(R.string.subtask_recycler_add_subtask_button_text)
+            holder.title.text = holder.title.context.getString(R.string.subtask_recycler_add_subtask_button_text)
             holder.checkBox.setBackgroundResource(R.drawable.ic_round_add_24)
             holder.checkBox.buttonDrawable = null
             holder.title.setOnClickListener {

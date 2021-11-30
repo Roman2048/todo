@@ -3,6 +3,7 @@ package net.longday.planner.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +14,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.os.bundleOf
-import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_DRAG
+import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_IDLE
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
@@ -34,7 +36,6 @@ import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
 import net.longday.planner.R
 import net.longday.planner.adapter.SubtaskAdapter
-import net.longday.planner.adapter.TaskAdapter
 import net.longday.planner.data.entity.Category
 import net.longday.planner.data.entity.Reminder
 import net.longday.planner.data.entity.Task
@@ -100,12 +101,31 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
     private val itemTouchHelper by lazy {
         val simpleItemTouchCallback =
             object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0) {
+                private var rememberedActionState = ACTION_STATE_IDLE
+                private var from = -1
+                private var to = -1
                 override fun onMove(
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder,
                     target: RecyclerView.ViewHolder
                 ): Boolean {
-                    recyclerView.adapter?.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
+                    if (from == -1) from = viewHolder.adapterPosition
+                    if (from == recyclerView.adapter?.itemCount?.minus(1)) {
+                        return false
+                    }
+                    if (target.adapterPosition != recyclerView.adapter?.itemCount?.minus(1)) {
+                        to = target.adapterPosition
+                        recyclerView.adapter?.notifyItemMoved(
+                            viewHolder.adapterPosition,
+                            target.adapterPosition
+                        )
+                    } else {
+                        to = target.adapterPosition - 1
+                        recyclerView.adapter?.notifyItemMoved(
+                            viewHolder.adapterPosition,
+                            target.adapterPosition - 1
+                        )
+                    }
                     return true
                 }
 
@@ -116,13 +136,24 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                     actionState: Int
                 ) {
                     super.onSelectedChanged(viewHolder, actionState)
-                    when (actionState) {
-
+                    if (rememberedActionState == ACTION_STATE_DRAG
+                        && actionState == ACTION_STATE_IDLE
+                        && from != -1
+                        && to != -1
+                        && from != to
+                    ) {
+                        Log.d("DRAGDRAG", "drag and drop $from to $to")
+                        moveItems(from, to)
                     }
+                    rememberedActionState = actionState
+                    from = -1
+                    to = -1
                 }
             }
         ItemTouchHelper(simpleItemTouchCallback)
     }
+
+    fun moveItems(from: Int, to: Int) {}
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         bindViews()
