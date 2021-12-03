@@ -2,9 +2,11 @@ package net.longday.planner.ui
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -20,6 +22,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_DRAG
 import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_IDLE
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
@@ -83,6 +86,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
     private var taskTime: Long? = null
     private var isAllDay = true
     private var categoryChanged = false
+    private var isUpdating = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -104,6 +108,14 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                 private var rememberedActionState = ACTION_STATE_IDLE
                 private var from = -1
                 private var to = -1
+                private var isDraggable = true
+                override fun getMovementFlags(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder
+                ): Int {
+                    return if (isDraggable) super.getMovementFlags(recyclerView, viewHolder) else 0
+                }
+
                 override fun onMove(
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder,
@@ -153,7 +165,36 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         ItemTouchHelper(simpleItemTouchCallback)
     }
 
-    fun moveItems(from: Int, to: Int) {}
+    fun moveItems(from: Int, to: Int) {
+
+//        subtaskRecycler.adapter?.notifyItemMoved(from, to)
+        val subtasks = tasks
+            .filter { currentTask -> currentTask.parentTaskId == task.id }
+            .sortedBy { it.orderInTask }
+        Log.d("SORTSORT", "до изменения \n${subtasks.joinToString { "${it.title} :${it.orderInTask}\n" }}")
+//        subtasks.forEachIndexed { index, task ->
+//            task.orderInTask = index + 1
+//        }
+//        subtasks.forEach { taskViewModel.update(it) }
+
+        val mutableSortedSubTasks = subtasks.toMutableList()
+        val itemToMove = subtasks[from]
+        mutableSortedSubTasks.removeAt(from)
+        mutableSortedSubTasks.add(to, itemToMove)
+
+        mutableSortedSubTasks.forEachIndexed { index, task ->
+            task.orderInTask = index
+        }
+        isUpdating = true
+
+        mutableSortedSubTasks.forEach {
+            isUpdating = true
+            taskViewModel.update(it)
+        }
+        isUpdating = false
+//        subtaskRecycler.adapter?.notifyItemMoved(from, to)
+
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         bindViews()
@@ -202,8 +243,12 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             binding.editTaskCancelReasonText.visibility = View.GONE
         }
         taskViewModel.tasks.observe(viewLifecycleOwner) {
+            if (isUpdating) return@observe
             tasks = it
-            val subtasks = tasks.filter { currentTask -> currentTask.parentTaskId == task.id }
+            val subtasks = tasks
+                .filter { currentTask -> currentTask.parentTaskId == task.id }
+                .sortedBy { t -> t.orderInTask }
+            Log.d("SORTSORT", "\n${subtasks.joinToString { "${it.title} :${it.orderInTask}\n" }}")
             subtaskAdapter.submitList(subtasks)
         }
         reminderViewModel.reminders.observe(viewLifecycleOwner) { reminders = it }
