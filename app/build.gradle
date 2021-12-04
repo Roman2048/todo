@@ -64,6 +64,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     // Kotlin + coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0-RC'
     implementation "androidx.work:work-runtime-ktx:2.7.1"
     implementation 'androidx.preference:preference-ktx:1.1.1'
     /* Navigation */
