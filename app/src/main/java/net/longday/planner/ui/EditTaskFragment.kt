@@ -203,7 +203,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             binding.taskDetailsSubtasksImageView.visibility = View.GONE
             subtaskRecycler.visibility = View.GONE
         }
-        itemTouchHelper.attachToRecyclerView(subtaskRecycler)
+//        itemTouchHelper.attachToRecyclerView(subtaskRecycler)
         val openTaskDetails: (task: Task) -> Unit = {
             findNavController().navigate(R.id.editTaskFragment, bundleOf("task" to it))
         }

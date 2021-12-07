@@ -10,4 +10,5 @@
     <color name="secondaryTextColor">#000000</color>
     <color name="add_task_fragment_background">#FFFFFF</color>
     <color name="main_green">#388E3C</color>
+    <color name="light_grey">#DCE1DD</color>
 </resources>

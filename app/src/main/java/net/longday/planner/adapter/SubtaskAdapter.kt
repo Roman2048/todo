@@ -55,7 +55,7 @@ class SubtaskAdapter(
             }
         } else {
             val task = getItem(position)
-            holder.title.text = "${task.orderInTask}: ${task.title}"
+            holder.title.text = task.title
             holder.time.text = getTime(task)
             holder.checkBox.isChecked = task.isDone
             holder.checkBox.setOnCheckedChangeListener { _, isChecked ->

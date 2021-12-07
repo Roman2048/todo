@@ -139,7 +139,7 @@ class CategoryContentFragment : Fragment(R.layout.fragment_category_content) {
             allTasks = tasks.filter { it.categoryId == category.id && it.parentTaskId == null }
             todoTasks = allTasks.filter { !it.isDone && !it.isCanceled }
             doneTasks = allTasks.filter { it.isDone }
-            canceledTasks = allTasks.filter { it.isCanceled }
+            canceledTasks = allTasks.filter { it.isCanceled && it.parentTaskId == null }
             /* Canceled tasks visibility */
             canceledTaskCard.visibility = if (canceledTasks.none()) {
                 GONE

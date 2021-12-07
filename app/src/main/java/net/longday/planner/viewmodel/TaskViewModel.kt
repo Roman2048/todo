@@ -2,8 +2,8 @@ package net.longday.planner.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
@@ -18,15 +18,15 @@ class TaskViewModel @Inject constructor(
 
     val tasks = taskRepository.tasks.filterNotNull().asLiveData()
 
-    fun insert(task: Task) = CoroutineScope(Dispatchers.IO).launch {
+    fun insert(task: Task) = viewModelScope.launch(Dispatchers.IO) {
         taskRepository.insert(task)
     }
 
-    fun update(task: Task) = CoroutineScope(Dispatchers.IO).launch {
+    fun update(task: Task) = viewModelScope.launch(Dispatchers.IO) {
         taskRepository.update(task)
     }
 
-    fun delete(task: Task) = CoroutineScope(Dispatchers.IO).launch {
+    fun delete(task: Task) = viewModelScope.launch(Dispatchers.IO) {
         taskRepository.delete(task)
     }
 }
