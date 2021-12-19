@@ -434,11 +434,11 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
                 cancelRemindersForTask(task)
             }
             /* Navigate to the main screen */
-            findNavController().popBackStack()
-//            try {
-//                findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
-//            } catch (e: IllegalArgumentException) {
-//            }
+//            findNavController().popBackStack()
+            try {
+                findNavController().navigate(R.id.action_editTaskFragment_to_homeFragment)
+            } catch (e: IllegalArgumentException) {
+            }
             it.hideKeyboard()
         }
     }

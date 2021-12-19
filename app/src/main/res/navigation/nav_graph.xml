@@ -19,7 +19,11 @@
             app:destination="@id/addTaskFragment" />
         <action
             android:id="@+id/action_homeFragment_to_editTaskFragment"
-            app:destination="@id/editTaskFragment" />
+            app:destination="@id/editTaskFragment"
+            app:enterAnim="@anim/planner_slide_in_right"
+            app:exitAnim="@anim/planner_slide_out_left"
+            app:popEnterAnim="@anim/planner_slide_in_left"
+            app:popExitAnim="@anim/planner_slide_out_right" />
         <action
             android:id="@+id/action_homeFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
@@ -59,6 +63,11 @@
         <action
             android:id="@+id/action_editTaskFragment_to_addTaskFragment"
             app:destination="@id/addTaskFragment" />
+        <action
+            android:id="@+id/action_editTaskFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/planner_slide_in_left"
+            app:exitAnim="@anim/planner_slide_out_right" />
     </fragment>
     <dialog
         android:id="@+id/addCategoryFragment"
@@ -85,7 +94,9 @@
         tools:layout="@layout/fragment_settings" />
     <action
         android:id="@+id/action_global_homeFragment"
-        app:destination="@id/homeFragment" />
+        app:destination="@id/homeFragment"
+        app:enterAnim="@anim/planner_slide_in_left"
+        app:exitAnim="@anim/planner_slide_out_right" />
     <fragment
         android:id="@+id/focusFragment"
         android:name="net.longday.planner.ui.FocusFragment"
