@@ -16,6 +16,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.os.bundleOf
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -200,8 +202,8 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         bindViews()
         task = arguments?.get("task") as Task
         if (task.parentTaskId != null) {
-            binding.taskDetailsSubtasksImageView.visibility = View.GONE
-            subtaskRecycler.visibility = View.GONE
+            binding.taskDetailsSubtasksImageView.isGone = true
+            subtaskRecycler.isGone = true
         }
 //        itemTouchHelper.attachToRecyclerView(subtaskRecycler)
         val openTaskDetails: (task: Task) -> Unit = {
@@ -227,20 +229,20 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
         if (task.isCanceled) {
             binding.fragmentEditTaskDoneCheckbox.isEnabled = false
             binding.editTaskCancelButton.text = getString(R.string.mark_active)
-            binding.editTaskInfoCanceledTitle.visibility = View.VISIBLE
-            binding.editTaskCancelTime.visibility = View.VISIBLE
+            binding.editTaskInfoCanceledTitle.isVisible = true
+            binding.editTaskCancelTime.isVisible = true
             binding.editTaskCancelTime.text =
                 SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault()).format(task.cancelTime)
             if (!task.cancelReason.isNullOrBlank()) {
-                binding.editTaskInfoCancelReasonTitle.visibility = View.VISIBLE
-                binding.editTaskCancelReasonText.visibility = View.VISIBLE
+                binding.editTaskInfoCancelReasonTitle.isVisible = true
+                binding.editTaskCancelReasonText.isVisible = true
                 binding.editTaskCancelReasonText.text = task.cancelReason
             }
         } else {
-            binding.editTaskInfoCanceledTitle.visibility = View.GONE
-            binding.editTaskCancelTime.visibility = View.GONE
-            binding.editTaskInfoCancelReasonTitle.visibility = View.GONE
-            binding.editTaskCancelReasonText.visibility = View.GONE
+            binding.editTaskInfoCanceledTitle.isGone = true
+            binding.editTaskCancelTime.isGone = true
+            binding.editTaskInfoCancelReasonTitle.isGone = true
+            binding.editTaskCancelReasonText.isGone = true
         }
         taskViewModel.tasks.observe(viewLifecycleOwner) {
             if (isUpdating) return@observe
